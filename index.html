@@ -19,7 +19,12 @@
 	
 	<script type="text/javascript">		
 
-		$('#stepsdiv').cliguide().cli(function(text){
+		$('#stepsdiv').cliguide(
+			{
+				nameOfPlarform: 'Phonegap',
+				stepsFile: 'templates/cordova_android_platform.json'
+			}
+		    ).cli(function(text){
 			if(text == "ls") {
 				return "This is an emulator, not a shell. Try following the instructions."
 			}

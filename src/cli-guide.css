@@ -7,6 +7,14 @@ body {
     margin: 0;
 }
 
+code {
+    padding: 0.2em 0px;
+    margin: 0px;
+    font-size: 95%;
+    background-color: rgba(0, 0, 0, 0.04);
+    border-radius: 3px;
+}
+
 /* grid */
 #steps_block {
     padding: 10px;
@@ -21,6 +29,11 @@ body {
 
 .clear {
     clear: both;
+}
+
+
+#stepscontent {
+    text-align: justify;
 }
 
 div.stepcontent {
