@@ -1,0 +1,18 @@
+[
+    {
+        "step": "0",
+        "content": {
+            "title": "Android Platform Guide",
+            "content": [
+                " At this point, to create a new project you can choose between the cross-platform ",
+                " CLI tool described in The Command-Line Interface, ",
+                " or the set of Android-specific shell tools. ",
+                " From within a source-code directory, here's the CLI approach: "
+            ],
+            "tips": "You can run the following commands",
+            "commands": [
+                {"command":"cordova create hello com.example.hello HelloWorld"}
+            ]
+        }
+    }
+]

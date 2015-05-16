@@ -27,8 +27,10 @@
     // Create the defaults once
     var pluginName = "cliguide",
         defaults = {
-            message: 'Welcome to the interactive Apache Aurora tutorial',
-            heightTerminal: window.innerHeight
+            message: 'Welcome to the interactive tutorial',
+            nameOfPlarform: 'Apache Aurora',
+            heightTerminal: window.innerHeight,
+            stepsFile: 'src/listofsteps.json'
         };
  
     // The actual plugin constructor
@@ -48,9 +50,9 @@
         this.init();
     }
 
-    function listOfSteps() {
+    function listOfSteps(opts) {
 
-        $.getJSON("src/listofsteps.json",function(data){ 
+        $.getJSON(opts.stepsFile,function(data){ 
             $.each(data,function(k,v){      
                 $("#listofsteps").append(
                     '<li class="step">'
@@ -64,11 +66,11 @@
 
     }
 
-    function showInfoOfEachStep(step){
+    function showInfoOfEachStep(opts,step){        
 
         $("#stepscontent").html('');
 
-        $.getJSON("src/listofsteps.json",function(data){
+        $.getJSON(opts.stepsFile,function(data){
 
             $.each(data,function(k,v){
 
@@ -80,8 +82,14 @@
                     +   "<p>"+v.content.content.join("")+"</p>"
                     +   "<hr/>"
                     +   "<h4>Tips</h4>"
-                    +   "<p>"+v.content.tips+"</p>"
+                    +   "<p>"+v.content.tips+"</p>"                    
                     );
+
+                    $.each(v.content.commands,function(key,val){
+                        $("#stepscontent").append(
+                        "<code>"+val.command+"</code>" 
+                        );
+                    });
                 }
 
             });
@@ -145,17 +153,21 @@
 
         $(".heightTerminal").css("height",opts.heightTerminal + "px");
 
-        listOfSteps();
-        showInfoOfEachStep(0);
+        listOfSteps(opts);
+        showInfoOfEachStep(opts, 0);
 
         $(document).on('click','.btn-step',function(){
-            showInfoOfEachStep($(this).data('step'));
+            showInfoOfEachStep(opts,$(this).data('step'));
         });
 
-        $("#terminal").append('<div class="line">'+opts.message+'</div>');
+        $("#terminal").append('<div class="line">'+insertAt(opts.message, 27, opts.nameOfPlarform)+'</div>');
         $("#terminal").append('<br/>');
 
     };
+
+    function insertAt(src, index, str) {
+        return src.substr(0, index) + str + " " + src.substr(index);
+    }
  
     // A really lightweight plugin wrapper around the constructor,
     // preventing against multiple instantiations
