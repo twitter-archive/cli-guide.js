@@ -4,7 +4,7 @@
 
 	<meta charset="utf-8" />
 	
-	<title>Cli Gu0ide JS</title>
+	<title>Cli Guide JS</title>
 
 	<link rel="stylesheet" type="text/css" href="./src/cli-guide.css">
 
@@ -25,9 +25,27 @@
 				stepsFile: 'templates/cordova_android_platform.json'
 			}
 		    ).cli(function(text){
-			if(text == "ls") {
-				return "This is an emulator, not a shell. Try following the instructions."
-			}
+
+		    	var result = "";
+
+		    	$.ajaxSetup({
+					async: false
+				});
+
+		    	$.getJSON('templates/cordova_android_platform_commands.json',function(data){
+		            $.each(data,function(k,v){		            	
+		            	if(text == v.command) {
+		            		result = v.result;
+		            	}		            	           	
+		            });
+		        });    	
+
+				if(text == "ls") {
+					return "This is an emulator, not a shell. Try following the instructions."
+				}
+
+				return result;
+
 		});
 
 	</script>
