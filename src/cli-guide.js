@@ -82,12 +82,13 @@
                     +   "<p>"+v.content.content.join("")+"</p>"
                     +   "<hr/>"
                     +   "<h4>Tips</h4>"
-                    +   "<p>"+v.content.tips+"</p>"                    
+                    +   "<p>"+v.content.tips+"</p>"
+                    +   '<ul id="listofcommands"></ul>'                    
                     );
 
                     $.each(v.content.commands,function(key,val){
-                        $("#stepscontent").append(
-                        "<code>"+val.command+"</code>" 
+                        $("#listofcommands").append(
+                            "<li><code> $ "+val.command+"</code></li>" 
                         );
                     });
                 }
@@ -101,29 +102,51 @@
         
         if (!effect) effect = $.fn.text;
 
+        // return focus
+        $("#terminal").click(function(){
+            $('.textinline').focus();
+        })
+
         return this.each(function(){
 
             var self = $("#terminal");
 
-            function newline(){
+            function newline(command){
+                
+                if(command == "cd .." && localStorage.getItem('actualdir') != null) {
+                    localStorage.setItem('actualdir', "");
+                } else if(command.substring(0, 2) == "cd"){
+                    localStorage.setItem('actualdir', "/"+command.substring(3, command.length));
+                } else if(command == "") {
+                    localStorage.setItem('actualdir', "");
+                }
+
                 self.append(
                     '<p class="input">'
-                +       '<span class="prompt">you@tutorial:~$</span>'
-                +       '<span class="textinline" style="outline:none" contenteditable></span>'
+                +       '<span class="prompt">you@tutorial:~'+localStorage.getItem('actualdir')+'$ </span>'
+                +       '<span class="textinline" style="outline:none" contenteditable="true"></span>'
                 +   '</p>'
                 );
-                $('[contenteditable]', self)[0].focus();                
+                
+                $('[contenteditable]', self)[0].focus();
+
             }
 
-            newline();
+            newline("");
 
-            self.on('keydown', '[contenteditable]', function(evt){
+            self.on('keydown', '[contenteditable]', function(evt){                
+
                 if (evt.keyCode == 13){
+                    
                     $(this).removeAttr('contenteditable');
-                    effect.call($('<p class=response>').appendTo(self),handler(this.textContent || this.innerText));
-                    newline();
+                    effect.call($('<p class="response">').appendTo(self),handler(this.textContent || this.innerText));
+                    
+                    newline($(this).text());
+
                     return false;
+
                 }
+                
             });
             
         });
@@ -162,6 +185,8 @@
 
         $("#terminal").append('<div class="line">'+insertAt(opts.message, 27, opts.nameOfPlarform)+'</div>');
         $("#terminal").append('<br/>');
+
+        localStorage.clear();
 
     };
 

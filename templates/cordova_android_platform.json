@@ -11,7 +11,10 @@
             ],
             "tips": "You can run the following commands",
             "commands": [
-                {"command":"cordova create hello com.example.hello HelloWorld"}
+                {"command":"cordova create hello com.example.hello HelloWorld"},
+                {"command":"cd hello"},
+                {"command":"cordova platform add android"},
+                {"command":"cordova build"}
             ]
         }
     }
