@@ -27,8 +27,8 @@
     // Create the defaults once
     var pluginName = "cliguide",
         defaults = {
-            message: 'Welcome to the interactive tutorial',
-            nameOfPlarform: 'Apache Aurora',
+            welcomeMessage: 'Welcome to the interactive tutorial',
+            nameOfTheProject: 'Apache Aurora',
             heightTerminal: window.innerHeight,
             stepsFile: 'src/listofsteps.json'
         };
@@ -75,13 +75,13 @@
             $.each(data,function(k,v){
 
                 if(v.step == step){
-                    $("#steptitle").html("<h4>Step "+v.step+"</h4>")
+                    $("#steptitle").html("<h3>Step "+v.step+"</h3>")
                     $("#stepscontent").append(
-                        "<h4>"+v.content.title+"</h4>"
+                        "<h3>"+v.content.title+"</h3>"
                     +   "<hr/>"
                     +   "<p>"+v.content.content.join("")+"</p>"
                     +   "<hr/>"
-                    +   "<h4>Tips</h4>"
+                    +   "<h3>Tips</h3>"
                     +   "<p>"+v.content.tips+"</p>"
                     +   '<ul id="listofcommands"></ul>'                    
                     );
@@ -183,7 +183,7 @@
             showInfoOfEachStep(opts,$(this).data('step'));
         });
 
-        $("#terminal").append('<div class="line">'+insertAt(opts.message, 27, opts.nameOfPlarform)+'</div>');
+        $("#terminal").append('<div class="line">'+insertAt(opts.welcomeMessage, 27, opts.nameOfTheProject)+'</div>');
         $("#terminal").append('<br/>');
 
         localStorage.clear();
