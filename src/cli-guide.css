@@ -31,9 +31,8 @@ code {
     clear: both;
 }
 
-
 #stepscontent {
-    text-align: justify;
+    text-align: left;
 }
 
 div.stepcontent {
@@ -57,8 +56,16 @@ li.step {
     padding-top: 2px;    
 }
 
+li.step:hover {
+    background-color: #ABABAB;
+}
+
 li.step a {
     text-decoration: none;
+}
+
+li.step a:hover, li.step a:visited, li.step a:link {
+    color: #212121;
 }
 
 ul#listofcommands {
@@ -71,6 +78,7 @@ ul#listofcommands {
     background-color: black;
     border: none;
     color: white;
+    font-size: 14px;
     font-family: 'Code New Roman';
     resize: none;
     overflow:hidden;

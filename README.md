@@ -7,6 +7,19 @@ We make a tutorial for explain step by step how to get started with Apache Auror
 without installing anything.
 
 
+Documentation
+-------------
+
+####Options
+
+    $('#stepsdiv').cliguide({
+		welcomeMessage: 'Welcome to the interactive tutorial',
+        nameOfTheProject: 'Apache Aurora',
+        heightTerminal: window.innerHeight,
+        stepsFile: 'src/listofsteps.json'
+	});
+
+
 License
 -------
 
