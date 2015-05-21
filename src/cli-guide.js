@@ -78,9 +78,9 @@
                     $("#steptitle").html("<h3>Step "+v.step+"</h3>")
                     $("#stepscontent").append(
                         "<h3>"+v.content.title+"</h3>"
-                    +   "<hr/>"
+                    +   '<hr/ class="style">'
                     +   "<p>"+v.content.content.join("")+"</p>"
-                    +   "<hr/>"
+                    +   '<hr/ class="style">'
                     +   "<h3>Tips</h3>"
                     +   "<p>"+v.content.tips+"</p>"
                     +   '<ul id="listofcommands"></ul>'                    
@@ -134,19 +134,39 @@
 
             newline("");
 
-            self.on('keydown', '[contenteditable]', function(evt){                
+            self.on('keydown', '[contenteditable]', function(event){
 
-                if (evt.keyCode == 13){
+                if (event.keyCode == 13){
                     
                     $(this).removeAttr('contenteditable');
                     effect.call($('<p class="response">').appendTo(self),handler(this.textContent || this.innerText));
                     
-                    newline($(this).text());
+                    newline($(this).text());                    
+
+                    if($(this).text() == "nano"){
+                    
+                        $("#terminal").hide();
+                        $("#editor").show();
+
+                    }
 
                     return false;
 
                 }
                 
+            });
+
+            var isCtrl = false;
+
+            $(document).on('keydown','#editor-content',function(event){
+                if(event.which == 17) isCtrl=false;
+            }).keydown(function (event) {
+                if(event.which == 17) isCtrl=true;
+                if(event.which == 88 && isCtrl == true) {
+                    $("#editor").hide();
+                    $("#terminal").show(); 
+                    return false;
+                }
             });
             
         });
@@ -162,19 +182,28 @@
         $(this.element).append(
             '<div id="steps_block">'
         +       '<div id="steptitle"></div>'                                
-        +       '<hr/>'
+        +       '<hr/ class="style">'
         +       '<ul id="listofsteps">'
         +       '</ul>'
-        +       '<hr/>'
+        +       '<hr/ class="style">'
         +       '<div id="stepscontent"></div>'
         +   '</div>'
         +   '<div id="terminal_block">'
         +       '<div id="terminal" class="heightTerminal"></div>'
+        +       '<div id="editor" class="heightTerminal">'
+        +           '<div id="editor-title">GNU nano 2.2.6</div>'
+        +           '<br/>'
+        +           '<div id="editor-content" contenteditable="true"></div>'
+        +           '<br/>'
+        +           '<div id="editor-commands"><span class="editor-command">^X</span> Exit</div>'
+        +       '</div>'
         +   '</div>'
         +   '<div class="clear"></div>'
         );
 
         $(".heightTerminal").css("height",opts.heightTerminal + "px");
+
+        $("#editor").hide();
 
         listOfSteps(opts);
         showInfoOfEachStep(opts, 0);
