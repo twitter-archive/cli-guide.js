@@ -195,12 +195,29 @@
         +           '<br/>'
         +           '<div id="editor-content" contenteditable="true"></div>'
         +           '<br/>'
-        +           '<div id="editor-commands"><span class="editor-command">^X</span> Exit</div>'
+        +           '<div id="editor-commands" class="grid-container-editor">'
+        +               '<div class="row">'
+        +                   '<div class="col-1"><span class="editor-command">^G</span> Get Help</div>'
+        +                   '<div class="col-1"><span class="editor-command">^O</span> WriteOut</div>'
+        +                   '<div class="col-1"><span class="editor-command">^R</span> Read File</div>'
+        +                   '<div class="col-1"><span class="editor-command">^Y</span> Prev Page</div>'
+        +                   '<div class="col-1"><span class="editor-command">^K</span> Cut Text</div>'
+        +                   '<div class="col-1"><span class="editor-command">^C</span> Cur Pos</div>'
+        +               '</div>'
+        +               '<div class="row">'
+        +                   '<div class="col-1"><span class="editor-command">^X</span> Exit</div>'
+        +                   '<div class="col-1"><span class="editor-command">^J</span> Justify</div>'
+        +                   '<div class="col-1"><span class="editor-command">^W</span> Where is</div>'
+        +                   '<div class="col-1"><span class="editor-command">^V</span> Next Page</div>'
+        +                   '<div class="col-1"><span class="editor-command">^U</span> UnCut Text</div>'
+        +                   '<div class="col-1"><span class="editor-command">^T</span> To Speel</div>'
+        +               '</div>'
+        +           '</div>'
         +       '</div>'
         +   '</div>'
         +   '<div class="clear"></div>'
         );
-
+        
         $(".heightTerminal").css("height",opts.heightTerminal + "px");
 
         $("#editor").hide();
