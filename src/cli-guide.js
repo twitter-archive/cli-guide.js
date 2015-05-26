@@ -112,18 +112,23 @@
             var self = $("#terminal");
 
             function newline(command){
+
+                var text = "";
                 
                 if(command == "cd .." && localStorage.getItem('actualdir') != null) {
                     localStorage.setItem('actualdir', "");
+                    text = localStorage.getItem('actualdir');
                 } else if(command.substring(0, 2) == "cd"){
                     localStorage.setItem('actualdir', "/"+command.substring(3, command.length));
+                    text = localStorage.getItem('actualdir');
                 } else if(command == "") {
                     localStorage.setItem('actualdir', "");
+                    text = localStorage.getItem('actualdir');
                 }
 
                 self.append(
                     '<p class="input">'
-                +       '<span class="prompt">you@tutorial:~'+localStorage.getItem('actualdir')+'$ </span>'
+                +       '<span class="prompt">you@tutorial:~'+text+'$ </span>'
                 +       '<span class="textinline" style="outline:none" contenteditable="true"></span>'
                 +   '</p>'
                 );
@@ -143,19 +148,28 @@
                     
                     newline($(this).text());                    
 
-                    if($(this).text() == "nano"){
-                    
+                    if($(this).text() == "nano"){                    
                         $("#terminal").hide();
                         $("#editor").show();
-
                     }
+
+                    // list of commands we can't use....
+                    var commandTest = ["ls", "mv"];
+
+                    for (i = 0; i < commandTest.length; i++) {
+                        if($(this).text() == commandTest[i]){
+                            $(".response").html("This is an emulator, not a shell. Try following the instructions.");                    
+                        }                        
+                    }             
 
                     return false;
 
                 }
                 
             });
+            
 
+            // shortcuts of nana editor
             var isCtrl = false;
 
             $(document).on('keydown','#editor-content',function(event){
