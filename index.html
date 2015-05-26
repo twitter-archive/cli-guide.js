@@ -1,41 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />	
+
+	<meta charset="utf-8" />
+	
 	<title>Cli Guide JS</title>
+
 	<link rel="stylesheet" type="text/css" href="./src/cli-guide.css">
+
 </head>
 <body>
-	<div id="stepsdiv"></div>
-	<script type="text/javascript" src="./libs/jquery-1.11.3.min.js"></script>	
-	<script type="text/javascript" src="./src/cli-guide.js" ></script>	
-	<script type="text/javascript">
-		
-	$('#stepsdiv').cliguide(
-		{
-		  nameOfTheProject: 'Phonegap',
-			stepsFile: 'templates/cordova_android_platform.json'
-		}
-		).cli(function(text){
-		  var result = "";
 
-		  $.ajaxSetup({
-				async: false
-			});
+	<div id="stepsdiv"></div>	
 
-    	$.getJSON('templates/cordova_android_platform_commands.json',function(data){
-          $.each(data,function(k,v){		            	
-          	if(text == v.command) {
-          		result = v.result;
-          	}		            	           	
-          });
-      });    	
+	<script type="text/javascript" src="./libs/jquery-1.11.3.min.js"></script>
+	
+	<script type="text/javascript" src="./src/cli-guide.js" ></script>
+	
+	<script type="text/javascript">		
 
-			if(text == "ls") {
-				return "This is an emulator, not a shell. Try following the instructions."
+		$('#stepsdiv').cliguide(
+			{
+				nameOfTheProject: 'Phonegap',
+				stepsFile: 'templates/cordova_android_platform.json'
 			}
+		    ).cli(function(text){
 
-			return result;
+		    	var result = "";
+
+		    	$.ajaxSetup({
+					async: false
+				});
+
+		    	$.getJSON('templates/cordova_android_platform_commands.json',function(data){
+		            $.each(data,function(k,v){		            	
+		            	if(text == v.command) {
+		            		result = v.result;
+		            	}		            	           	
+		            });
+		        });    	
+
+				if(text == "ls") {
+					return "This is an emulator, not a shell. Try following the instructions."
+				}
+
+				return result;
 
 		});
 
