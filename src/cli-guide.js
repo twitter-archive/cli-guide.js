@@ -118,7 +118,9 @@
         });
     }
 
-    $.fn.cli = function(handler, effect){
+    $.fn.cli = function(options, handler, effect){
+
+        var opts = $.extend( {}, $.fn.cli.defaults, options );
         
         if (!effect) effect = $.fn.text;
 
@@ -127,8 +129,8 @@
             $('.textinline').focus();
         })
 
-        return this.each(function(){
-
+        return this.each(function(){            
+            
             var self = $("#terminal");
 
             function newline(command){
@@ -171,7 +173,7 @@
                     
                     newline($(this).text());
 
-                    $("#"+id).html(commands('templates/cordova_android_platform_commands.json',$(this).text()));                    
+                    $("#"+id).html(commands(opts.commandStepsFile,$(this).text()));                    
 
                     if($(this).text() == "nano"){                    
                         $("#terminal").hide();
@@ -209,6 +211,10 @@
             });
             
         });
+    };
+
+    $.fn.cli.defaults = {
+        commandStepsFile: "src/listofcommandsteps.json"
     };
  
     Plugin.prototype.init = function () {

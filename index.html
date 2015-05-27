@@ -12,12 +12,14 @@
 	<script type="text/javascript">
 		
 	$('#stepsdiv').cliguide(
-		{
-		  nameOfTheProject: 'Phonegap',
-			stepsFile:        'templates/cordova_android_platform.json',
-			commandStepsFile: 'templates/cordova_android_platform_commands.json'
-		}
-		).cli(function(){
+	{
+		nameOfTheProject: 'Phonegap',
+		stepsFile:        'templates/cordova_android_platform.json'			
+	}
+	).cli(
+	{
+		commandStepsFile: 'templates/cordova_android_platform_commands.json'},
+	function(){
 	});
 
 	</script>
