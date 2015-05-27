@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8" />	
 	<title>Cli Guide JS</title>
-	<link rel="stylesheet" type="text/css" href="./src/cli-guide.css">
+	<link rel="stylesheet" type="text/css" href="./src/cli-guide.css" />
 </head>
 <body>
 	<div id="stepsdiv"></div>
@@ -12,28 +12,15 @@
 	<script type="text/javascript">
 		
 	$('#stepsdiv').cliguide(
-		{
-		  nameOfTheProject: 'Phonegap',
-			stepsFile: 'templates/cordova_android_platform.json'
-		}
-		).cli(function(text){
-		  var result = "";
-
-		  $.ajaxSetup({
-				async: false
-			});
-
-    	$.getJSON('templates/cordova_android_platform_commands.json',function(data){
-          $.each(data,function(k,v){		            	
-          	if(text == v.command) {
-          		result = v.result;
-          	}		            	           	
-          });
-      });
-
-			return result;
-
-		});
+	{
+		nameOfTheProject: 'Phonegap',
+		stepsFile:        'templates/cordova_android_platform.json'			
+	}
+	).cli(
+	{
+		commandStepsFile: 'templates/cordova_android_platform_commands.json'},
+	function(){
+	});
 
 	</script>
 
