@@ -30,7 +30,8 @@
             welcomeMessage: 'Welcome to the interactive tutorial',
             nameOfTheProject: 'Apache Aurora',
             heightTerminal: window.innerHeight,
-            stepsFile: 'src/listofsteps.json'
+            stepsFile: 'src/listofsteps.json',
+            commandStepsFile: 'src/listofcommandsteps.json',
         };
  
     // The actual plugin constructor
@@ -66,6 +67,25 @@
 
     }
 
+    function commands(opts,text){
+
+        var result = "";
+
+        $.ajaxSetup({
+            async: false
+        });
+        
+        $.getJSON(opts,function(data){            
+            $.each(data,function(k,v){                
+                if(text == v.command) {
+                    result = v.result;
+                }
+            });
+        });
+
+        return result;
+    }
+
     function showInfoOfEachStep(opts,step){        
 
         $("#stepscontent").html('');
@@ -98,7 +118,9 @@
         });
     }
 
-    $.fn.cli = function(handler, prompt, effect){
+    $.fn.cli = function(options, handler, effect){
+
+        var opts = $.extend( {}, $.fn.cli.defaults, options );
         
         if (!effect) effect = $.fn.text;
 
@@ -107,8 +129,8 @@
             $('.textinline').focus();
         })
 
-        return this.each(function(){
-
+        return this.each(function(){            
+            
             var self = $("#terminal");
 
             function newline(command){
@@ -138,15 +160,20 @@
             }
 
             newline("");
+            var id = 0;
 
             self.on('keydown', '[contenteditable]', function(event){
 
                 if (event.keyCode == 13){
                     
+                    id++;
+
                     $(this).removeAttr('contenteditable');
-                    effect.call($('<p class="response">').appendTo(self),handler(this.textContent || this.innerText));
+                    effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
                     
-                    newline($(this).text());                    
+                    newline($(this).text());
+
+                    $("#"+id).html(commands(opts.commandStepsFile,$(this).text()));                    
 
                     if($(this).text() == "nano"){                    
                         $("#terminal").hide();
@@ -157,10 +184,10 @@
                     var commandTest = ["ls", "mv"];
 
                     for (i = 0; i < commandTest.length; i++) {
-                        if($(this).text() == commandTest[i]){
-                            $(".response").html("This is an emulator, not a shell. Try following the instructions.");                    
-                        }                        
-                    }             
+                        if($(this).text() == commandTest[i]) {
+                            $("#"+id).html("This is an emulator, not a shell. Try following the instructions.");
+                        }
+                    }
 
                     return false;
 
@@ -184,6 +211,10 @@
             });
             
         });
+    };
+
+    $.fn.cli.defaults = {
+        commandStepsFile: "src/listofcommandsteps.json"
     };
  
     Plugin.prototype.init = function () {
@@ -237,6 +268,7 @@
         $("#editor").hide();
 
         listOfSteps(opts);
+        commands(opts,"");
         showInfoOfEachStep(opts, 0);
 
         $(document).on('click','.btn-step',function(){
