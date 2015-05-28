@@ -65,26 +65,7 @@
             });
         });
 
-    }
-
-    function commands(opts,text){
-
-        var result = "";
-
-        $.ajaxSetup({
-            async: false
-        });
-        
-        $.getJSON(opts,function(data){            
-            $.each(data,function(k,v){                
-                if(text == v.command) {
-                    result = v.result;
-                }
-            });
-        });
-
-        return result;
-    }
+    }    
 
     function showInfoOfEachStep(opts,step){        
 
@@ -157,6 +138,25 @@
                 
                 $('[contenteditable]', self)[0].focus();
 
+            }
+
+            function commands(opts,text){
+
+                var result = "";
+
+                $.ajaxSetup({
+                    async: false
+                });
+                
+                $.getJSON(opts,function(data){            
+                    $.each(data,function(k,v){                
+                        if(text == v.command) {
+                            result = v.result;
+                        }
+                    });
+                });
+
+                return result;
             }
 
             newline("");
@@ -267,8 +267,7 @@
 
         $("#editor").hide();
 
-        listOfSteps(opts);
-        commands(opts,"");
+        listOfSteps(opts);        
         showInfoOfEachStep(opts, 0);
 
         $(document).on('click','.btn-step',function(){
