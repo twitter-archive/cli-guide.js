@@ -108,7 +108,7 @@
         // return focus
         $("#terminal").click(function(){
             $('.textinline').focus();
-        })
+        });
 
         return this.each(function(){            
             
@@ -178,6 +178,7 @@
                     if($(this).text() == "nano"){                    
                         $("#terminal").hide();
                         $("#editor").show();
+                        $('#editor-content').focus();
                     }
 
                     // list of commands we can't use....
@@ -278,6 +279,10 @@
         $("#terminal").append('<br/>');
 
         localStorage.clear();
+
+        $("#editor").click(function(){
+            $('#editor-content').focus();
+        });
 
     };
 
