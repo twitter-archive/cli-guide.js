@@ -30,8 +30,7 @@
             welcomeMessage: 'Welcome to the interactive tutorial',
             nameOfTheProject: 'Apache Aurora',
             heightTerminal: window.innerHeight,
-            stepsFile: 'src/listofsteps.json',
-            commandStepsFile: 'src/listofcommandsteps.json',
+            stepsFile: 'src/listofsteps.json'
         };
  
     // The actual plugin constructor
