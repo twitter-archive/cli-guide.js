@@ -30,8 +30,7 @@
             welcomeMessage: 'Welcome to the interactive tutorial',
             nameOfTheProject: 'Apache Aurora',
             heightTerminal: window.innerHeight,
-            stepsFile: 'src/listofsteps.json',
-            commandStepsFile: 'src/listofcommandsteps.json',
+            stepsFile: 'src/listofsteps.json'
         };
  
     // The actual plugin constructor
@@ -65,7 +64,7 @@
             });
         });
 
-    }    
+    }
 
     function showInfoOfEachStep(opts,step){        
 
@@ -76,22 +75,33 @@
             $.each(data,function(k,v){
 
                 if(v.step == step){
+
                     $("#steptitle").html("<h3>Step "+v.step+"</h3>")
                     $("#stepscontent").append(
                         "<h3>"+v.content.title+"</h3>"
                     +   '<hr/ class="style">'
-                    +   "<p>"+v.content.content.join("")+"</p>"
-                    +   '<hr/ class="style">'
-                    +   "<h3>Tips</h3>"
-                    +   "<p>"+v.content.tips+"</p>"
-                    +   '<ul id="listofcommands"></ul>'                    
+                    +   "<p>"+v.content.content.join("")+"</p>"                    
                     );
 
-                    $.each(v.content.commands,function(key,val){
-                        $("#listofcommands").append(
-                            "<li><code> $ "+val.command+"</code></li>" 
-                        );
-                    });
+                    if(v.content.tips != ""){
+                        $("#stepscontent").append(
+                            '<hr/ class="style">'
+                        +   "<h3>Tips</h3>"
+                        +   "<p>"+v.content.tips+"</p>"
+                        +   '<ul id="listofcommands"></ul>'                    
+                        ); 
+                    }
+                    
+                    if(v.content.commands.length > 0){
+
+                        $.each(v.content.commands,function(key,val){
+                            $("#listofcommands").append(
+                                "<li><code> $ "+val.command+"</code></li>"
+                            );
+                        });
+
+                    }                
+                
                 }
 
             });
@@ -108,7 +118,7 @@
         // return focus
         $("#terminal").click(function(){
             $('.textinline').focus();
-        })
+        });
 
         return this.each(function(){            
             
@@ -178,6 +188,7 @@
                     if($(this).text() == "nano"){                    
                         $("#terminal").hide();
                         $("#editor").show();
+                        $('#editor-content').focus();
                     }
 
                     // list of commands we can't use....
@@ -278,6 +289,10 @@
         $("#terminal").append('<br/>');
 
         localStorage.clear();
+
+        $("#editor").click(function(){
+            $('#editor-content').focus();
+        });
 
     };
 
