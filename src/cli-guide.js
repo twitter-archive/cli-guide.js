@@ -4,56 +4,56 @@
  * Further changes, comments: @willrre
  * Licensed under the MIT license
  */
- 
- 
+
+
 // the semi-colon before the function invocation is a safety
 // net against concatenated scripts and/or other plugins
 // that are not closed properly.
 ;(function ( $, window, document, undefined ) {
- 
+
     // undefined is used here as the undefined global
     // variable in ECMAScript 3 and is mutable (i.e. it can
     // be changed by someone else). undefined isn't really
     // being passed in so we can ensure that its value is
     // truly undefined. In ES5, undefined can no longer be
     // modified.
- 
+
     // window and document are passed through as local
     // variables rather than as globals, because this (slightly)
     // quickens the resolution process and can be more
     // efficiently minified (especially when both are
     // regularly referenced in our plugin).
- 
+
     // Create the defaults once
     var pluginName = "cliguide",
         defaults = {
             welcomeMessage: 'Welcome to the interactive tutorial',
             nameOfTheProject: 'Apache Aurora',
-            heightTerminal: window.innerHeight,
+            heightTerminal: window.innerHeight - 20,
             stepsFile: 'src/listofsteps.json'
         };
- 
+
     // The actual plugin constructor
     function Plugin( element, options ) {
         this.element = element;
- 
+
         // jQuery has an extend method that merges the
         // contents of two or more objects, storing the
         // result in the first object. The first object
         // is generally empty because we don't want to alter
         // the default options for future instances of the plugin
         this.options = $.extend( {}, defaults, options) ;
- 
+
         this._defaults = defaults;
         this._name = pluginName;
- 
+
         this.init();
     }
 
     function listOfSteps(opts) {
 
-        $.getJSON(opts.stepsFile,function(data){ 
-            $.each(data,function(k,v){      
+        $.getJSON(opts.stepsFile,function(data){
+            $.each(data,function(k,v){
                 $("#listofsteps").append(
                     '<li class="step">'
                 +       '<a class="btn-step" href="#" data-step="'+v.step+'">'
@@ -66,7 +66,7 @@
 
     }
 
-    function showInfoOfEachStep(opts,step){        
+    function showInfoOfEachStep(opts,step){
 
         $("#stepscontent").html('');
 
@@ -80,7 +80,7 @@
                     $("#stepscontent").append(
                         "<h3>"+v.content.title+"</h3>"
                     +   '<hr/ class="style">'
-                    +   "<p>"+v.content.content.join("")+"</p>"                    
+                    +   "<p>"+v.content.content.join("")+"</p>"
                     );
 
                     if(v.content.tips != ""){
@@ -88,10 +88,10 @@
                             '<hr/ class="style">'
                         +   "<h3>Tips</h3>"
                         +   "<p>"+v.content.tips+"</p>"
-                        +   '<ul id="listofcommands"></ul>'                    
-                        ); 
+                        +   '<ul id="listofcommands"></ul>'
+                        );
                     }
-                    
+
                     if(v.content.commands.length > 0){
 
                         $.each(v.content.commands,function(key,val){
@@ -100,8 +100,8 @@
                             );
                         });
 
-                    }                
-                
+                    }
+
                 }
 
             });
@@ -112,7 +112,7 @@
     $.fn.cli = function(options, handler, effect){
 
         var opts = $.extend( {}, $.fn.cli.defaults, options );
-        
+
         if (!effect) effect = $.fn.text;
 
         // return focus
@@ -120,14 +120,14 @@
             $('.textinline').focus();
         });
 
-        return this.each(function(){            
-            
+        return this.each(function(){
+
             var self = $("#terminal");
 
             function newline(command){
 
                 var text = "";
-                
+
                 if(command == "cd .." && localStorage.getItem('actualdir') != null) {
                     localStorage.setItem('actualdir', "");
                     text = localStorage.getItem('actualdir');
@@ -145,7 +145,7 @@
                 +       '<span class="textinline" style="outline:none" contenteditable="true"></span>'
                 +   '</p>'
                 );
-                
+
                 $('[contenteditable]', self)[0].focus();
 
             }
@@ -157,9 +157,9 @@
                 $.ajaxSetup({
                     async: false
                 });
-                
-                $.getJSON(opts,function(data){            
-                    $.each(data,function(k,v){                
+
+                $.getJSON(opts,function(data){
+                    $.each(data,function(k,v){
                         if(text == v.command) {
                             result = v.result;
                         }
@@ -175,17 +175,17 @@
             self.on('keydown', '[contenteditable]', function(event){
 
                 if (event.keyCode == 13){
-                    
+
                     id++;
 
                     $(this).removeAttr('contenteditable');
                     effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
-                    
+
                     newline($(this).text());
 
-                    $("#"+id).html(commands(opts.commandStepsFile,$(this).text()));                    
+                    $("#"+id).html(commands(opts.commandStepsFile,$(this).text()));
 
-                    if($(this).text() == "nano"){                    
+                    if($(this).text() == "nano"){
                         $("#terminal").hide();
                         $("#editor").show();
                         $('#editor-content').focus();
@@ -203,9 +203,9 @@
                     return false;
 
                 }
-                
+
             });
-            
+
 
             // shortcuts of nana editor
             var isCtrl = false;
@@ -216,28 +216,28 @@
                 if(event.which == 17) isCtrl=true;
                 if(event.which == 88 && isCtrl == true) {
                     $("#editor").hide();
-                    $("#terminal").show(); 
+                    $("#terminal").show();
                     return false;
                 }
             });
-            
+
         });
     };
 
     $.fn.cli.defaults = {
         commandStepsFile: "src/listofcommandsteps.json"
     };
- 
+
     Plugin.prototype.init = function () {
         // Place initialization logic here
         // We already have access to the DOM element and
         // the options via the instance, e.g. this.element
         // and this.options
         var opts = this.options;
-        
+
         $(this.element).append(
             '<div id="steps_block">'
-        +       '<div id="steptitle"></div>'                                
+        +       '<div id="steptitle"></div>'
         +       '<hr/ class="style">'
         +       '<ul id="listofsteps">'
         +       '</ul>'
@@ -273,12 +273,12 @@
         +   '</div>'
         +   '<div class="clear"></div>'
         );
-        
-        $(".heightTerminal").css("height",opts.heightTerminal + "px");
+
+        $("#terminal").css("height",opts.heightTerminal + "px");
 
         $("#editor").hide();
 
-        listOfSteps(opts);        
+        listOfSteps(opts);
         showInfoOfEachStep(opts, 0);
 
         $(document).on('click','.btn-step',function(){
@@ -299,7 +299,7 @@
     function insertAt(src, index, str) {
         return src.substr(0, index) + str + " " + src.substr(index);
     }
- 
+
     // A really lightweight plugin wrapper around the constructor,
     // preventing against multiple instantiations
     $.fn[pluginName] = function ( options ) {
@@ -310,5 +310,5 @@
             }
         });
     }
- 
+
 })( jQuery, window, document );
