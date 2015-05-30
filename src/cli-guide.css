@@ -167,3 +167,11 @@ ul#listofcommands {
 .col-4{ width: 66.66%; }
 .col-5{ width: 83.33%; }
 .col-6{ width: 100%;   }    
+
+/* style for templates */
+.codeofcommand {
+    padding-left: 20px;
+    width: 100px;
+    height: auto;
+    float: left;
+}

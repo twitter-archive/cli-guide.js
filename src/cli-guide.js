@@ -64,7 +64,7 @@
             });
         });
 
-    }    
+    }
 
     function showInfoOfEachStep(opts,step){        
 
@@ -75,22 +75,33 @@
             $.each(data,function(k,v){
 
                 if(v.step == step){
+
                     $("#steptitle").html("<h3>Step "+v.step+"</h3>")
                     $("#stepscontent").append(
                         "<h3>"+v.content.title+"</h3>"
                     +   '<hr/ class="style">'
-                    +   "<p>"+v.content.content.join("")+"</p>"
-                    +   '<hr/ class="style">'
-                    +   "<h3>Tips</h3>"
-                    +   "<p>"+v.content.tips+"</p>"
-                    +   '<ul id="listofcommands"></ul>'                    
+                    +   "<p>"+v.content.content.join("")+"</p>"                    
                     );
 
-                    $.each(v.content.commands,function(key,val){
-                        $("#listofcommands").append(
-                            "<li><code> $ "+val.command+"</code></li>" 
-                        );
-                    });
+                    if(v.content.tips != ""){
+                        $("#stepscontent").append(
+                            '<hr/ class="style">'
+                        +   "<h3>Tips</h3>"
+                        +   "<p>"+v.content.tips+"</p>"
+                        +   '<ul id="listofcommands"></ul>'                    
+                        ); 
+                    }
+                    
+                    if(v.content.commands.length > 0){
+
+                        $.each(v.content.commands,function(key,val){
+                            $("#listofcommands").append(
+                                "<li><code> $ "+val.command+"</code></li>"
+                            );
+                        });
+
+                    }                
+                
                 }
 
             });
