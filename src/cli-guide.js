@@ -160,6 +160,14 @@
 
                 $.getJSON(opts,function(data){
                     $.each(data,function(k,v){
+                        // when more than one command have the same result
+                        if(Array.isArray(v.command)){
+                          for(c = 0; c < v.command.length; c++){
+                            if(text == v.command[c]) {
+                                result = v.result;
+                            }
+                          }
+                        }
                         if(text == v.command) {
                             result = v.result;
                         }

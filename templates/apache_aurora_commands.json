@@ -1,6 +1,6 @@
-[    
+[
     {
-        "command":"vagrant",
+        "command":["vagrant", "vagrant list-commands"],
         "result": [
         	" Usage: vagrant [options] <command> [<args>] <br/> ",
         	" -v, --version   Print the version and exit. <br/> ",
@@ -34,5 +34,5 @@
         	" or not commonly used. To see all subcommands, run the command ",
         	" `vagrant list-commands`. "
         ]
-    }    
+    }
 ]
