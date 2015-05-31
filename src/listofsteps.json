@@ -4,33 +4,7 @@
         "content": {
             "title": "Setup: Install Aurora 0",
             "content": [
-                "You use the Aurora client and web UI to interact with Aurora jobs. ",
-                " To install it locally, see vagrant.md. The remainder of this Tutorial ",
-                " assumes you are running Aurora using Vagrant. Unless otherwise stated, ",
-                " all commands are to be run from the root of the aurora repository clone."
-            ],
-            "tips": "You can run $ <i>aurora</i> for see all commands"
-        }
-    },
-    {
-        "step": "1",
-        "content": {
-            "title": "Setup: Install Aurora 1",
-            "content": [
-                "You use the Aurora client and web UI to interact with Aurora jobs. ",
-                " To install it locally, see vagrant.md. The remainder of this Tutorial ",
-                " assumes you are running Aurora using Vagrant. Unless otherwise stated, ",
-                " all commands are to be run from the root of the aurora repository clone."
-            ],
-            "tips": "You can run $ <i>aurora</i> for see all commands"
-        }
-    },
-    {
-        "step": "2",
-        "content": {
-            "title": "Setup: Install Aurora 2",
-            "content": [
-                "You use the Aurora client and web UI to interact with Aurora jobs. ",
+                " You use the Aurora client and web UI to interact with Aurora jobs. ",
                 " To install it locally, see vagrant.md. The remainder of this Tutorial ",
                 " assumes you are running Aurora using Vagrant. Unless otherwise stated, ",
                 " all commands are to be run from the root of the aurora repository clone."
