@@ -1,0 +1,33 @@
+{
+  "name": "cli-guide.js",
+  "version": "1.0.0",
+  "description": "interactive terminal",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twitter/cli-guide.js"
+  },
+  "keywords": [
+    "terminal",
+    "steps",
+    "guide"
+  ],
+  "author": "Willy Aguirre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/twitter/cli-guide.js/issues"
+  },
+  "homepage": "https://github.com/twitter/cli-guide.js",
+  "dependencies" : {
+    "jasmine":         "2.3.1",
+    "gulp":            "3.8.11",
+    "gulp-jasmine":    "2.0.1",
+    "gulp-jsmin":      "0.1.5",
+    "gulp-minify-css": "1.1.3"
+  }
+}
