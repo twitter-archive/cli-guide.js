@@ -71,11 +71,6 @@ You only have to write `$ nano` in the terminal and ctrl + x for return
 
 ![1](https://raw.github.com/twitter/cli-guide.js/master/nano.png)
 
-Build
--------------
-    $ npm install
-    $ gulp
-
 License
 -------
 
