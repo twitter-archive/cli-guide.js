@@ -1,0 +1,185 @@
+@font-face {
+  font-family: 'SegoeUISymbol';
+  src:
+  url('SegoeUISymbol.eot?#iefix')
+    format('embedded-opentype'),
+  url('SegoeUISymbol.woff')
+    format('woff'),
+  url('SegoeUISymbol.ttf')
+    format('truetype'),
+  url('SegoeUISymbol.svg#SegoeUISymbol')
+    format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code New Roman';
+  src: url('cnr.otf');
+}
+
+body {
+  margin: 0;
+}
+
+code {
+  padding: 0.2em 0px;
+  margin: 0px;
+  font-size: 95%;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+}
+hr.style {
+  border: 0;
+  height: 0;
+  border-top: 1px
+  solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(74, 74, 74, 0.5);
+}
+
+.element { overflow: -moz-scrollbars-none; }
+
+/* grid */
+#steps_block {
+  padding: 10px;
+  width: 400px;
+  float: left;
+  font-family: 'SegoeUISymbol';
+}
+
+#terminal_block {
+  margin-left: 20%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.clear {
+  clear: both;
+}
+
+#stepscontent {
+  text-align: left;
+}
+
+div.stepcontent {
+	background-color: white;
+}
+
+ul.listofsteps {
+	list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li.step {
+  display: inline-block;
+  background: #dddddd;
+  width: 15px;
+	height: 23px;
+	margin-left: 15px;
+  border-radius: 60%;
+  padding-left: 6px;
+  padding-top: 0px;
+}
+
+li.step:hover {
+  background-color: #ABABAB;
+}
+
+li.step a {
+  text-decoration: none;
+}
+
+li.step a:hover, li.step a:visited, li.step a:link {
+  color: #212121;
+}
+
+ul#listofcommands {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#terminal, #editor {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-family: 'Code New Roman';
+  resize: none;
+  overflow:hidden;
+  padding: 10px;
+  width: 100%;
+  overflow: auto;
+}
+
+#terminal ::-moz-selection, #editor ::-moz-selection { /* Code for Firefox */
+  color: black;
+  background: #F0E68C;
+}
+
+#terminal ::selection, #editor ::selection {
+  color: black;
+  background: #F0E68C;
+}
+
+.prompt {
+  color: #76EE00;
+}
+
+#editor-title {
+  color: black;
+  background: #cbcbcb;
+  padding-left: 20px;
+}
+
+#editor-content {
+  height: auto;
+}
+
+#editor-commands {
+  position:absolute;
+  bottom:0;
+}
+
+.editor-command {
+  color: black;
+  background: #cbcbcb;
+}
+
+.grid-container-editor {
+  width: 100%;
+  max-width: 900px;
+}
+
+/*-- our cleafix hack -- */
+.row:before,
+.row:after {
+  content:"";
+  display: table ;
+  clear:both;
+}
+
+[class*='col-'] {
+  float: left;
+  min-height: 1px;
+  width: 16.66%;
+  /*-- our gutter -- */
+  padding: 3px;
+}
+
+.col-1{ width: 16.0%; }
+.col-2{ width: 33.33%; }
+.col-3{ width: 50%;    }
+.col-4{ width: 66.66%; }
+.col-5{ width: 83.33%; }
+.col-6{ width: 100%;   }
+
+/* style for templates */
+.codeofcommand {
+  padding-left: 20px;
+  width: 100px;
+  height: auto;
+  float: left;
+}

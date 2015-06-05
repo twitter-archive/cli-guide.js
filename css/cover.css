@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Code New Roman';
+  src: url('../fonts/cnr.otf');
+}
+
 /*
  * Globals
  */
@@ -28,6 +33,7 @@ html,
 body {
   height: 100%;
   background-image: url('dark_mosaic.png');
+  font-family: 'Code New Roman';
 }
 body {
   color: #fff;
