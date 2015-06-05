@@ -1,4 +1,4 @@
-# cli-guide.js | [Demo](http://marti1125.webfactional.com/cli-guide/)
+# cli-guide.js | [Demo](http://twitter.github.io/cli-guide.js/demo/index.html)
 GSOC 2015 Project
 
 Make a cli interactive for understand how to works any kind of project like Apache Aurora,
