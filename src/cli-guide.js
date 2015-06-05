@@ -282,7 +282,7 @@
         +   '<div class="clear"></div>'
         );
 
-        $("#terminal").css("height",opts.heightTerminal + "px");
+        $(".heightTerminal").css("height",opts.heightTerminal + "px");
 
         $("#editor").hide();
 
