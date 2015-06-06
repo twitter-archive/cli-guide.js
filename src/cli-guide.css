@@ -129,16 +129,26 @@ ul#listofcommands {
 }
 
 #editor-title {
+  height: 25px;
+}
+
+#title {
   color: black;
   background: #cbcbcb;
   padding-left: 20px;
 }
 
+#editor-content-parent {
+  overflow: hidden;
+}
+
 #editor-content {
-  height: auto;
+  overflow-y: scroll;
+  padding-left: 2px;
 }
 
 #editor-commands {
+  height: 60px;
   position:absolute;
   bottom:0;
 }
