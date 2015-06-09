@@ -195,8 +195,29 @@
 
                     if($(this).text() == "nano"){
                         $("#terminal").hide();
+                        $('#editor-content').html('');
+                        $("#command-x").hide();
                         $("#editor").show();
                         $('#editor-content').focus();
+                    }
+
+                    if( $(this).text() == "nano " + $(this).text().split(" ").pop() ){
+                        $("#terminal").hide();
+                        $('#editor-content').html('');
+                        $("#editor").show();
+
+                        if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
+                          $('#editor-content').html(localStorage.getItem($(this).text().split(" ").pop()));
+                          // show the name  of the file again
+                          $('#namefile-x').val($(this).text().split(" ").pop());
+                          $('#namefile-x').val();
+                        } else {
+                          $('#namefile-x').html('');
+                        }
+
+                        $('#editor-content').focus();
+                        $("#command-x").hide();
+
                     }
 
                     // list of commands we can't use....
@@ -215,18 +236,39 @@
             });
 
 
-            // shortcuts of nana editor
+            // shortcuts of nano editor
             var isCtrl = false;
 
             $(document).on('keydown','#editor-content',function(event){
                 if(event.which == 17) isCtrl=false;
             }).keydown(function (event) {
+                // close the nano editor
                 if(event.which == 17) isCtrl=true;
                 if(event.which == 88 && isCtrl == true) {
-                    $("#editor").hide();
-                    $("#terminal").show();
-                    return false;
+                    if($("#editor-content").text() != "") {
+                      $("#command-x").show();
+                      $('#namefile-x').focus();
+                      return false;
+                    } else {
+                      $("#editor").hide();
+                      $("#terminal").show();
+                      $("#command-x").hide();
+                      return false;
+                    }
+
                 }
+            });
+
+            $(document).on('keydown','#namefile-x',function(event){
+              if (event.keyCode == 13){
+                localStorage.setItem($(this).text(), $("#editor-content").html());
+                $("#editor").hide();
+                $("#terminal").show();
+              }
+            });
+
+            $(document).on('click','#namefile-x',function(event){
+              $('#namefile-x').focus();
             });
 
         });
@@ -255,9 +297,17 @@
         +   '<div id="terminal_block">'
         +       '<div id="terminal" class="heightTerminal"></div>'
         +       '<div id="editor" class="heightTerminal">'
-        +           '<div id="editor-title">GNU nano 2.2.6</div>'
-        +           '<br/>'
-        +           '<div id="editor-content" contenteditable="true"></div>'
+        +           '<div id="editor-title">'
+        +             '<div id="title">GNU nano 2.2.6</div>'
+        +           '</div>'
+        +           '<div id="editor-content-parent">'
+        +             '<div id="editor-content" contenteditable="true"></div>'
+        +           '</div>'
+        +           '<div id="command-x">'
+        +             '<div id="message-x">File Name to Write:</div>'
+        +             '<div id="namefile-x" contenteditable="true"></div>'
+        +             '<div id="cleared"></div>'
+        +           '</div>'
         +           '<br/>'
         +           '<div id="editor-commands" class="grid-container-editor">'
         +               '<div class="row">'
@@ -301,6 +351,20 @@
         $("#editor").click(function(){
             $('#editor-content').focus();
         });
+
+        var heightContentParent = opts.heightTerminal - $("#editor-commands").height()
+                                  - $("#editor-title").height() - 10;
+
+        var heightContent = heightContentParent + 10;
+
+        $("#editor-content-parent").css("height",heightContentParent + "px");
+        $("#editor-content").css("height",heightContent + "px");
+
+        $("#editor-content-parent").css("width",""+$("#terminal_block").width() + "px");
+        $("#editor-content").css("width",""+$("#terminal_block").width() + 20 + "px");
+
+        // messages of commands
+        $("#command-x").hide();
 
     };
 
