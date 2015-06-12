@@ -204,13 +204,15 @@
                     if( $(this).text() == "nano " + $(this).text().split(" ").pop() ){
                         $("#terminal").hide();
                         $('#editor-content').html('');
+                        $('#editor-header-filename').html('');
                         $("#editor").show();
 
                         if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
                           $('#editor-content').html(localStorage.getItem($(this).text().split(" ").pop()));
-                          // show the name  of the file again
+                          // show the name of the file in header
+                          $('#editor-header-filename').html("File: " + $(this).text().split(" ").pop());
+                          // show the name of the file again
                           $('#namefile-x').val($(this).text().split(" ").pop());
-                          $('#namefile-x').val();
                         } else {
                           $('#namefile-x').html('');
                         }
@@ -253,6 +255,7 @@
                       $("#editor").hide();
                       $("#terminal").show();
                       $("#command-x").hide();
+                      $('.textinline').focus();
                       return false;
                     }
 
@@ -264,6 +267,7 @@
                 localStorage.setItem($(this).text(), $("#editor-content").html());
                 $("#editor").hide();
                 $("#terminal").show();
+                $('.textinline').focus();
               }
             });
 
@@ -297,8 +301,10 @@
         +   '<div id="terminal_block">'
         +       '<div id="terminal" class="heightTerminal"></div>'
         +       '<div id="editor" class="heightTerminal">'
-        +           '<div id="editor-title">'
-        +             '<div id="title">GNU nano 2.2.6</div>'
+        +           '<div id="editor-header">'
+        +             '<div id="editor-header-title">GNU nano 2.2.6</div>'
+        +             '<div id="editor-header-filename">New Buffer</div>'
+        +             '<div id="cleared"></div>'
         +           '</div>'
         +           '<div id="editor-content-parent">'
         +             '<div id="editor-content" contenteditable="true"></div>'
@@ -353,7 +359,7 @@
         });
 
         var heightContentParent = opts.heightTerminal - $("#editor-commands").height()
-                                  - $("#editor-title").height() - 10;
+                                  - $("#editor-header").height() - 20;
 
         var heightContent = heightContentParent + 10;
 
