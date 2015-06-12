@@ -128,14 +128,22 @@ ul#listofcommands {
   color: #76EE00;
 }
 
-#editor-title {
-  height: 25px;
-}
-
-#title {
+#editor-header {
+  height: 17px;
   color: black;
   background: #cbcbcb;
   padding-left: 20px;
+}
+
+#editor-header-title {
+  width: 35%;
+  float: left;
+}
+
+#editor-header-filename {
+  width: 55%;
+  height: 25px;
+  float: right;
 }
 
 #editor-content-parent {
