@@ -290,52 +290,74 @@
         var opts = this.options;
 
         $(this.element).append(
-            '<div id="steps_block">'
+          '<div class="container-fluid">'
+        +   '<div class="row">'
+
+        +     '<div id="steps_section" class="col-xs-3">'
         +       '<div id="steptitle"></div>'
         +       '<hr/ class="style">'
         +       '<ul id="listofsteps">'
         +       '</ul>'
         +       '<hr/ class="style">'
         +       '<div id="stepscontent"></div>'
-        +   '</div>'
-        +   '<div id="terminal_block">'
-        +       '<div id="terminal" class="heightTerminal"></div>'
-        +       '<div id="editor" class="heightTerminal">'
-        +           '<div id="editor-header">'
-        +             '<div id="editor-header-title">GNU nano 2.2.6</div>'
-        +             '<div id="editor-header-filename">New Buffer</div>'
-        +             '<div id="cleared"></div>'
-        +           '</div>'
-        +           '<div id="editor-content-parent">'
-        +             '<div id="editor-content" contenteditable="true"></div>'
-        +           '</div>'
-        +           '<div id="command-x">'
-        +             '<div id="message-x">File Name to Write:</div>'
-        +             '<div id="namefile-x" contenteditable="true"></div>'
-        +             '<div id="cleared"></div>'
-        +           '</div>'
-        +           '<br/>'
-        +           '<div id="editor-commands" class="grid-container-editor">'
-        +               '<div class="row">'
-        +                   '<div class="col-1"><span class="editor-command">^G</span> Get Help</div>'
-        +                   '<div class="col-1"><span class="editor-command">^O</span> WriteOut</div>'
-        +                   '<div class="col-1"><span class="editor-command">^R</span> Read File</div>'
-        +                   '<div class="col-1"><span class="editor-command">^Y</span> Prev Page</div>'
-        +                   '<div class="col-1"><span class="editor-command">^K</span> Cut Text</div>'
-        +                   '<div class="col-1"><span class="editor-command">^C</span> Cur Pos</div>'
-        +               '</div>'
-        +               '<div class="row">'
-        +                   '<div class="col-1"><span class="editor-command">^X</span> Exit</div>'
-        +                   '<div class="col-1"><span class="editor-command">^J</span> Justify</div>'
-        +                   '<div class="col-1"><span class="editor-command">^W</span> Where is</div>'
-        +                   '<div class="col-1"><span class="editor-command">^V</span> Next Page</div>'
-        +                   '<div class="col-1"><span class="editor-command">^U</span> UnCut Text</div>'
-        +                   '<div class="col-1"><span class="editor-command">^T</span> To Speel</div>'
-        +               '</div>'
-        +           '</div>'
+        +     '</div>'
+
+        +     '<div id="terminal_section" class="col-xs-9">'
+
+        +       '<div class="row">'
+        +         '<div id="terminal-parent">'
+        +           '<div id="terminal" class="col-xs-12 heightTerminal"></div>'
+        +         '</div>'
         +       '</div>'
+
+        +       '<div id="editor-parent" class="row">'
+        +         '<div id="editor" class="col-xs-12 heightTerminal">'
+        +           '<div id="editor-header" class="row">'
+        +             '<div id="editor-header-title" class="col-xs-3">GNU nano 2.2.6</div>'
+        +             '<div id="editor-header-filename" class="col-xs-9">New Buffer</div>'
+        +           '</div>'
+
+        +           '<div class="row">'
+        +             '<div id="editor-content-parent">'
+        +               '<div id="editor-content" class="col-xs-12" contenteditable="true"></div>'
+        +             '</div>'
+        +           '</div>'
+
+        +           '<div class="row">'
+        +             '<div id="editor-commands" class="col-xs-12">'
+
+        +               '<div id="command-x" class="row">'
+        +                 '<div id="message-x" class="col-xs-1 filenamewidth">File Name to Write:</div>'
+        +                 '<div id="namefile-x" class="col-xs-9" contenteditable="true"></div>'
+        +               '</div>'
+
+        +               '<div class="row">'
+        +                 '<div class="col-xs-2"><span class="editor-command">^G</span> Get Help</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^O</span> WriteOut</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^R</span> Read File</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^Y</span> Prev Page</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^K</span> Cut Text</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^C</span> Cur Pos</div>'
+        +               '</div>'
+
+        +               '<div class="row">'
+        +                 '<div class="col-xs-2"><span class="editor-command">^X</span> Exit</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^J</span> Justify</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^W</span> Where is</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^V</span> Next Page</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^U</span> UnCut Text</div>'
+        +                 '<div class="col-xs-2"><span class="editor-command">^T</span> To Speel</div>'
+        +               '</div>'
+
+        +             '</div>'
+        +           '</div>'
+
+        +         '</div>'
+        +       '</div>'
+
+        +     '</div>'
         +   '</div>'
-        +   '<div class="clear"></div>'
+        + '</div>'
         );
 
         $(".heightTerminal").css("height",opts.heightTerminal + "px");
@@ -359,15 +381,12 @@
         });
 
         var heightContentParent = opts.heightTerminal - $("#editor-commands").height()
-                                  - $("#editor-header").height() - 20;
+                                  - $("#editor-header").height() - 100;
 
-        var heightContent = heightContentParent + 10;
+        var heightContent = heightContentParent;
 
         $("#editor-content-parent").css("height",heightContentParent + "px");
         $("#editor-content").css("height",heightContent + "px");
-
-        $("#editor-content-parent").css("width",""+$("#terminal_block").width() + "px");
-        $("#editor-content").css("width",""+$("#terminal_block").width() + 20 + "px");
 
         // messages of commands
         $("#command-x").hide();
