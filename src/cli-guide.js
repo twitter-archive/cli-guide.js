@@ -226,9 +226,9 @@
                     var commandTest = ["ls", "mv"];
 
                     for (i = 0; i < commandTest.length; i++) {
-                        if($(this).text() == commandTest[i]) {
-                            $("#"+id).html("This is an emulator, not a shell. Try following the instructions.");
-                        }
+                      if($(this).text() == commandTest[i]) {
+                        $("#"+id).html("This is an emulator, not a shell. Try following the instructions.");
+                      }
                     }
 
                     return false;
@@ -242,24 +242,63 @@
             var isCtrl = false;
 
             $(document).on('keydown','#editor-content',function(event){
-                if(event.which == 17) isCtrl=false;
+              if(event.which == 17) isCtrl=false;
             }).keydown(function (event) {
-                // close the nano editor
-                if(event.which == 17) isCtrl=true;
-                if(event.which == 88 && isCtrl == true) {
-                    if($("#editor-content").text() != "") {
-                      $("#command-x").show();
-                      $('#namefile-x').focus();
-                      return false;
-                    } else {
-                      $("#editor").hide();
-                      $("#terminal").show();
-                      $("#command-x").hide();
-                      $('.textinline').focus();
-                      return false;
-                    }
-
+              // close the nano editor
+              if(event.which == 17) isCtrl=true;
+              if(event.which == 88 && isCtrl == true) {
+                if($("#editor-content").text() != "") {
+                  if(!$("#command-x").is(':visible')){
+                    $("#commands").hide();
+                    $("#command-save-x").show();
+                    $("#q-save-x").focus();
+                  }
+                  return false;
+                } else {
+                  $("#editor").hide();
+                  $("#terminal").show();
+                  $("#command-save-x").hide();
+                  $('.textinline').focus();
+                  return false;
                 }
+              }
+            });
+
+            $("#q-save-x").keydown(function(event){
+              $(this).html("");
+              // Y
+              if(event.which == 89){
+                $("#command-save-x").hide();
+                $("#command-x").show();
+                $("#commands").show();
+                $('#namefile-x').focus();
+              }
+              // N
+              if(event.which == 78){
+                $("#command-save-x").hide();
+                $("#commands").show();
+                $("#editor").hide();
+                $("#terminal").show();
+                $('.textinline').focus();
+              }
+              if(event.which != 89 || event.which != 78 ){
+                event.preventDefault();
+              }
+            });
+
+            var isCtrlCancel = false;
+
+            $(document).on('keydown','#command-save-x',function(event){
+              if(event.which == 17) isCtrlCancel=false;
+            }).keydown(function (event) {
+              if($("#command-save-x").is(':visible')){
+                if(event.which == 17) isCtrlCancel=true;
+                if(event.which == 67 && isCtrlCancel == true) {
+                  // cancel the modified file
+                  $("#command-save-x").hide();
+                  $("#commands").show();
+                }
+              }
             });
 
             $(document).on('keydown','#namefile-x',function(event){
@@ -273,6 +312,11 @@
 
             $(document).on('click','#namefile-x',function(event){
               $('#namefile-x').focus();
+            });
+
+            $("#q-save-x").click(function(){
+              $("#editor-content").blur();
+              $(this).focus();
             });
 
         });
@@ -326,27 +370,45 @@
         +           '<div class="row">'
         +             '<div id="editor-commands" class="col-xs-12">'
 
+        +               '<div id="command-save-x">'
+        +                 '<div class="row">'
+        +                   '<div id="message-save-x" class="col-xs-7">'
+        +                     'Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES) ?'
+        +                   '</div>'
+        +                   '<div id="q-save-x" class="col-xs-5" contenteditable="true"></div>'
+        +                 '</div>'
+        +                 '<div class="row">'
+        +                   '<div class="col-xs-2"><span class="editor-command">'+'&nbsp;'+'Y</span> Yes</div>'
+        +                 '</div>'
+        +                 '<div class="row">'
+        +                   '<div class="col-xs-2"><span class="editor-command">'+'&nbsp;'+'N</span> No</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^C</span> Cancel</div>'
+        +                 '</div>'
+        +               '</div>'
+
         +               '<div id="command-x" class="row">'
         +                 '<div id="message-x" class="col-xs-1 filenamewidth">File Name to Write:</div>'
         +                 '<div id="namefile-x" class="col-xs-9" contenteditable="true"></div>'
         +               '</div>'
 
-        +               '<div class="row">'
-        +                 '<div class="col-xs-2"><span class="editor-command">^G</span> Get Help</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^O</span> WriteOut</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^R</span> Read File</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^Y</span> Prev Page</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^K</span> Cut Text</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^C</span> Cur Pos</div>'
-        +               '</div>'
+        +               '<div id="commands">'
+        +                 '<div class="row">'
+        +                   '<div class="col-xs-2"><span class="editor-command">^G</span> Get Help</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^O</span> WriteOut</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^R</span> Read File</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^Y</span> Prev Page</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^K</span> Cut Text</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^C</span> Cur Pos</div>'
+        +                 '</div>'
 
-        +               '<div class="row">'
-        +                 '<div class="col-xs-2"><span class="editor-command">^X</span> Exit</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^J</span> Justify</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^W</span> Where is</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^V</span> Next Page</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^U</span> UnCut Text</div>'
-        +                 '<div class="col-xs-2"><span class="editor-command">^T</span> To Speel</div>'
+        +                 '<div class="row">'
+        +                   '<div class="col-xs-2"><span class="editor-command">^X</span> Exit</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^J</span> Justify</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^W</span> Where is</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^V</span> Next Page</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^U</span> UnCut Text</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^T</span> To Speel</div>'
+        +                 '</div>'
         +               '</div>'
 
         +             '</div>'
@@ -390,6 +452,7 @@
 
         // messages of commands
         $("#command-x").hide();
+        $("#command-save-x").hide();
 
     };
 
