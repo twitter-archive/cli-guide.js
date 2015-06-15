@@ -186,6 +186,14 @@ ul#listofcommands {
   background: #cbcbcb;
 }
 
+/* style for templates */
+.codeofcommand {
+  padding-left: 20px;
+  width: 100px;
+  height: auto;
+  float: left;
+}
+
 /* utils */
 .filenamewidth {
   width: 19%;

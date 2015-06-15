@@ -115,16 +115,26 @@
 
         if (!effect) effect = $.fn.text;
 
+        var loghistory = []
+
         // return focus
         $("#terminal").click(function(){
-            $('.textinline').focus();
+          $('.textinline').focus();
         });
 
         return this.each(function(){
 
+            localStorage.setItem("idinput",1);
+
             var self = $("#terminal");
 
             function newline(command){
+
+                loghistory.push(command);
+
+                localStorage.setItem("loghistory",loghistory);
+
+                var idinput = parseInt(localStorage.getItem("idinput"));
 
                 var text = "";
 
@@ -140,11 +150,17 @@
                 }
 
                 self.append(
-                    '<p class="input">'
-                +       '<span class="prompt">you@tutorial:~'+text+'$ </span>'
-                +       '<span class="textinline" style="outline:none" contenteditable="true"></span>'
-                +   '</p>'
+                  '<p class="input">'
+                +   '<span class="prompt">you@tutorial:~'+text+'$ </span>'
+                +   '<span id="'+idinput+'" class="parent-textinline">'
+                +     '<span class="textinline" style="outline:none" contenteditable="true"></span>'
+                +   '</span>'
+                + '</p>'
                 );
+
+                var count = parseInt(localStorage.getItem("idinput"));
+                var total = count + 1;
+                localStorage.setItem("idinput",total)
 
                 $('[contenteditable]', self)[0].focus();
 
@@ -191,7 +207,7 @@
 
                     newline($(this).text());
 
-                    $("#"+id).html(commands(opts.commandStepsFile,$(this).text()));
+                    $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text()));
 
                     if($(this).text() == "nano"){
                         $("#terminal").hide();
@@ -227,7 +243,7 @@
 
                     for (i = 0; i < commandTest.length; i++) {
                       if($(this).text() == commandTest[i]) {
-                        $("#"+id).html("This is an emulator, not a shell. Try following the instructions.");
+                        $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
                       }
                     }
 
@@ -237,6 +253,36 @@
 
             });
 
+            // get log!! up and down
+            localStorage.setItem("initup",0);
+            localStorage.setItem("initdown",0);
+
+            $(document).on('keydown','.textinline', function(event){
+              var idparent = $(this).parent().get(0).id;
+              var arrayLog = localStorage.getItem("loghistory").split(',');
+              arrayLog = arrayLog.filter(Boolean); // remove empty string
+              if(event.which == 38){
+                var count = parseInt(localStorage.getItem("initup"));
+                var total = count + 1;
+                if(total > arrayLog.length-1) {
+                  localStorage.setItem("initup",0);
+                } else {
+                  localStorage.setItem("initup",total);
+                }
+                $("#"+idparent+".parent-textinline").children(".textinline").html(arrayLog[localStorage.getItem("initup")]);
+              }
+              localStorage.setItem("total",arrayLog.length - 1 - parseInt(localStorage.getItem("initdown")));
+              if(event.which == 40){                
+                var count = parseInt(localStorage.getItem("initdown"));
+                var count = count + 1;
+                localStorage.setItem("initdown",count);
+                if(localStorage.getItem("total") == -1){
+                  localStorage.setItem("initdown",0);
+                }
+                $("#"+idparent+".parent-textinline").children(".textinline").html(arrayLog[localStorage.getItem("total")]);
+                //console.log(arrayLog[localStorage.getItem("total")]);
+              }
+            });
 
             // shortcuts of nano editor
             var isCtrl = false;
