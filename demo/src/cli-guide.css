@@ -29,6 +29,7 @@ code {
   background-color: rgba(0, 0, 0, 0.04);
   border-radius: 3px;
 }
+
 hr.style {
   border: 0;
   height: 0;
@@ -39,23 +40,10 @@ hr.style {
 
 .element { overflow: -moz-scrollbars-none; }
 
-/* grid */
-#steps_block {
-  padding: 10px;
-  width: 400px;
-  float: left;
+/* steps */
+#steps_section {
   font-family: 'SegoeUISymbol';
-}
-
-#terminal_block {
-  margin-left: 20%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.clear {
-  clear: both;
+  right: -10px;
 }
 
 #stepscontent {
@@ -75,12 +63,12 @@ ul.listofsteps {
 li.step {
   display: inline-block;
   background: #dddddd;
-  width: 15px;
+  width: 20px;
 	height: 23px;
 	margin-left: 15px;
-  border-radius: 60%;
+  border-radius: 50%;
   padding-left: 6px;
-  padding-top: 0px;
+  padding-top: 1px;
 }
 
 li.step:hover {
@@ -101,17 +89,37 @@ ul#listofcommands {
   padding: 0;
 }
 
-#terminal, #editor {
+#terminal_section {
+}
+
+#terminal-parent {
+  overflow: hidden;
+}
+
+#terminal {
   background-color: black;
   border: none;
   color: white;
   font-size: 14px;
   font-family: 'Code New Roman';
   resize: none;
-  overflow:hidden;
-  padding: 10px;
   width: 100%;
-  overflow: auto;
+  overflow-y: scroll;
+  right: -30px;
+}
+
+#editor-parent {
+  overflow: hidden;
+}
+
+#editor {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-family: 'Code New Roman';
+  resize: none;
+  right: -30px;
 }
 
 #terminal ::-moz-selection, #editor ::-moz-selection { /* Code for Firefox */
@@ -128,52 +136,49 @@ ul#listofcommands {
   color: #76EE00;
 }
 
-#editor-title {
-  height: 25px;
-}
-
-#title {
+#editor-header {
+  height: 17px;
   color: black;
   background: #cbcbcb;
-  padding-left: 20px;
+}
+
+#editor-header-title {
+}
+
+#editor-header-filename {
 }
 
 #editor-content-parent {
+  width: 100%;
   overflow: hidden;
 }
 
 #editor-content {
   overflow-y: scroll;
-  padding-left: 2px;
 }
 
 #editor-commands {
-  height: 60px;
   position:absolute;
   bottom:0;
 }
 
 #command-x {
-  width: 100%;
   color: black;
   background: #cbcbcb;
 }
 
 #message-x {
-  width: 17%;
-  float: left;
 }
 
 #namefile-x {
-  height: 17px;
-  width: 83%;
   color: black;
   background: #cbcbcb;
-  float: right;
 }
 
-#cleared {
-  clear: both;
+#message-save-x, #q-save-x {
+  color: black;
+  background: #cbcbcb;
+  height: 17px;
 }
 
 .editor-command {
@@ -181,38 +186,19 @@ ul#listofcommands {
   background: #cbcbcb;
 }
 
-.grid-container-editor {
-  width: 100%;
-  max-width: 900px;
-}
-
-/*-- our cleafix hack -- */
-.row:before,
-.row:after {
-  content:"";
-  display: table ;
-  clear:both;
-}
-
-[class*='col-'] {
-  float: left;
-  min-height: 1px;
-  width: 16.66%;
-  /*-- our gutter -- */
-  padding: 3px;
-}
-
-.col-1{ width: 16.0%; }
-.col-2{ width: 33.33%; }
-.col-3{ width: 50%;    }
-.col-4{ width: 66.66%; }
-.col-5{ width: 83.33%; }
-.col-6{ width: 100%;   }
-
 /* style for templates */
 .codeofcommand {
   padding-left: 20px;
   width: 100px;
   height: auto;
   float: left;
+}
+
+/* utils */
+.filenamewidth {
+  width: 19%;
+}
+
+.commandwidth {
+  width: 14%;
 }

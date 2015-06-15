@@ -115,16 +115,26 @@
 
         if (!effect) effect = $.fn.text;
 
+        var loghistory = []
+
         // return focus
         $("#terminal").click(function(){
-            $('.textinline').focus();
+          $('.textinline').focus();
         });
 
         return this.each(function(){
 
+            localStorage.setItem("idinput",1);
+
             var self = $("#terminal");
 
             function newline(command){
+
+                loghistory.push(command);
+
+                localStorage.setItem("loghistory",loghistory);
+
+                var idinput = parseInt(localStorage.getItem("idinput"));
 
                 var text = "";
 
@@ -140,11 +150,17 @@
                 }
 
                 self.append(
-                    '<p class="input">'
-                +       '<span class="prompt">you@tutorial:~'+text+'$ </span>'
-                +       '<span class="textinline" style="outline:none" contenteditable="true"></span>'
-                +   '</p>'
+                  '<p class="input">'
+                +   '<span class="prompt">you@tutorial:~'+text+'$ </span>'
+                +   '<span id="'+idinput+'" class="parent-textinline">'
+                +     '<span class="textinline" style="outline:none" contenteditable="true"></span>'
+                +   '</span>'
+                + '</p>'
                 );
+
+                var count = parseInt(localStorage.getItem("idinput"));
+                var total = count + 1;
+                localStorage.setItem("idinput",total)
 
                 $('[contenteditable]', self)[0].focus();
 
@@ -191,7 +207,7 @@
 
                     newline($(this).text());
 
-                    $("#"+id).html(commands(opts.commandStepsFile,$(this).text()));
+                    $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text()));
 
                     if($(this).text() == "nano"){
                         $("#terminal").hide();
@@ -204,13 +220,15 @@
                     if( $(this).text() == "nano " + $(this).text().split(" ").pop() ){
                         $("#terminal").hide();
                         $('#editor-content').html('');
+                        $('#editor-header-filename').html('');
                         $("#editor").show();
 
                         if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
                           $('#editor-content').html(localStorage.getItem($(this).text().split(" ").pop()));
-                          // show the name  of the file again
+                          // show the name of the file in header
+                          $('#editor-header-filename').html("File: " + $(this).text().split(" ").pop());
+                          // show the name of the file again
                           $('#namefile-x').val($(this).text().split(" ").pop());
-                          $('#namefile-x').val();
                         } else {
                           $('#namefile-x').html('');
                         }
@@ -224,9 +242,9 @@
                     var commandTest = ["ls", "mv"];
 
                     for (i = 0; i < commandTest.length; i++) {
-                        if($(this).text() == commandTest[i]) {
-                            $("#"+id).html("This is an emulator, not a shell. Try following the instructions.");
-                        }
+                      if($(this).text() == commandTest[i]) {
+                        $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
+                      }
                     }
 
                     return false;
@@ -235,28 +253,98 @@
 
             });
 
+            // get log!! up and down
+            localStorage.setItem("initup",0);
+            localStorage.setItem("initdown",0);
+
+            $(document).on('keydown','.textinline', function(event){
+              var idparent = $(this).parent().get(0).id;
+              var arrayLog = localStorage.getItem("loghistory").split(',');
+              arrayLog = arrayLog.filter(Boolean); // remove empty string
+              if(event.which == 38){
+                var count = parseInt(localStorage.getItem("initup"));
+                var total = count + 1;
+                if(total > arrayLog.length-1) {
+                  localStorage.setItem("initup",0);
+                } else {
+                  localStorage.setItem("initup",total);
+                }
+                $("#"+idparent+".parent-textinline").children(".textinline").html(arrayLog[localStorage.getItem("initup")]);
+              }
+              localStorage.setItem("total",arrayLog.length - 1 - parseInt(localStorage.getItem("initdown")));
+              if(event.which == 40){                
+                var count = parseInt(localStorage.getItem("initdown"));
+                var count = count + 1;
+                localStorage.setItem("initdown",count);
+                if(localStorage.getItem("total") == -1){
+                  localStorage.setItem("initdown",0);
+                }
+                $("#"+idparent+".parent-textinline").children(".textinline").html(arrayLog[localStorage.getItem("total")]);
+                //console.log(arrayLog[localStorage.getItem("total")]);
+              }
+            });
 
             // shortcuts of nano editor
             var isCtrl = false;
 
             $(document).on('keydown','#editor-content',function(event){
-                if(event.which == 17) isCtrl=false;
+              if(event.which == 17) isCtrl=false;
             }).keydown(function (event) {
-                // close the nano editor
-                if(event.which == 17) isCtrl=true;
-                if(event.which == 88 && isCtrl == true) {
-                    if($("#editor-content").text() != "") {
-                      $("#command-x").show();
-                      $('#namefile-x').focus();
-                      return false;
-                    } else {
-                      $("#editor").hide();
-                      $("#terminal").show();
-                      $("#command-x").hide();
-                      return false;
-                    }
-
+              // close the nano editor
+              if(event.which == 17) isCtrl=true;
+              if(event.which == 88 && isCtrl == true) {
+                if($("#editor-content").text() != "") {
+                  if(!$("#command-x").is(':visible')){
+                    $("#commands").hide();
+                    $("#command-save-x").show();
+                    $("#q-save-x").focus();
+                  }
+                  return false;
+                } else {
+                  $("#editor").hide();
+                  $("#terminal").show();
+                  $("#command-save-x").hide();
+                  $('.textinline').focus();
+                  return false;
                 }
+              }
+            });
+
+            $("#q-save-x").keydown(function(event){
+              $(this).html("");
+              // Y
+              if(event.which == 89){
+                $("#command-save-x").hide();
+                $("#command-x").show();
+                $("#commands").show();
+                $('#namefile-x').focus();
+              }
+              // N
+              if(event.which == 78){
+                $("#command-save-x").hide();
+                $("#commands").show();
+                $("#editor").hide();
+                $("#terminal").show();
+                $('.textinline').focus();
+              }
+              if(event.which != 89 || event.which != 78 ){
+                event.preventDefault();
+              }
+            });
+
+            var isCtrlCancel = false;
+
+            $(document).on('keydown','#command-save-x',function(event){
+              if(event.which == 17) isCtrlCancel=false;
+            }).keydown(function (event) {
+              if($("#command-save-x").is(':visible')){
+                if(event.which == 17) isCtrlCancel=true;
+                if(event.which == 67 && isCtrlCancel == true) {
+                  // cancel the modified file
+                  $("#command-save-x").hide();
+                  $("#commands").show();
+                }
+              }
             });
 
             $(document).on('keydown','#namefile-x',function(event){
@@ -264,11 +352,17 @@
                 localStorage.setItem($(this).text(), $("#editor-content").html());
                 $("#editor").hide();
                 $("#terminal").show();
+                $('.textinline').focus();
               }
             });
 
             $(document).on('click','#namefile-x',function(event){
               $('#namefile-x').focus();
+            });
+
+            $("#q-save-x").click(function(){
+              $("#editor-content").blur();
+              $(this).focus();
             });
 
         });
@@ -286,50 +380,92 @@
         var opts = this.options;
 
         $(this.element).append(
-            '<div id="steps_block">'
+          '<div class="container-fluid">'
+        +   '<div class="row">'
+
+        +     '<div id="steps_section" class="col-xs-3">'
         +       '<div id="steptitle"></div>'
         +       '<hr/ class="style">'
         +       '<ul id="listofsteps">'
         +       '</ul>'
         +       '<hr/ class="style">'
         +       '<div id="stepscontent"></div>'
-        +   '</div>'
-        +   '<div id="terminal_block">'
-        +       '<div id="terminal" class="heightTerminal"></div>'
-        +       '<div id="editor" class="heightTerminal">'
-        +           '<div id="editor-title">'
-        +             '<div id="title">GNU nano 2.2.6</div>'
-        +           '</div>'
-        +           '<div id="editor-content-parent">'
-        +             '<div id="editor-content" contenteditable="true"></div>'
-        +           '</div>'
-        +           '<div id="command-x">'
-        +             '<div id="message-x">File Name to Write:</div>'
-        +             '<div id="namefile-x" contenteditable="true"></div>'
-        +             '<div id="cleared"></div>'
-        +           '</div>'
-        +           '<br/>'
-        +           '<div id="editor-commands" class="grid-container-editor">'
-        +               '<div class="row">'
-        +                   '<div class="col-1"><span class="editor-command">^G</span> Get Help</div>'
-        +                   '<div class="col-1"><span class="editor-command">^O</span> WriteOut</div>'
-        +                   '<div class="col-1"><span class="editor-command">^R</span> Read File</div>'
-        +                   '<div class="col-1"><span class="editor-command">^Y</span> Prev Page</div>'
-        +                   '<div class="col-1"><span class="editor-command">^K</span> Cut Text</div>'
-        +                   '<div class="col-1"><span class="editor-command">^C</span> Cur Pos</div>'
-        +               '</div>'
-        +               '<div class="row">'
-        +                   '<div class="col-1"><span class="editor-command">^X</span> Exit</div>'
-        +                   '<div class="col-1"><span class="editor-command">^J</span> Justify</div>'
-        +                   '<div class="col-1"><span class="editor-command">^W</span> Where is</div>'
-        +                   '<div class="col-1"><span class="editor-command">^V</span> Next Page</div>'
-        +                   '<div class="col-1"><span class="editor-command">^U</span> UnCut Text</div>'
-        +                   '<div class="col-1"><span class="editor-command">^T</span> To Speel</div>'
-        +               '</div>'
-        +           '</div>'
+        +     '</div>'
+
+        +     '<div id="terminal_section" class="col-xs-9">'
+
+        +       '<div class="row">'
+        +         '<div id="terminal-parent">'
+        +           '<div id="terminal" class="col-xs-12 heightTerminal"></div>'
+        +         '</div>'
         +       '</div>'
+
+        +       '<div id="editor-parent" class="row">'
+        +         '<div id="editor" class="col-xs-12 heightTerminal">'
+        +           '<div id="editor-header" class="row">'
+        +             '<div id="editor-header-title" class="col-xs-3">GNU nano 2.2.6</div>'
+        +             '<div id="editor-header-filename" class="col-xs-9">New Buffer</div>'
+        +           '</div>'
+
+        +           '<div class="row">'
+        +             '<div id="editor-content-parent">'
+        +               '<div id="editor-content" class="col-xs-12" contenteditable="true"></div>'
+        +             '</div>'
+        +           '</div>'
+
+        +           '<div class="row">'
+        +             '<div id="editor-commands" class="col-xs-12">'
+
+        +               '<div id="command-save-x">'
+        +                 '<div class="row">'
+        +                   '<div id="message-save-x" class="col-xs-7">'
+        +                     'Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES) ?'
+        +                   '</div>'
+        +                   '<div id="q-save-x" class="col-xs-5" contenteditable="true"></div>'
+        +                 '</div>'
+        +                 '<div class="row">'
+        +                   '<div class="col-xs-2"><span class="editor-command">'+'&nbsp;'+'Y</span> Yes</div>'
+        +                 '</div>'
+        +                 '<div class="row">'
+        +                   '<div class="col-xs-2"><span class="editor-command">'+'&nbsp;'+'N</span> No</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^C</span> Cancel</div>'
+        +                 '</div>'
+        +               '</div>'
+
+        +               '<div id="command-x" class="row">'
+        +                 '<div id="message-x" class="col-xs-1 filenamewidth">File Name to Write:</div>'
+        +                 '<div id="namefile-x" class="col-xs-9" contenteditable="true"></div>'
+        +               '</div>'
+
+        +               '<div id="commands">'
+        +                 '<div class="row">'
+        +                   '<div class="col-xs-2"><span class="editor-command">^G</span> Get Help</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^O</span> WriteOut</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^R</span> Read File</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^Y</span> Prev Page</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^K</span> Cut Text</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^C</span> Cur Pos</div>'
+        +                 '</div>'
+
+        +                 '<div class="row">'
+        +                   '<div class="col-xs-2"><span class="editor-command">^X</span> Exit</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^J</span> Justify</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^W</span> Where is</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^V</span> Next Page</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^U</span> UnCut Text</div>'
+        +                   '<div class="col-xs-2"><span class="editor-command">^T</span> To Speel</div>'
+        +                 '</div>'
+        +               '</div>'
+
+        +             '</div>'
+        +           '</div>'
+
+        +         '</div>'
+        +       '</div>'
+
+        +     '</div>'
         +   '</div>'
-        +   '<div class="clear"></div>'
+        + '</div>'
         );
 
         $(".heightTerminal").css("height",opts.heightTerminal + "px");
@@ -353,18 +489,16 @@
         });
 
         var heightContentParent = opts.heightTerminal - $("#editor-commands").height()
-                                  - $("#editor-title").height() - 10;
+                                  - $("#editor-header").height() - 100;
 
-        var heightContent = heightContentParent + 10;
+        var heightContent = heightContentParent;
 
         $("#editor-content-parent").css("height",heightContentParent + "px");
         $("#editor-content").css("height",heightContent + "px");
 
-        $("#editor-content-parent").css("width",""+$("#terminal_block").width() + "px");
-        $("#editor-content").css("width",""+$("#terminal_block").width() + 20 + "px");
-
         // messages of commands
         $("#command-x").hide();
+        $("#command-save-x").hide();
 
     };
 
