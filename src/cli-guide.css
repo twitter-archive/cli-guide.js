@@ -154,7 +154,6 @@ ul#listofcommands {
 }
 
 #editor-content {
-  
   overflow-y: scroll;
 }
 
@@ -174,6 +173,12 @@ ul#listofcommands {
 #namefile-x {
   color: black;
   background: #cbcbcb;
+}
+
+#message-save-x, #q-save-x {
+  color: black;
+  background: #cbcbcb;
+  height: 17px;
 }
 
 .editor-command {
