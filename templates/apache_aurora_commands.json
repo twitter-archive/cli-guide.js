@@ -34,5 +34,24 @@
         	" or not commonly used. To see all subcommands, run the command ",
         	" `vagrant list-commands`. "
         ]
+    },
+    {
+        "command":["aurora"],
+        "result": [
+        	" usage: aurora [-h] [--version] {task,quota,update,cron,job,config,sla} ... <br/> ",
+          " <br/> ",
+          " optional arguments: <br/> ",
+          " <div class='codeofcommand'>-h, --help</div> show this help message and exit <br/> ",
+          " <div class='codeofcommand'>--version</div> show program's version number and exit <br/> ",
+          " commands: <br/> ",
+          " {task,quota,update,cron,job,config,sla} <br/> ",
+          " <div class='codeofcommand'>task</div> Work with a task running in an Apache Aurora cluster <br/> ",
+          " <div class='codeofcommand'>quota</div> Work with quota settings for an Apache Aurora cluster <br/> ",
+          " <div class='codeofcommand'>update</div> Interact with the aurora update service. <br/> ",
+          " <div class='codeofcommand'>cron</div> Work with entries in the aurora cron scheduler <br/> ",
+          " <div class='codeofcommand'>job</div> Work with an aurora job <br/> ",
+          " <div class='codeofcommand'>config</div> Work with an aurora configuration file <br/> ",
+          " <div class='codeofcommand'>sla</div> Work with SLA data in Aurora cluster. "
+        ]
     }
 ]
