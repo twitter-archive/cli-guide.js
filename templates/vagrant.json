@@ -1,0 +1,32 @@
+[
+  {
+    "step": "0",
+    "content": {
+      "title": "Overview",
+      "content": [
+        " The Aurora distribution includes a set of scripts that enable you to create a local ",
+        " cluster in your development machine. These scripts use Vagrant and ",
+        " VirtualBox to run and configure a virtual machine. Once the virtual machine ",
+        " is running, the scripts install and initialize Aurora and any required components ",
+        " to create the local cluster. "
+      ],
+      "tips": "",
+      "commands": [
+      ]
+    }
+  },
+  {
+    "step": "1",
+    "content": {
+      "title": "Install VirtualBox and Vagrant",
+      "content": [
+        " To verify that the installation was successful, open a terminal window and type the ",
+        " <code>vagrant</code> command. You should see a list of common commands for this tool. "
+      ],
+      "tips": "You can run the following commands",
+      "commands": [
+        {"command":"vagrant"}
+      ]
+    }
+  }
+]
