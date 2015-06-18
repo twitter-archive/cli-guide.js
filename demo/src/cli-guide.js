@@ -11,103 +11,92 @@
 // that are not closed properly.
 ;(function ( $, window, document, undefined ) {
 
-    // undefined is used here as the undefined global
-    // variable in ECMAScript 3 and is mutable (i.e. it can
-    // be changed by someone else). undefined isn't really
-    // being passed in so we can ensure that its value is
-    // truly undefined. In ES5, undefined can no longer be
-    // modified.
+  // undefined is used here as the undefined global
+  // variable in ECMAScript 3 and is mutable (i.e. it can
+  // be changed by someone else). undefined isn't really
+  // being passed in so we can ensure that its value is
+  // truly undefined. In ES5, undefined can no longer be
+  // modified.
 
-    // window and document are passed through as local
-    // variables rather than as globals, because this (slightly)
-    // quickens the resolution process and can be more
-    // efficiently minified (especially when both are
-    // regularly referenced in our plugin).
+  // window and document are passed through as local
+  // variables rather than as globals, because this (slightly)
+  // quickens the resolution process and can be more
+  // efficiently minified (especially when both are
+  // regularly referenced in our plugin).
 
-    // Create the defaults once
-    var pluginName = "cliguide",
-        defaults = {
-            welcomeMessage: 'Welcome to the interactive tutorial',
-            nameOfTheProject: 'Apache Aurora',
-            heightTerminal: window.innerHeight - 20,
-            stepsFile: 'src/listofsteps.json'
-        };
+  // Create the defaults once
+  var pluginName = "cliguide",
+    defaults = {
+      welcomeMessage: 'Welcome to the interactive tutorial',
+      nameOfTheProject: 'Apache Aurora',
+      heightTerminal: window.innerHeight - 20,
+      stepsFile: 'src/listofsteps.json'
+    };
 
-    // The actual plugin constructor
-    function Plugin( element, options ) {
-        this.element = element;
+  // The actual plugin constructor
+  function Plugin( element, options ) {
+    this.element = element;
 
-        // jQuery has an extend method that merges the
-        // contents of two or more objects, storing the
-        // result in the first object. The first object
-        // is generally empty because we don't want to alter
-        // the default options for future instances of the plugin
-        this.options = $.extend( {}, defaults, options) ;
+    // jQuery has an extend method that merges the
+    // contents of two or more objects, storing the
+    // result in the first object. The first object
+    // is generally empty because we don't want to alter
+    // the default options for future instances of the plugin
+    this.options = $.extend( {}, defaults, options) ;
 
-        this._defaults = defaults;
-        this._name = pluginName;
+    this._defaults = defaults;
+    this._name = pluginName;
 
-        this.init();
-    }
+    this.init();
+  }
 
-    function listOfSteps(opts) {
+  function listOfSteps(opts) {
+    $.getJSON(opts.stepsFile,function(data){
+      $.each(data,function(k,v){
+        $("#listofsteps").append(
+          '<li class="step">'
+        +   '<a class="btn-step" href="#" data-step="'+v.step+'">'
+        +     v.step
+        +   '</a>'
+        + '</li>'
+        );
+      });
+    });
+  }
 
-        $.getJSON(opts.stepsFile,function(data){
-            $.each(data,function(k,v){
-                $("#listofsteps").append(
-                    '<li class="step">'
-                +       '<a class="btn-step" href="#" data-step="'+v.step+'">'
-                +           v.step
-                +       '</a>'
-                +   '</li>'
-                );
+  function showInfoOfEachStep(opts,step){
+
+    $("#stepscontent").html('');
+
+    $.getJSON(opts.stepsFile,function(data){
+      $.each(data,function(k,v){
+        if(v.step == step){
+          $("#steptitle").html("<h3>Step "+v.step+"</h3>")
+          $("#stepscontent").append(
+            "<h3>"+v.content.title+"</h3>"
+          + '<hr/ class="style">'
+          + "<p>"+v.content.content.join("")+"</p>"
+          );
+          if(v.content.tips != ""){
+            $("#stepscontent").append(
+              '<hr/ class="style">'
+            + "<h3>Tips</h3>"
+            + "<p>"+v.content.tips+"</p>"
+            + '<ul id="listofcommands"></ul>'
+            );
+          }
+          if(v.content.commands.length > 0){
+            $.each(v.content.commands,function(key,val){
+              $("#listofcommands").append(
+                "<li><code> $ "+val.command+"</code></li>"
+              );
             });
-        });
+          }
+        }
+      });
+    });
 
-    }
-
-    function showInfoOfEachStep(opts,step){
-
-        $("#stepscontent").html('');
-
-        $.getJSON(opts.stepsFile,function(data){
-
-            $.each(data,function(k,v){
-
-                if(v.step == step){
-
-                    $("#steptitle").html("<h3>Step "+v.step+"</h3>")
-                    $("#stepscontent").append(
-                        "<h3>"+v.content.title+"</h3>"
-                    +   '<hr/ class="style">'
-                    +   "<p>"+v.content.content.join("")+"</p>"
-                    );
-
-                    if(v.content.tips != ""){
-                        $("#stepscontent").append(
-                            '<hr/ class="style">'
-                        +   "<h3>Tips</h3>"
-                        +   "<p>"+v.content.tips+"</p>"
-                        +   '<ul id="listofcommands"></ul>'
-                        );
-                    }
-
-                    if(v.content.commands.length > 0){
-
-                        $.each(v.content.commands,function(key,val){
-                            $("#listofcommands").append(
-                                "<li><code> $ "+val.command+"</code></li>"
-                            );
-                        });
-
-                    }
-
-                }
-
-            });
-
-        });
-    }
+  }
 
     $.fn.cli = function(options, handler, effect){
 
@@ -217,7 +206,7 @@
                         $('#editor-content').focus();
                     }
 
-                    if( $(this).text() == "nano " + $(this).text().split(" ").pop() ){
+                    if( $(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop() ){
                         $("#terminal").hide();
                         $('#editor-content').html('');
                         $('#editor-header-filename').html('');
@@ -272,7 +261,7 @@
                 $("#"+idparent+".parent-textinline").children(".textinline").html(arrayLog[localStorage.getItem("initup")]);
               }
               localStorage.setItem("total",arrayLog.length - 1 - parseInt(localStorage.getItem("initdown")));
-              if(event.which == 40){                
+              if(event.which == 40){
                 var count = parseInt(localStorage.getItem("initdown"));
                 var count = count + 1;
                 localStorage.setItem("initdown",count);
@@ -383,7 +372,7 @@
           '<div class="container-fluid">'
         +   '<div class="row">'
 
-        +     '<div id="steps_section" class="col-xs-3">'
+        +     '<div id="steps_section" class="col-xs-4">'
         +       '<div id="steptitle"></div>'
         +       '<hr/ class="style">'
         +       '<ul id="listofsteps">'
@@ -392,7 +381,7 @@
         +       '<div id="stepscontent"></div>'
         +     '</div>'
 
-        +     '<div id="terminal_section" class="col-xs-9">'
+        +     '<div id="terminal_section" class="col-xs-8">'
 
         +       '<div class="row">'
         +         '<div id="terminal-parent">'
@@ -433,7 +422,7 @@
         +               '</div>'
 
         +               '<div id="command-x" class="row">'
-        +                 '<div id="message-x" class="col-xs-1 filenamewidth">File Name to Write:</div>'
+        +                 '<div id="message-x" class="col-xs-3">File Name to Write:</div>'
         +                 '<div id="namefile-x" class="col-xs-9" contenteditable="true"></div>'
         +               '</div>'
 
