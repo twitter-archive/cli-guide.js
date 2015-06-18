@@ -54,7 +54,7 @@ div.stepcontent {
 	background-color: white;
 }
 
-ul.listofsteps {
+ul#listofsteps {
 	list-style-type: none;
   margin: 0;
   padding: 0;
@@ -69,6 +69,7 @@ li.step {
   border-radius: 50%;
   padding-left: 6px;
   padding-top: 1px;
+  margin-bottom: 5px;
 }
 
 li.step:hover {

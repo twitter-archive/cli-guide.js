@@ -372,7 +372,7 @@
           '<div class="container-fluid">'
         +   '<div class="row">'
 
-        +     '<div id="steps_section" class="col-xs-3">'
+        +     '<div id="steps_section" class="col-xs-4">'
         +       '<div id="steptitle"></div>'
         +       '<hr/ class="style">'
         +       '<ul id="listofsteps">'
@@ -381,7 +381,7 @@
         +       '<div id="stepscontent"></div>'
         +     '</div>'
 
-        +     '<div id="terminal_section" class="col-xs-9">'
+        +     '<div id="terminal_section" class="col-xs-8">'
 
         +       '<div class="row">'
         +         '<div id="terminal-parent">'
@@ -422,7 +422,7 @@
         +               '</div>'
 
         +               '<div id="command-x" class="row">'
-        +                 '<div id="message-x" class="col-xs-1 filenamewidth">File Name to Write:</div>'
+        +                 '<div id="message-x" class="col-xs-3">File Name to Write:</div>'
         +                 '<div id="namefile-x" class="col-xs-9" contenteditable="true"></div>'
         +               '</div>'
 
