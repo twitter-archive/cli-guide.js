@@ -52,7 +52,7 @@
         " the same as <code>/vagrant</code> inside the Vagrant VMs). <br/><br/> ",
         " The script has an intentional bug, which we will explain later on. "
       ],
-      "tips": "",
+      "tips": " You can write in the terminal \"nano hello_world.py\" ",
       "commands": [
       ]
     }
