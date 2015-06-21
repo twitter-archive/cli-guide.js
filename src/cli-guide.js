@@ -29,7 +29,7 @@
     defaults = {
       welcomeMessage: 'Welcome to the interactive tutorial',
       nameOfTheProject: 'Apache Aurora',
-      heightTerminal: window.innerHeight - 20,
+      heightTerminal: window.innerHeight,
       stepsFile: 'src/listofsteps.json'
     };
 
@@ -167,7 +167,7 @@
           $.each(data,function(k,v){
             // when more than one command have the same result
             if(Array.isArray(v.command)){
-              for(c = 0; c < v.command.length; c++){
+              for(var c = 0; c < v.command.length; c++){
                 if(text == v.command[c]) {
                   result = v.result;
                 }
@@ -185,7 +185,8 @@
         if(data != "") {
           $.getJSON(data,function(data){
             $.each(data,function(k,v){
-              localStorage.setItem(v.name, v.content);
+              // using .join method to convert array to string without commas
+              localStorage.setItem(v.name, v.content.join(""));
             });
           });
         }

@@ -1,0 +1,25 @@
+[
+  {
+    "name":"hello_world.py",
+    "content": [
+      "import sys <br/>",
+      "import time <br/>",
+      "<br/>",
+      "def main(argv): <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;SLEEP_DELAY = 10 <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;# Python ninjas - ignore this blatant bug. <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;for i in xrang(100): <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+      "print(\"Hello world! The time is now: %s. Sleeping for %d secs\" % ( <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+      "time.asctime(), SLEEP_DELAY)) <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+      "sys.stdout.flush() <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+      "time.sleep(SLEEP_DELAY) <br/>",
+      "<br/>",
+      "if __name__ == \"__main__\": <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;main(sys.argv)"
+    ]
+  }
+]
