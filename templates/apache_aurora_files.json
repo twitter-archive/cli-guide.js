@@ -21,5 +21,45 @@
       "if __name__ == \"__main__\": <br/>",
       "&nbsp;&nbsp;&nbsp;&nbsp;main(sys.argv)"
     ]
+  },
+  {
+    "name":"hello_world.aurora",
+    "content": [
+      "pkg_path = '/vagrant/hello_world.py' <br/>",
+      "<br/>",
+      "# we use a trick here to make the configuration change with <br/>",
+      "# the contents of the file, for simplicity.  in a normal setting, packages would be <br/>",
+      "# versioned, and the version number would be changed in the configuration. <br/>",
+      "import hashlib <br/>",
+      "with open(pkg_path, 'rb') as f: <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;pkg_checksum = hashlib.md5(f.read()).hexdigest() <br/>",
+      "<br/>",
+      "# copy hello_world.py into the local sandbox <br/>",
+      "install = Process( <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;name = 'fetch_package', <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;cmdline = 'cp %s . && echo %s && chmod +x hello_world.py' % (pkg_path, pkg_checksum)) <br/>",
+      "<br/>",
+      "# run the script <br/>",
+      "hello_world = Process( <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;name = 'hello_world', <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;cmdline = 'python hello_world.py') <br/>",
+      "<br/>",
+      "# describe the task <br/>",
+      "hello_world_task = SequentialTask( <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;processes = [install, hello_world], <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;resources = Resources(cpu = 1, ram = 1*MB, disk=8*MB)) <br/>",
+      "<br/>",
+      "jobs = [ <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;Service(cluster = 'devcluster', <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+      "environment = 'devel', <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+      "role = 'www-data', <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+      "name = 'hello_world', <br/>",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
+      "task = hello_world_task) <br/>",
+      "]"
+    ]
   }
 ]
