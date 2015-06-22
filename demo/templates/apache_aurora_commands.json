@@ -1,6 +1,6 @@
 [
   {
-    "command":["aurora"],
+    "command":"aurora",
     "result": [
       " usage: aurora [-h] [--version] {task,quota,update,cron,job,config,sla} ... <br/> ",
       " <br/> ",
