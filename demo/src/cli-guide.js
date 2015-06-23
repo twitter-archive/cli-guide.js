@@ -363,8 +363,11 @@
         $('#namefile-x').focus();
       });
 
+      $("#editor-content").click(function(){
+        $(this).focus();
+      });
+
       $("#q-save-x").click(function(){
-        $("#editor-content").blur();
         $(this).focus();
       });
 
@@ -486,10 +489,6 @@
 
     $("#terminal").append('<div class="line">'+insertAt(opts.welcomeMessage, 27, opts.nameOfTheProject)+'</div>');
     $("#terminal").append('<br/>');
-
-    $("#editor").click(function(){
-      $('#editor-content').focus();
-    });
 
     var heightContentParent = opts.heightTerminal - $("#editor-commands").height()
                                   - $("#editor-header").height() - 100;
