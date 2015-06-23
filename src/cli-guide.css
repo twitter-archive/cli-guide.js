@@ -134,7 +134,16 @@ ul#listofcommands {
 }
 
 .prompt {
+  display: inline-block;
   color: #76EE00;
+  height: 15px;
+  width: 15%;
+}
+
+.textinline {
+  display: inline-block;
+  height: 15px;
+  width: 83%;
 }
 
 #editor-header {
