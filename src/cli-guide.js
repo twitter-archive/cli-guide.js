@@ -30,7 +30,8 @@
       welcomeMessage: 'Welcome to the interactive tutorial',
       nameOfTheProject: 'Apache Aurora',
       heightTerminal: window.innerHeight,
-      stepsFile: 'src/listofsteps.json'
+      stepsFile: 'src/listofsteps.json',
+      initStep: 0
     };
 
   // The actual plugin constructor
@@ -65,9 +66,7 @@
   }
 
   function showInfoOfEachStep(opts,step){
-
     $("#stepscontent").html('');
-
     $.getJSON(opts.stepsFile,function(data){
       $.each(data,function(k,v){
         if(v.step == step){
@@ -481,7 +480,7 @@
     $("#editor").hide();
 
     listOfSteps(opts);
-    showInfoOfEachStep(opts, 0);
+    showInfoOfEachStep(opts, opts.initStep);
 
     $(document).on('click','.btn-step',function(){
       showInfoOfEachStep(opts,$(this).data('step'));
