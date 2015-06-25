@@ -1,0 +1,77 @@
+@font-face {
+  font-family: 'Code New Roman';
+  src: url('../fonts/cnr.otf');
+}
+
+body {
+  background-image: url('swirl_pattern.png');
+}
+
+.title {
+  font-size: 55px;
+  font-family: 'Code New Roman';
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-family: 'Code New Roman';
+  text-align: center;
+}
+
+.demo {
+  text-align: center;
+}
+
+.section {
+  background-color: white;
+  border: 3px solid #696969;
+}
+
+.category {
+  font-size: 24px;
+  font-family: 'Code New Roman';
+}
+
+.bcategory {
+  font-size: 20px !important;
+}
+
+.contentoffeature {
+  font-size: 15px;
+  font-family: 'Code New Roman';
+}
+
+.imgb {
+  padding: 1px;
+  width: 100%;
+  border: 2px solid #CDCDC1;
+}
+
+/* custom boostrap buttons */
+.btn {
+    padding: 14px 24px;
+    border: 0 none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+
+.btn-primary {
+    background: #212121;
+    color: white;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background: #000000;
+    color: white;
+}
+
+.btn-primary:active, .btn-primary.active {
+    background: #4D4D4D;
+    box-shadow: none;
+}
