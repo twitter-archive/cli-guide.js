@@ -191,7 +191,29 @@
         }
       }
 
+      //  autocomplete (tab) commands, issue #42
+      function autocompleteCommands(commands){
+        var listCommands = []
+        $.ajaxSetup({
+          async: false
+        });
+        $.getJSON(commands,function(data){
+          $.each(data,function(k,v){
+            // when more than one command have the same result
+            if(Array.isArray(v.command)){
+              for(var c = 0; c < v.command.length; c++){
+                listCommands.push(v.command[c]);
+              }
+            }
+            listCommands.push(v.command);
+          });
+        });
+        listCommands.push("test");
+        localStorage.setItem("commands",listCommands);
+      }
+
       newline("");
+      autocompleteCommands(opts.commandStepsFile);
       // preload all files from json
       preLoadFile(opts.preloadfile);
       var id = 0;
@@ -280,8 +302,18 @@
             localStorage.setItem("initdown",0);
           }
           $("#"+idparent+".parent-textinline").children(".textinline").html(arrayLog[localStorage.getItem("total")]);
-          //console.log(arrayLog[localStorage.getItem("total")]);
         }
+        // autocomplete of commands
+        var arrayCommands = new Array();
+        arrayCommands = localStorage.getItem("commands").split(',');
+        if(event.which == 9){
+          for(var c = 0; c < arrayCommands.length; c++){
+            var regex = new RegExp("\^"+arrayCommands[c].substring(0,3));
+            if(regex.test($(this).text())){
+              $("#"+idparent+".parent-textinline").children(".textinline").text(arrayCommands[c]);
+            }
+          }
+        }        
       });
 
       // shortcuts of nano editor
