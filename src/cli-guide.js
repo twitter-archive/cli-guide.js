@@ -56,7 +56,7 @@
       $.each(data,function(k,v){
         $("#listofsteps").append(
           '<li class="step">'
-        +   '<a class="btn-step" href="#" data-step="'+v.step+'">'
+        +   '<a id="'+v.step+'" class="btn-step" href="#" data-step="'+v.step+'">'
         +     v.step
         +   '</a>'
         + '</li>'
@@ -66,11 +66,13 @@
   }
 
   function showInfoOfEachStep(opts,step){
+    $(".btn-step").removeClass("active");
     $("#stepscontent").html('');
     $.getJSON(opts.stepsFile,function(data){
       $.each(data,function(k,v){
         if(v.step == step){
-          $("#steptitle").html("<h3>Step "+v.step+"</h3>")
+          $("#"+step+".btn-step").addClass("active");
+          $("#steptitle").html("<h3>Step "+v.step+"</h3>");
           $("#stepscontent").append(
             "<h3>"+v.content.title+"</h3>"
           + '<hr/ class="style">'
@@ -94,7 +96,6 @@
         }
       });
     });
-
   }
 
   $.fn.cli = function(options, handler, effect){
@@ -313,7 +314,7 @@
               $("#"+idparent+".parent-textinline").children(".textinline").text(arrayCommands[c]);
             }
           }
-        }        
+        }
       });
 
       // shortcuts of nano editor
@@ -516,6 +517,9 @@
 
     $(document).on('click','.btn-step',function(){
       showInfoOfEachStep(opts,$(this).data('step'));
+    }).on('mouseup','.btn-step',function(){
+      $("#"+opts.initStep+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
+      $(this).css({"background-color": "#8F8F8F", "color": "white"});
     });
 
     $("#terminal").append('<div class="line">'+insertAt(opts.welcomeMessage, 27, opts.nameOfTheProject)+'</div>');
