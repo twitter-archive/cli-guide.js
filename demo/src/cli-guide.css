@@ -62,26 +62,34 @@ ul#listofsteps {
 
 li.step {
   display: inline-block;
-  background: #dddddd;
-  width: 20px;
-	height: 23px;
-	margin-left: 15px;
-  border-radius: 50%;
-  padding-left: 6px;
-  padding-top: 1px;
-  margin-bottom: 5px;
-}
-
-li.step:hover {
-  background-color: #ABABAB;
 }
 
 li.step a {
   text-decoration: none;
+  background: #dddddd;
+	margin-left: 15px;
+  border-radius: 50%;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 1px;
+  margin-bottom: 5px;
 }
 
-li.step a:hover, li.step a:visited, li.step a:link {
+a.btn-step:hover {
+  background-color: #ABABAB;
+}
+
+a.btn-step:hover, a.btn-step:link, a.btn-step:visited  {
   color: #212121;
+}
+
+a.btn-step:active {
+  background-color: #949494;
+}
+
+.active {
+  background-color: #4D4D4D !important;
+  color: white !important;
 }
 
 ul#listofcommands {
