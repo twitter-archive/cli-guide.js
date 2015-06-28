@@ -182,13 +182,19 @@
       }
 
       function preLoadFile(data){
+        var files = []
+        $.ajaxSetup({
+          async: false
+        });
         if(data != "") {
           $.getJSON(data,function(data){
             $.each(data,function(k,v){
               // using .join method to convert array to string without commas
+              files.push(v.name)
               localStorage.setItem(v.name, v.content.join(""));
             });
           });
+          localStorage.setItem("files",files);
         }
       }
 
@@ -209,7 +215,7 @@
             listCommands.push(v.command);
           });
         });
-        listCommands.push("test");
+        listCommands.push("test"); // is only for testing....
         localStorage.setItem("commands",listCommands);
       }
 
@@ -262,12 +268,17 @@
           }
 
           // list of commands we can't use....
-          var commandTest = ["ls", "mv"];
+          var commandTest = ["mv"];
 
           for (i = 0; i < commandTest.length; i++) {
             if($(this).text() == commandTest[i]) {
               $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
             }
+          }
+
+          // show preload files issue #62
+          if($(this).text() == "ls") {
+            $("#"+id+".response").html(localStorage.getItem("files").replace(",", " "));            
           }
 
           return false;
