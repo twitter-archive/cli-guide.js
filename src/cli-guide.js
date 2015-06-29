@@ -241,6 +241,7 @@
           if($(this).text() == "nano"){
             $("#terminal").hide();
             $('#editor-content').html('');
+            $('#namefile-x').html('');
             $("#command-x").hide();
             $("#editor").show();
             $('#editor-content').focus();
@@ -250,6 +251,7 @@
             $("#terminal").hide();
             $('#editor-content').html('');
             $('#editor-header-filename').html('');
+            $('#namefile-x').html('');
             $("#editor").show();
 
             if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
@@ -257,7 +259,7 @@
               // show the name of the file in header
               $('#editor-header-filename').html("File: " + $(this).text().split(" ").pop());
               // show the name of the file again
-              $('#namefile-x').val($(this).text().split(" ").pop());
+              $('#namefile-x').html($(this).text().split(" ").pop());
             } else {
               $('#namefile-x').html('');
             }
@@ -278,7 +280,7 @@
 
           // show preload files issue #62
           if($(this).text() == "ls") {
-            $("#"+id+".response").html(localStorage.getItem("files").replace(",", " "));            
+            $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
           }
 
           return false;
@@ -395,7 +397,14 @@
 
       $(document).on('keydown','#namefile-x',function(event){
         if (event.keyCode == 13){
+          // save a new file
           localStorage.setItem($(this).text(), $("#editor-content").html());
+          // update the list of files
+          var arrayFiles = localStorage.getItem("files").split(',');
+          arrayFiles = arrayFiles.filter(Boolean); // remove empty string
+          arrayFiles.push($(this).text());
+          localStorage.setItem("files",arrayFiles);
+          ///////////////////////
           $("#editor").hide();
           $("#terminal").show();
           $('.textinline').focus();
