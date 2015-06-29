@@ -339,7 +339,7 @@
         if($("#editor-content").is(':visible')){
           // close the nano editor
           if(event.which == 17) isCtrl=true;
-          if(event.which == 88 && isCtrl == true) {
+          if(event.which == 88 && isCtrl == true) {            
             if($("#editor-content").text() != "") {
               if(!$("#command-x").is(':visible')){
                 $("#commands").hide();
@@ -399,15 +399,26 @@
         if (event.keyCode == 13){
           // save a new file
           localStorage.setItem($(this).text(), $("#editor-content").html());
-          // update the list of files
-          var arrayFiles = localStorage.getItem("files").split(',');
-          arrayFiles = arrayFiles.filter(Boolean); // remove empty string
-          arrayFiles.push($(this).text());
-          localStorage.setItem("files",arrayFiles);
-          ///////////////////////
           $("#editor").hide();
           $("#terminal").show();
           $('.textinline').focus();
+          // update the list of files
+          var arrayFiles = localStorage.getItem("files").split(',');
+          arrayFiles = arrayFiles.filter(Boolean); // remove empty string
+          // prevent duplicate files
+          var existDuplicate = true;
+          for(var f = 0; f < arrayFiles.length; f++){
+            console.log(arrayFiles[f])
+            if(arrayFiles[f] != $(this).text()){
+              checkDuplicate = false;
+            } else {
+              return false;
+            }
+          }
+          if(!checkDuplicate){
+            arrayFiles.push($(this).text());
+            localStorage.setItem("files",arrayFiles);
+          }
         }
       });
 
