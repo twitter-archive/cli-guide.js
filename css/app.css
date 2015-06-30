@@ -11,16 +11,23 @@ body {
   font-size: 55px;
   font-family: 'Code New Roman';
   text-align: center;
+  color:#616161;
+  background-color:#bababa;
+  text-shadow:#e0e0e0 1px 1px 0;
 }
 
 .subtitle {
   font-size: 24px;
   font-family: 'Code New Roman';
   text-align: center;
+  color:#616161;
+  background-color:#bababa;
+  text-shadow:#e0e0e0 1px 1px 0;
 }
 
 .demo {
-  text-align: center;
+  padding-top: 40px;
+
 }
 
 .section {
@@ -54,7 +61,7 @@ body {
     border: 0 none;
     font-weight: 700;
     letter-spacing: 1px;
-    text-transform: uppercase;
+    //text-transform: uppercase;
 }
 
 .btn:focus, .btn:active:focus, .btn.active:focus {
@@ -62,16 +69,33 @@ body {
 }
 
 .btn-primary {
-    background: #212121;
+    background: #5F9EA0;
     color: white;
 }
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-    background: #000000;
+    background: #00868B;
     color: white;
 }
 
 .btn-primary:active, .btn-primary.active {
-    background: #4D4D4D;
+    background: #00868B;
     box-shadow: none;
+}
+
+/* customs */
+.carousel-control.left, .carousel-control.right{
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0) 0px, transparent 100%);
+}
+
+.carousel-caption {
+  padding: 5px;
+  position: sticky;
+  background-color: #CDC9A5;
+  bottom: 0px;
+  color: #212121;
+  font-size: 16px;
+  font-family: 'Code New Roman';
+  text-shadow: none;
+  font-style: italic;
 }
