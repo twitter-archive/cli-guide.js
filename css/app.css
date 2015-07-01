@@ -4,30 +4,35 @@
 }
 
 body {
-  background-image: url('swirl_pattern.png');
+  //background-image: url('swirl_pattern.png');
+  background: #bababa url('grain.png');
 }
 
 .title {
-  font-size: 55px;
+  font-size: 58px;
   font-family: 'Code New Roman';
-  text-align: center;
+  text-align: left;
   color:#616161;
-  background-color:#bababa;
   text-shadow:#e0e0e0 1px 1px 0;
 }
 
 .subtitle {
-  font-size: 24px;
+  font-size: 22px;
   font-family: 'Code New Roman';
-  text-align: center;
+  text-align: left;
   color:#616161;
-  background-color:#bababa;
-  text-shadow:#e0e0e0 1px 1px 0;
+}
+
+.text {
+  font-size: 18px;
+  font-family: 'Code New Roman';
+  text-align: justify;
+  color:#616161;
 }
 
 .demo {
   padding-top: 40px;
-
+  text-align: center;
 }
 
 .section {
@@ -38,6 +43,7 @@ body {
 .category {
   font-size: 24px;
   font-family: 'Code New Roman';
+  color:#616161;
 }
 
 .bcategory {
@@ -49,19 +55,48 @@ body {
   font-family: 'Code New Roman';
 }
 
-.imgb {
-  padding: 1px;
-  width: 100%;
-  border: 2px solid #CDCDC1;
+.imgb {  
+  border: 2px solid #E1E1E8;
+}
+
+/* Code */
+.highlight {
+  background-color: #282c34;
+  border: 2px solid #E1E1E8;
+}
+
+span.w {
+  color: white;
+}
+
+span.t {
+  color: #FF4040;
+}
+
+span.a {
+  color: #EE9A00;
+}
+
+span.i {
+  color: #33A1C9;
+}
+
+span.v {
+  color: #7CCD7C;
+}
+
+span.f {
+  color: #8470FF;
 }
 
 /* custom boostrap buttons */
 .btn {
     padding: 14px 24px;
     border: 0 none;
-    font-weight: 700;
+    font-weight: 900;
     letter-spacing: 1px;
-    //text-transform: uppercase;
+    text-transform: uppercase;
+    font-family: 'Code New Roman';
 }
 
 .btn:focus, .btn:active:focus, .btn.active:focus {

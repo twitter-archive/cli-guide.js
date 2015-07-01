@@ -13,9 +13,10 @@
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
 
+    <link href="./css/docs.min.css" rel="stylesheet">
+
     <!-- Font Awesome -->
     <link href="./css/font-awesome.min.css" rel="stylesheet">
-
 
     <!-- Custom styles for this template -->
     <link href="./css/app.css" rel="stylesheet">
@@ -32,100 +33,235 @@
 
     <div class="container">
       <div class="row">
-        <div class="col-xs-10 col-md-offset-1">
+        <div class="col-xs-8 col-md-offset-2">
           <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-12">
               <h1 class="title">CLI-Guide.JS</h1>
-              <p class="subtitle">A interactive command line</p>
             </div>
-            <div class="col-xs-6">
-              <p class="demo">
-                <a href="index.html" class="btn btn-default active"><i class="fa fa-magic"></i> How to works?</a>
-                <a href="features.html" class="btn btn-default"><i class="fa fa-lightbulb-o"></i> Features</a>
-                <a href="./demo/index.html" class="btn btn-primary"><i class="fa fa-rocket"></i> Demo</a>
+            <div class="col-xs-12">
+              <p class="subtitle">Is an javascript library for creating interactive command
+                line tutorials that run in your web browser
               </p>
+              <a href="./demo/index.html" class="btn btn-primary"><i class="fa fa-rocket"></i> Demo</a>
+              <br/><br/>
             </div>
+
+            <div class="col-xs-12">
+              <h1 class="category">How do I use it?</h1>
+              <br/>
+              <p class="text">
+                Initial configurarion of the plugin, is necessary to use bootstrap.min.css because
+                the plugin uses as a grid
+              </p>
+              <br/>
+              <div class="highlight">
+                <pre>
+                  <code class="language-html" data-lang="html">
+<span class="w">&lt;!DOCTYPE html&gt;</span>
+<span class="w">&lt;</span><span class="t">html</span> <span class="a">lang</span><span class="w">=</span><span class="v">"en"</span><span class="w">&gt;</span>
+<span class="w">&lt;</span><span class="t">head</span><span class="w">&gt;</span>
+  <span class="w">&lt;</span><span class="t">meta</span> <span class="a">charset</span><span class="w">=</span><span class="v">"utf-8"</span> <span class="w">/&gt;</span>
+  <span class="w">&lt;</span><span class="t">title</span><span class="w">&gt;Cli Guide JS&lt;/</span><span class="t">title</span><span class="w">&gt;</span>
+  <span class="w">&lt;</span><span class="t">link</span> <span class="a">rel</span><span class="w">=</span><span class="v">"stylesheet"</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/css"</span> <span class="a">href</span><span class="w">=</span><span class="v">"./src/bootstrap.min.css"</span> <span class="w">/&gt;</span>
+  <span class="w">&lt;</span><span class="t">link</span> <span class="a">rel</span><span class="w">=</span><span class="v">"stylesheet"</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/css"</span> <span class="a">href</span><span class="w">=</span><span class="v">"./src/cli-guide.css"</span> <span class="w">/&gt;</span>
+<span class="w">&lt;/</span><span class="t">head</span><span class="w">&gt;</span>
+<span class="w">&lt;</span><span class="t">body</span><span class="w">&gt;</span>
+  <span class="w">&lt;</span><span class="t">div</span> <span class="i">id</span><span class="w">=</span><span class="v">"stepsdiv"</span><span class="w">&gt;&lt;/</span><span class="t">div</span><span class="w">&gt;</span>
+  <span class="w">&lt;</span><span class="t">script</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/javascript"</span> <span class="a">src</span><span class="w">=</span><span class="v">"./libs/jquery-1.11.3.min.js"</span><span class="w">&gt;&lt;/</span><span class="t">script</span><span class="w">&gt;</span>
+  <span class="w">&lt;</span><span class="t">script</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/javascript"</span> <span class="a">src</span><span class="w">=</span><span class="v">"./src/cli-guide.js"</span><span class="w">&gt;&lt;/</span><span class="t">script</span><span class="w">&gt;</span>
+  <span class="w">&lt;</span><span class="t">script</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/javascript"</span> <span class="w">&gt;</span>
+                  </code>
+                  <code class="language-js" data-lang="js">
+    <span class="w">
+    $('#stepsdiv').cliguide(
+    {
+      nameOfTheProject: <span class="v">'Apache Aurora'</span>,
+      stepsFile:        <span class="v">'templates/apache_aurora.json'</span>,
+      initStep: 1
+    }).cli(
+    {
+      commandStepsFile: <span class="v">'templates/apache_aurora_commands.json'</span>,
+      preloadfile: <span class="v">'templates/apache_aurora_files.json'</span>
+    }, <span class="f">function</span>(){});
+    </span>
+                  </code>
+                  <code class="language-html" data-lang="html">
+  <span class="w">&lt;/</span><span class="t">script</span><span class="w">&gt;</span>
+<span class="w">&lt;/</span><span class="t">body</span><span class="w">&gt;</span>
+<span class="w">&lt;/</span><span class="t">html</span><span class="w">&gt;</span>
+                  </code>
+                </pre>
+              </div>
+
+            </div>
+            <div class="col-xs-12">
+              <h1 class="category">How does it work?</h1>
+              <br/>
+              <p class="text">
+                This plugin uses json template for load Steps and Commands you can run in the terminal
+                <br/><br/>
+                A json template of steps
+                <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora.json"
+                  target="_blank">
+                  apache_aurora.json
+                </a>
+              </p>
+              <br/>
+              <div class="highlight">
+                <pre>
+                  <code class="language-js" data-lang="js">
+<span class="w">[
+  {
+    "step": "1",
+    "content": {
+      "title": "Setup: Install Aurora",
+      "content": [
+          " You use the Aurora client and web UI to interact with Aurora jobs. ",
+          " To install it locally, see vagrant.md ",
+          " The remainder of this Tutorial assumes you are running ",
+          " Aurora using Vagrant. Unless otherwise stated, ",
+          " all commands are to be run from the root ",
+          " of the aurora repository clone. "
+          ],
+      "tips": "",
+      "commands": [
+      ]
+    }
+  }
+]</span>
+                  </code>
+                </pre>
+              </div>
+
+              <br/>
+              <p class="text">
+                A json template of commands
+                <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora_commands.json"
+                  target="_blank">
+                  apache_aurora_commands.json
+                </a>
+              </p>
+              <br/>
+              <div class="highlight">
+                <pre>
+                  <code class="language-js" data-lang="js">
+<span class="w">[
+  {
+    "command":"aurora",
+    "result": [
+      "usage: aurora [-h] [--version] {task,quota,update,cron,job,config,sla} ... &lt;br/&gt;",
+      "&lt;br/&gt;",
+      "optional arguments: &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;-h, --help&lt;/div&gt; show this help message and exit &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;--version&lt;/div&gt; show program's version number and exit &lt;br/&gt;",
+      "commands: &lt;br/&gt;",
+      "{task,quota,update,cron,job,config,sla} &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;task&lt;/div&gt; Work with a task running in an Apache Aurora cluster &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;quota&lt;/div&gt; Work with quota settings for an Apache Aurora cluster &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;update&lt;/div&gt; Interact with the aurora update service. &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;cron&lt;/div&gt; Work with entries in the aurora cron scheduler &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;job&lt;/div&gt; Work with an aurora job &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;config&lt;/div&gt; Work with an aurora configuration file &lt;br/&gt;",
+      "&lt;div class='codeofcommand'&gt;sla&lt;/div&gt; Work with SLA data in Aurora cluster."
+    ]
+  }
+]</span>
+                  </code>
+                </pre>
+              </div>
+              <br/>
+              <img class="imgb" src="./img/terminal.png"/>
+              <br/><br/>
+              <p class="text">
+                You can style the result
+              </p>
+              <div class="highlight">
+                <pre>
+                  <code class="language-js" data-lang="js">
+<span class="w">&lt;div class='codeofcommand'&gt;task&lt;/div&gt;
+
+/* style for templates */
+.codeofcommand {
+  padding-left: 20px;
+  width: 100px;
+  height: auto;
+  float: left;
+}</span>
+                  </code>
+                </pre>
+              </div>
+              <br/>
+              <p class="text">
+                For example if multiple commands return the same result. You can do this
+              </p>
+              <br/>
+              <div class="highlight">
+                <pre>
+                  <code class="language-js" data-lang="js">
+<span class="w">"command":["vagrant", "vagrant list-commands"]</span>
+                  </code>
+                </pre>
+              </div>
+
+              <br/>
+              <p class="text">
+                You can simulate the preloaded of files. It using local storage
+              </p>
+              <p class="text">
+                A json template of files
+                <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora_files.json"
+                  target="_blank">
+                  apache_aurora_files.json
+                </a>
+              </p>
+              <br/>
+              <div class="highlight">
+                <pre>
+                  <code class="language-js" data-lang="js">
+<span class="w">[
+  {
+    "name":"hello_world.py",
+    "content": [
+      "import sys &lt;br/&gt;",
+      "import time &lt;br/&gt;",
+      "&lt;br/&gt;",
+      "def main(argv): &lt;br/&gt;",
+      "&nbsp;&nbsp;&nbsp;&nbsp;SLEEP_DELAY = 10 &lt;br/&gt;",
+      "&nbsp;&nbsp;&nbsp;&nbsp;# Python ninjas - ignore this blatant bug. &lt;br/&gt;",
+      "&nbsp;&nbsp;&nbsp;&nbsp;for i in xrang(100): &lt;br/&gt;",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(\"Hello world! The time is now: %s. Sleeping for %d secs\" % ( &lt;br/&gt;",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.asctime(), SLEEP_DELAY)) &lt;br/&gt;",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sys.stdout.flush() &lt;br/&gt;",
+      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.sleep(SLEEP_DELAY) &lt;br/&gt;",
+      "&lt;br/&gt;",
+      "if __name__ == \"__main__\": &lt;br/&gt;",
+      "&nbsp;&nbsp;&nbsp;&nbsp;main(sys.argv)"
+    ]
+  }
+]</span>
+                  </code>
+                </pre>
+              </div>
+              <br/>
+              <p class="text">
+                You can see the result in the terminal
+              </p>
+              <br/>
+              <img  class="imgb" src="./img/preload.png"/>
+              <br/><br/><br/>
+              <p class="text">
+                Finally you can see the file in nano editor $ nano hello_world.py
+              </p>
+              <br/>
+              <img class="imgb" src="./img/nano.png"/>
+
+            </div>
+
           </div>
         </div>
       </div>
 
-      <div class="row">
-        <br/>
-        <div class="col-xs-10 col-md-offset-1 section">
-          <br/>
-          <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-            <!-- Indicators -->
-            <!--ol class="carousel-indicators">
-              <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-              <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-            </ol-->
-            <!-- Wrapper for slides -->
-            <div class="carousel-inner" role="listbox">
-              <div class="item active">
-                <img src="./img/1.png" alt="init">
-                <div class="carousel-caption">
-                  Welcome!, this is a JQuery plugin divided in two blocks one are
-                  steps and another is the terminal <br/>
-                </div>
-              </div>
-              <div class="item">
-                <img src="./img/1-1.png" alt="init">
-                <div class="carousel-caption">
-                  The initial configuration of the plugin
-                </div>
-              </div>
-              <div class="item">
-                <img src="./img/1-2.png" alt="init">
-                <div class="carousel-caption">
-                  The template where contains all steps
-                </div>
-              </div>
-              <div class="item">
-                <img src="./img/2.png" alt="tips">
-                <div class="carousel-caption">
-                  You can add commands easily
-                </div>
-              </div>
-              <div class="item">
-                <img src="./img/2-1.png" alt="tips">
-                <div class="carousel-caption">
-                  The template where contains all commands
-                </div>
-              </div>
-              <div class="item">
-                <img src="./img/3.png" alt="tips">
-                <div class="carousel-caption">
-                  You can preload files
-                </div>
-              </div>
-              <div class="item">
-                <img src="./img/3-1.png" alt="tips">
-                <div class="carousel-caption">
-                  The template where contains all preloaded files
-                </div>
-              </div>
-              <div class="item">
-                <img src="./img/3-2.png" alt="tips">
-                <div class="carousel-caption">
-                  Nano editor a component of the terminal
-                </div>
-              </div>
-            </div>
 
-            <!-- Controls -->
-            <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-              <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-              <span class="sr-only">Next</span>
-            </a>
-          </div>
-          <br/>
-        </div>
-
-      </div>
       <br/><br/><br/>
     </div>
 
@@ -134,5 +270,6 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
+
   </body>
 </html>
