@@ -111,19 +111,19 @@
                   <code class="language-js" data-lang="js">
 <span class="w">[
   {
-    "step": "1",
-    "content": {
-      "title": "Setup: Install Aurora",
-      "content": [
-          " You use the Aurora client and web UI to interact with Aurora jobs. ",
+  <span class="t">"step"</span>: <span class="v">"1"</span>,
+    <span class="t">"content"</span>: {
+      <span class="t">"title"</span>: <span class="v">"Setup: Install Aurora"</span>,
+      <span class="t">"content"</span>: [
+          <span class="v">" You use the Aurora client and web UI to interact with Aurora jobs. ",
           " To install it locally, see vagrant.md ",
           " The remainder of this Tutorial assumes you are running ",
           " Aurora using Vagrant. Unless otherwise stated, ",
           " all commands are to be run from the root ",
-          " of the aurora repository clone. "
+          " of the aurora repository clone. "</span>
           ],
-      "tips": "",
-      "commands": [
+      <span class="t">"tips"</span>: <span class="v">""</span>,
+      <span class="t">"commands"</span>: [
       ]
     }
   }
@@ -146,9 +146,9 @@
                   <code class="language-js" data-lang="js">
 <span class="w">[
   {
-    "command":"aurora",
-    "result": [
-      "usage: aurora [-h] [--version] {task,quota,update,cron,job,config,sla} ... &lt;br/&gt;",
+    <span class="t">"command"</span>:<span class="v">"aurora"</span>,
+    <span class="t">"result"</span>: [
+      <span class="v">"usage: aurora [-h] [--version] {task,quota,update,cron,job,config,sla} ... &lt;br/&gt;",
       "&lt;br/&gt;",
       "optional arguments: &lt;br/&gt;",
       "&lt;div class='codeofcommand'&gt;-h, --help&lt;/div&gt; show this help message and exit &lt;br/&gt;",
@@ -161,7 +161,7 @@
       "&lt;div class='codeofcommand'&gt;cron&lt;/div&gt; Work with entries in the aurora cron scheduler &lt;br/&gt;",
       "&lt;div class='codeofcommand'&gt;job&lt;/div&gt; Work with an aurora job &lt;br/&gt;",
       "&lt;div class='codeofcommand'&gt;config&lt;/div&gt; Work with an aurora configuration file &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;sla&lt;/div&gt; Work with SLA data in Aurora cluster."
+      "&lt;div class='codeofcommand'&gt;sla&lt;/div&gt; Work with SLA data in Aurora cluster."</span>
     ]
   }
 ]</span>
@@ -177,12 +177,12 @@
               <div class="highlight">
                 <pre>
                   <code class="language-js" data-lang="js">
-<span class="w">&lt;div class='codeofcommand'&gt;task&lt;/div&gt;
+<span class="w">&lt;<span class="t">div</span> <span class="a">class</span>=<span class="v">'codeofcommand'</span>&gt;task&lt;/<span class="t">div</span>&gt;
 
 /* style for templates */
-.codeofcommand {
-  padding-left: 20px;
-  width: 100px;
+<span class="a">.codeofcommand</span> {
+  padding-left: <span class="a">20px;</span>
+  width: <span class="a">100px;</span>
   height: auto;
   float: left;
 }</span>
@@ -197,7 +197,7 @@
               <div class="highlight">
                 <pre>
                   <code class="language-js" data-lang="js">
-<span class="w">"command":["vagrant", "vagrant list-commands"]</span>
+<span class="w"><span class="t">"command"</span>:[<span class="v">"vagrant"</span>, <span class="v">"vagrant list-commands"</span>]</span>
                   </code>
                 </pre>
               </div>
@@ -219,9 +219,9 @@
                   <code class="language-js" data-lang="js">
 <span class="w">[
   {
-    "name":"hello_world.py",
-    "content": [
-      "import sys &lt;br/&gt;",
+    <span class="t">"name"</span>:<span class="v">"hello_world.py"</span>,
+    <span class="t">"content"</span>: [
+      <span class="v">"import sys &lt;br/&gt;",
       "import time &lt;br/&gt;",
       "&lt;br/&gt;",
       "def main(argv): &lt;br/&gt;",
@@ -234,7 +234,7 @@
       "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.sleep(SLEEP_DELAY) &lt;br/&gt;",
       "&lt;br/&gt;",
       "if __name__ == \"__main__\": &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;main(sys.argv)"
+      "&nbsp;&nbsp;&nbsp;&nbsp;main(sys.argv)"</span>
     ]
   }
 ]</span>
