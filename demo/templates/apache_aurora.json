@@ -1,28 +1,5 @@
 [
   {
-    "step": "0",
-    "content": {
-      "title": "Introduction",
-      "content": [
-        " This tutorial shows how to use the Aurora scheduler to run ",
-        " (and <code>'printf-debug'</code>) a hello world program on Mesos. ",
-        " The operational hierarchy is: <br/> ",
-        " <ul> ",
-        " <li>Aurora manages and schedules jobs for Mesos to run.</li> ",
-        " <li>Mesos manages the individual tasks that make up a job.</li> ",
-        " <li>Thermos manages the individual processes that make up a task.</li> ",
-        " </ul> ",
-        " This is the recommended first Aurora users document to read to start <br/> ",
-        " getting up to speed on the system. <br/> ",
-        " To get help, email questions to the Aurora Developer List, ",
-        " <a href='mailto:dev@aurora.apache.org'>dev@aurora.apache.org</a> "
-      ],
-      "tips": "",
-      "commands": [
-      ]
-    }
-  },
-  {
     "step": "1",
     "content": {
       "title": "Setup: Install Aurora",
