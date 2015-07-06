@@ -12,7 +12,7 @@ body {
   font-size: 58px;
   font-family: 'Code New Roman';
   text-align: left;
-  color:#616161;
+  color: #525252;
   text-shadow:#e0e0e0 1px 1px 0;
 }
 
@@ -20,14 +20,14 @@ body {
   font-size: 22px;
   font-family: 'Code New Roman';
   text-align: left;
-  color:#616161;
+  color: #525252;
 }
 
 .text {
   font-size: 18px;
   font-family: 'Code New Roman';
   text-align: justify;
-  color:#616161;
+  color: #525252;
 }
 
 .demo {
@@ -40,10 +40,18 @@ body {
   border: 3px solid #696969;
 }
 
+.titlefeature {
+  font-size: 34px;
+  font-family: 'Code New Roman';
+  color: #525252;
+  text-shadow: none;
+}
+
 .category {
   font-size: 24px;
   font-family: 'Code New Roman';
-  color:#616161;
+  color: #525252;
+  text-shadow: none;
 }
 
 .bcategory {
@@ -55,14 +63,14 @@ body {
   font-family: 'Code New Roman';
 }
 
-.imgb {  
-  border: 2px solid #E1E1E8;
+.imgb {
+  border: 2px solid #FFFFFF;
 }
 
 /* Code */
 .highlight {
   background-color: #282c34;
-  border: 2px solid #E1E1E8;
+  border: 2px solid #FFFFFF;
 }
 
 span.w {
@@ -90,7 +98,7 @@ span.f {
 }
 
 /* custom boostrap buttons */
-.btn {
+/*.btn {
     padding: 14px 24px;
     border: 0 none;
     font-weight: 900;
@@ -116,7 +124,7 @@ span.f {
 .btn-primary:active, .btn-primary.active {
     background: #00868B;
     box-shadow: none;
-}
+}*/
 
 /* customs */
 .carousel-control.left, .carousel-control.right{
