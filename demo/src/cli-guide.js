@@ -240,6 +240,7 @@
 
           if($(this).text() == "nano"){
             $("#terminal").hide();
+            $('#editor-header-filename').html("File: ");
             $('#editor-content').html('');
             $('#namefile-x').html('');
             $("#command-x").hide();
@@ -250,7 +251,7 @@
           if( $(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop() ){
             $("#terminal").hide();
             $('#editor-content').html('');
-            $('#editor-header-filename').html('');
+            $('#editor-header-filename').html("File: ");
             $('#namefile-x').html('');
             $("#editor").show();
 
@@ -261,6 +262,7 @@
               // show the name of the file again
               $('#namefile-x').html($(this).text().split(" ").pop());
             } else {
+              $('#editor-header-filename').html("File: ");
               $('#namefile-x').html('');
             }
 
@@ -339,7 +341,7 @@
         if($("#editor-content").is(':visible')){
           // close the nano editor
           if(event.which == 17) isCtrl=true;
-          if(event.which == 88 && isCtrl == true) {            
+          if(event.which == 88 && isCtrl == true) {
             if($("#editor-content").text() != "") {
               if(!$("#command-x").is(':visible')){
                 $("#commands").hide();
