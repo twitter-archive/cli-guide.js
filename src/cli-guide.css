@@ -29,6 +29,7 @@ code {
   background-color: rgba(0, 0, 0, 0.04);
   border-radius: 3px;
 }
+
 hr.style {
   border: 0;
   height: 0;
@@ -39,23 +40,10 @@ hr.style {
 
 .element { overflow: -moz-scrollbars-none; }
 
-/* grid */
-#steps_block {
-  padding: 10px;
-  width: 400px;
-  float: left;
+/* steps */
+#steps_section {
   font-family: 'SegoeUISymbol';
-}
-
-#terminal_block {
-  margin-left: 20%;
-  height: 100%;
-  overflow: hidden;
-  position: relative;
-}
-
-.clear {
-  clear: both;
+  right: -10px;
 }
 
 #stepscontent {
@@ -66,7 +54,7 @@ div.stepcontent {
 	background-color: white;
 }
 
-ul.listofsteps {
+ul#listofsteps {
 	list-style-type: none;
   margin: 0;
   padding: 0;
@@ -74,25 +62,34 @@ ul.listofsteps {
 
 li.step {
   display: inline-block;
-  background: #dddddd;
-  width: 15px;
-	height: 23px;
-	margin-left: 15px;
-  border-radius: 60%;
-  padding-left: 6px;
-  padding-top: 0px;
-}
-
-li.step:hover {
-  background-color: #ABABAB;
 }
 
 li.step a {
   text-decoration: none;
+  background: #dddddd;
+	margin-left: 15px;
+  border-radius: 50%;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 1px;
+  margin-bottom: 5px;
 }
 
-li.step a:hover, li.step a:visited, li.step a:link {
+a.btn-step:hover {
+  background-color: #ABABAB;
+}
+
+a.btn-step:hover, a.btn-step:link, a.btn-step:visited  {
   color: #212121;
+}
+
+a.btn-step:active {
+  background-color: #949494;
+}
+
+.active {
+  background-color: #4D4D4D !important;
+  color: white !important;
 }
 
 ul#listofcommands {
@@ -101,17 +98,37 @@ ul#listofcommands {
   padding: 0;
 }
 
-#terminal, #editor {
+#terminal_section {
+}
+
+#terminal-parent {
+  overflow: hidden;
+}
+
+#terminal {
   background-color: black;
   border: none;
   color: white;
   font-size: 14px;
   font-family: 'Code New Roman';
   resize: none;
-  overflow:hidden;
-  padding: 10px;
   width: 100%;
-  overflow: auto;
+  overflow-y: scroll;
+  right: -30px;
+}
+
+#editor-parent {
+  overflow: hidden;
+}
+
+#editor {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-family: 'Code New Roman';
+  resize: none;
+  right: -30px;
 }
 
 #terminal ::-moz-selection, #editor ::-moz-selection { /* Code for Firefox */
@@ -125,17 +142,38 @@ ul#listofcommands {
 }
 
 .prompt {
+  display: inline-block;
   color: #76EE00;
+  height: 15px;
+  width: 15%;
 }
 
-#editor-title {
+.textinline {
+  display: inline-block;
+  height: 15px;
+  width: 83%;
+}
+
+#editor-header {
+  height: 17px;
   color: black;
   background: #cbcbcb;
-  padding-left: 20px;
+}
+
+#editor-header-title {
+}
+
+#editor-header-filename {
+}
+
+#editor-content-parent {
+  width: 100%;
+  overflow: hidden;
 }
 
 #editor-content {
-  height: auto;
+  word-wrap: break-word;
+  overflow-y: scroll;
 }
 
 #editor-commands {
@@ -143,38 +181,29 @@ ul#listofcommands {
   bottom:0;
 }
 
-.editor-command {
+#command-x {
   color: black;
   background: #cbcbcb;
 }
 
-.grid-container-editor {
-  width: 100%;
-  max-width: 900px;
+#message-x {
 }
 
-/*-- our cleafix hack -- */
-.row:before,
-.row:after {
-  content:"";
-  display: table ;
-  clear:both;
+#namefile-x {
+  color: black;
+  background: #cbcbcb;
 }
 
-[class*='col-'] {
-  float: left;
-  min-height: 1px;
-  width: 16.66%;
-  /*-- our gutter -- */
-  padding: 3px;
+#message-save-x, #q-save-x {
+  color: black;
+  background: #cbcbcb;
+  height: 17px;
 }
 
-.col-1{ width: 16.0%; }
-.col-2{ width: 33.33%; }
-.col-3{ width: 50%;    }
-.col-4{ width: 66.66%; }
-.col-5{ width: 83.33%; }
-.col-6{ width: 100%;   }
+.editor-command {
+  color: black;
+  background: #cbcbcb;
+}
 
 /* style for templates */
 .codeofcommand {
@@ -182,4 +211,13 @@ ul#listofcommands {
   width: 100px;
   height: auto;
   float: left;
+}
+
+/* utils */
+.filenamewidth {
+  width: 19%;
+}
+
+.commandwidth {
+  width: 14%;
 }
