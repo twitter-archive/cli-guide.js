@@ -563,6 +563,7 @@
 
     var heightContent = heightContentParent;
 
+    $("#steps_section").css("height",opts.heightTerminal + "px");
     $("#editor-content-parent").css("height",heightContentParent + "px");
     $("#editor-content").css("height",heightContent + "px");
 
