@@ -285,6 +285,27 @@
             $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
           }
 
+          function removeItemFromArray(array, item){
+            for(var i in array){
+              if(array[i]==item){
+                array.splice(i,1);
+                break;
+              }
+            }
+          }
+
+          // delete file remote key from LocalStorage issue #81
+          if($(this).text().replace(/\s\s+/g,' ') == "rm -r " + $(this).text().split(" ").pop()) {
+            var fileName = $(this).text().split(" ").pop();
+            if(localStorage.getItem(fileName) != null){
+              var arrayFiles = localStorage.getItem("files").split(',');
+              arrayFiles = arrayFiles.filter(Boolean);
+              removeItemFromArray(arrayFiles, fileName);
+              localStorage.setItem("files",arrayFiles);
+              localStorage.removeItem(fileName);
+            }
+          }
+
           return false;
 
         }
