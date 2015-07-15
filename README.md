@@ -1,10 +1,14 @@
-# cli-guide.js | [Demo](http://twitter.github.io/cli-guide.js/demo/index.html)
+# CLI Guide JQuery Plugin
+
 GSOC 2015 Project
 
-Make a cli interactive for understand how to works any kind of project like Apache Aurora,
-this project is inspired in [https://www.docker.com/tryit/#0](https://www.docker.com/tryit/#0)
-We make a tutorial for explain step by step how to get started with Apache Aurora and you can run commands
-without installing anything.
+A javascript library for creating interactive command line tutorials that run in your web browser
+
+Demos
+-----
+
+* [Apache Aurora](http://twitter.github.io/cli-guide.js/demo/aurora.html)
+* [Chef](http://twitter.github.io/cli-guide.js/demo/chef.html)
 
 
 Documentation
@@ -65,11 +69,13 @@ Documentation
 Components
 -------------
 
-####Nano Editor (in progress...)
+####Termianl
 
-You only have to write `$ nano` in the terminal and ctrl + x for return
+![terminal](https://raw.github.com/twitter/cli-guide.js/master/terminal.gif)
 
-![1](https://raw.github.com/twitter/cli-guide.js/master/nano.png)
+####Nano Editor
+
+![nano editor](https://raw.github.com/twitter/cli-guide.js/master/nano.gif)
 
 Build
 -------------
