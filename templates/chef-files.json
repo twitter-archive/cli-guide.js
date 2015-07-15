@@ -1,0 +1,10 @@
+[
+  {
+    "name":"hello.rb",
+    "content": [
+      "file 'motd' do <br/>",
+      "&nbsp;&nbsp;content 'hello world' <br/>",
+      "end"
+    ]
+  }
+]
