@@ -1,0 +1,21 @@
+[
+  {
+    "command":"chef-apply hello.rb",
+    "result": [
+      " Recipe: (chef-apply cookbook)::(chef-apply recipe) <br/> ",
+      " &nbsp;&nbsp;* file[motd] action create <br/> ",
+      " &nbsp;&nbsp;&nbsp;&nbsp;- create new file motd <br/> ",
+      " &nbsp;&nbsp;&nbsp;&nbsp;- update content in file motd from none to de031d <br/> ",
+      " &nbsp;&nbsp;&nbsp;&nbsp;--- motd&nbsp;&nbsp;&nbsp;&nbsp;2014-05-13 14:52:54.025253948 -0700 <br/> ",
+      " &nbsp;&nbsp;&nbsp;&nbsp;+++ /tmp/.motd20140513-3474-5263n1 2014-05-13 14:52:54.025253948 -0700 <br/> ",
+      " &nbsp;&nbsp;&nbsp;&nbsp;@@ -1 +1,2 @@ <br/> ",
+      " &nbsp;&nbsp;&nbsp;&nbsp;+hello world "
+    ]
+  },
+  {
+    "command":"more motd",
+    "result": [
+      " hello world "
+    ]
+  }
+]
