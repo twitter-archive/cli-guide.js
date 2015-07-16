@@ -39,7 +39,7 @@
       ],
       "tips": "You can run the following command:",
       "commands": [
-        {"command":"chef-apply"}
+        {"command":"nano hello.rb"}
       ]
     }
   },

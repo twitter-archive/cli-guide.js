@@ -1,10 +1,14 @@
-# cli-guide.js | [Demo](http://twitter.github.io/cli-guide.js/demo/index.html)
+# CLI Guide JQuery Plugin
+
 GSOC 2015 Project
 
-Make a cli interactive for understand how to works any kind of project like Apache Aurora,
-this project is inspired in [https://www.docker.com/tryit/#0](https://www.docker.com/tryit/#0)
-We make a tutorial for explain step by step how to get started with Apache Aurora and you can run commands
-without installing anything.
+A javascript library for creating interactive command line tutorials that run in your web browser
+
+Demos
+-----
+
+* [Apache Aurora](http://twitter.github.io/cli-guide.js/demo/aurora.html)
+* [Chef](http://twitter.github.io/cli-guide.js/demo/chef.html)
 
 
 Documentation
@@ -14,12 +18,14 @@ Documentation
 
     $('#stepsdiv').cliguide(
     {
-      nameOfTheProject: 'Apache Aurora',
-      stepsFile:        'templates/apache_aurora.json'
+     nameOfTheProject: 'Apache Aurora',
+     stepsFile:        'templates/apache_aurora.json',
+     initStep: 1
     }).cli(
     {
-      commandStepsFile: 'templates/apache_aurora_commands.json'},
-      function(){
+     commandStepsFile: 'templates/apache_aurora_commands.json',
+     preloadfile: 'templates/apache_aurora_files.json'
+    }, function(){
     });
 
 ####Options
@@ -31,6 +37,7 @@ Documentation
 | heightTerminal   | by default is the height of the window |
 | stepsFile        | a .json file |
 | commandStepsFile | a .json file |
+| preloadfile | a .json file |
 
 ####The structure of .json files
 
@@ -61,15 +68,29 @@ Documentation
       }
     ]
 
+####preloadfile
+
+    [
+     {
+       "name":"test.txt",
+       "content": "Hello World!"
+     },
+     {
+       "name":"hello.py",
+       "content": "print(\"Hello World!\")"
+     }
+    ]
 
 Components
 -------------
 
-####Nano Editor (in progress...)
+####Terminal
 
-You only have to write `$ nano` in the terminal and ctrl + x for return
+![terminal](https://raw.github.com/twitter/cli-guide.js/master/terminal.gif)
 
-![1](https://raw.github.com/twitter/cli-guide.js/master/nano.png)
+####Nano Editor
+
+![nano editor](https://raw.github.com/twitter/cli-guide.js/master/nano.gif)
 
 Build
 -------------
