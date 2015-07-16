@@ -18,12 +18,14 @@ Documentation
 
     $('#stepsdiv').cliguide(
     {
-      nameOfTheProject: 'Apache Aurora',
-      stepsFile:        'templates/apache_aurora.json'
+     nameOfTheProject: 'Apache Aurora',
+     stepsFile:        'templates/apache_aurora.json',
+     initStep: 1
     }).cli(
     {
-      commandStepsFile: 'templates/apache_aurora_commands.json'},
-      function(){
+     commandStepsFile: 'templates/apache_aurora_commands.json',
+     preloadfile: 'templates/apache_aurora_files.json'
+    }, function(){
     });
 
 ####Options
@@ -35,6 +37,7 @@ Documentation
 | heightTerminal   | by default is the height of the window |
 | stepsFile        | a .json file |
 | commandStepsFile | a .json file |
+| preloadfile | a .json file |
 
 ####The structure of .json files
 
@@ -65,11 +68,23 @@ Documentation
       }
     ]
 
+####preloadfile
+
+    [
+     {
+       "name":"test.txt",
+       "content": "Hello World!"
+     },
+     {
+       "name":"hello.py",
+       "content": "print(\"Hello World!\")"
+     }
+    ]
 
 Components
 -------------
 
-####Termianl
+####Terminal
 
 ![terminal](https://raw.github.com/twitter/cli-guide.js/master/terminal.gif)
 
