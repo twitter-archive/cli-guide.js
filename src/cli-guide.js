@@ -155,7 +155,7 @@
 
       }
 
-      function commands(opts,text){
+      function commands(opts,text,id){
 
         var result = "";
 
@@ -169,16 +169,26 @@
             if(Array.isArray(v.command)){
               for(var c = 0; c < v.command.length; c++){
                 if(text == v.command[c]) {
-                  result = v.result;
+                  var arrayMultiResult = [];
+                  for (var i = 0; i < v.result.length; i++) {
+                    arrayMultiResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
+                  }
+                  result = arrayMultiResult;
                 }
               }
             }
             if(text == v.command) {
-              result = v.result;
+              var arrayResult = [];
+              for (var i = 0; i < v.result.length; i++) {
+                arrayResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
+              }
+              result = arrayResult;
             }
           });
         });
+
         return result;
+
       }
 
       function preLoadFile(data){
@@ -234,10 +244,8 @@
           $(this).removeAttr('contenteditable');
           effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
 
-          // create prompt
-          newline($(this).text());
-
-          $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text()));
+          // print the result of commands
+          $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text(),id));
 
           if($(this).text() == "nano"){
             $("#terminal").hide();
@@ -313,23 +321,23 @@
             $("#"+id+".response .objects").stop();
 
             var url = $(this).text().split(" ").pop();
-            var httpGithub = "https://github.com/";
+            var gitURL = "git://";
+            var httpURL = "https://";
             var git = ".git";
-            var httpGithubBoolean = false;
+            var urlBoolean = false;
             var gitBoolean = false;
 
-            if ( url.indexOf(httpGithub) > -1 ) {
-              httpGithubBoolean = true
+            if ( url.indexOf(gitURL) > -1 || url.indexOf(httpURL) > -1 ) {
+              urlBoolean = true
             }
 
             if( url.indexOf(git) > -1 ){
               gitBoolean = true
             }
-            console.log(httpGithubBoolean);
-            console.log(gitBoolean);
+
             var repoName= url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".git"));
 
-            if(httpGithubBoolean && gitBoolean){
+            if(urlBoolean && gitBoolean){
 
               $("#"+id+".response").append("Cloning into '"+repoName+"'... <br/>");
               $("#"+id+".response").append("remote: Counting objects: 4643, done.<br/>");
@@ -435,8 +443,21 @@
             }
 
           }
-
-          return false;
+          $("#"+id+".cline").css({'display':'none'});
+          var inputUser = $(this).text();
+          if(inputUser == "vagrant up"){
+            $.each($("#"+id+".cline"), function(i, el){
+              $( el ).delay(400*i).fadeIn("fast");
+            }).promise().done(function(){
+              newline(inputUser);
+            });
+          } else {
+            $.each($("#"+id+".cline"), function(i, el){
+              $( el ).fadeIn(10);
+            }).promise().done(function(){
+              newline(inputUser);
+            });
+          }
 
         }
 
@@ -613,6 +634,7 @@
     +       '</ul>'
     +       '<hr/ class="style">'
     +       '<div id="stepscontent"></div>'
+    +       '<br/><br/>'
     +     '</div>'
 
     +     '<div id="terminal_section" class="col-xs-8">'
