@@ -634,6 +634,7 @@
     +       '</ul>'
     +       '<hr/ class="style">'
     +       '<div id="stepscontent"></div>'
+    +       '<br/><br/>'
     +     '</div>'
 
     +     '<div id="terminal_section" class="col-xs-8">'
