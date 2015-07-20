@@ -12,76 +12,36 @@
         " all commands are to be run from the root ",
         " of the aurora repository clone. "
       ],
-      "tips": "",
+      "tips": "let's try with following commands",
       "commands": [
+        {"command":"git clone git://git.apache.org/aurora.git"},
+        {"command":"cd aurora/"},
+        {"command":"vagrant up"}
       ]
     }
   },
   {
     "step": "2",
     "content": {
-      "title": "The Script",
+      "title": "Initial Configuration",
       "content": [
+        " <h3>The Script</h3> ",
         " Our 'hello world' application is a simple Python script that loops ",
-        " forever, displaying the time every few seconds. Copy the code ",
-        " below and put it in a file named hello_world.py in the root  ",
-        " of your Aurora repository clone (Note: this directory is ",
-        " the same as <code>/vagrant</code> inside the Vagrant VMs). <br/><br/> ",
-        " The script has an intentional bug, which we will explain later on. "
+        " forever, displaying the time every few seconds. <br/><br/> ",
+        " The script has an intentional bug, which we will explain later on. ",
+        " <h3>Aurora Configuration</h3> ",
+        " Once we have our script/program, we need to create a ",
+        " <i>configuration file</i> that tells Aurora how to manage and launch our Job. "
       ],
-      "tips": " You can write in the terminal \"nano hello_world.py\" ",
+      "tips": " Open the files ",
       "commands": [
+        {"command":"nano hello_world.py"},
+        {"command":"hello_world.aurora"}
       ]
     }
   },
   {
     "step": "3",
-    "content": {
-      "title": "Aurora Configuration",
-      "content": [
-        " Once we have our script/program, we need to create a ",
-        " <i>configuration file</i> that tells Aurora how to manage and launch our Job. ",
-        " Save the below code in the file <code>hello_world.aurora.</code> <br/><br/> ",
-        " For more about Aurora configuration files, see the ",
-        " <a href='http://aurora.apache.org/documentation/latest/configuration-tutorial/'>Configuration Tutorial</a> ",
-        " and the ",
-        " <a href='http://aurora.apache.org/documentation/latest/configuration-reference/'>Aurora + Thermos Reference</a> ",
-        " (preferably after finishing this tutorial). "
-      ],
-      "tips": "",
-      "commands": [
-      ]
-    }
-  },
-  {
-    "step": "4",
-    "content": {
-      "title": "What’s Going On In That Configuration File?",
-      "content": [
-        " More than you might think. <br/> ",
-        " <ol> ",
-        " <li> ",
-        " From a “big picture” viewpoint, it first defines two Processes. ",
-        " Then it defines a Task that runs the two Processes  in the order specified ",
-        " in the Task definition, as well as specifying what computational and memory ",
-        " resources are available for them. Finally, it defines a Job that will ",
-        " schedule the Task on available and suitable machines. This ",
-        " Job is the sole member of a list of Jobs; you can specify more than one Job in a config file. ",
-        " </li> ",
-        " <li> ",
-        " At the Process level, it specifies how to get your code into the local ",
-        " sandbox in which it will run. It then specifies how the code ",
-        " is actually run once the second Process starts. ",
-        " </li> ",
-        " </ol> "
-      ],
-      "tips": "",
-      "commands": [
-      ]
-    }
-  },
-  {
-    "step": "5",
     "content": {
       "title": "Creating the Job",
       "content": [
@@ -96,13 +56,16 @@
         " <code>/etc/aurora/clusters.json</code> within the Aurora scheduler has the available cluster names. ",
         " For Vagrant, from the top-level of your Aurora repository clone, do: "
       ],
-      "tips": "",
+      "tips": "Run these commands",
       "commands": [
+        {"command":"vagrant ssh"},
+        {"command":"cat /etc/aurora/clusters.json"},
+        {"command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
       ]
     }
   },
   {
-    "step": "6",
+    "step": "4",
     "content": {
       "title": "Watching the Job Run",
       "content": [
@@ -111,20 +74,22 @@
         " Or when using <code>vagrant</code> <code>http://192.168.33.7:8081/scheduler</code> ",
         " First we see what Jobs are scheduled "
       ],
-      "tips": "",
+      "tips": "Correct hello_world.py",
       "commands": [
+        {"command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
       ]
     }
   },
   {
-    "step": "7",
+    "step": "5",
     "content": {
       "title": "Cleanup",
       "content": [
         " Now that we’re done, we kill the job using the Aurora client "
       ],
-      "tips": "",
+      "tips": "Run this command",
       "commands": [
+        {"command":"aurora job killall devcluster/www-data/devel/hello_world"}
       ]
     }
   }
