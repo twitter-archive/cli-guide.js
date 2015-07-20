@@ -321,13 +321,14 @@
             $("#"+id+".response .objects").stop();
 
             var url = $(this).text().split(" ").pop();
-            var httpGithub = "https://github.com/";
+            var gitURL = "git://";
+            var httpURL = "https://";
             var git = ".git";
-            var httpGithubBoolean = false;
+            var urlBoolean = false;
             var gitBoolean = false;
 
-            if ( url.indexOf(httpGithub) > -1 ) {
-              httpGithubBoolean = true
+            if ( url.indexOf(gitURL) > -1 || url.indexOf(httpURL) > -1 ) {
+              urlBoolean = true
             }
 
             if( url.indexOf(git) > -1 ){
@@ -336,7 +337,7 @@
 
             var repoName= url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".git"));
 
-            if(httpGithubBoolean && gitBoolean){
+            if(urlBoolean && gitBoolean){
 
               $("#"+id+".response").append("Cloning into '"+repoName+"'... <br/>");
               $("#"+id+".response").append("remote: Counting objects: 4643, done.<br/>");
