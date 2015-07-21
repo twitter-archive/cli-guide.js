@@ -125,24 +125,24 @@
 
         var idinput = parseInt(localStorage.getItem("idinput"));
 
-        var text = "";
+        var dir = "";
 
-        if(command == "cd .." && localStorage.getItem('actualdir') != null) {
-          localStorage.setItem('actualdir', "");
-          text = localStorage.getItem('actualdir');
-        } else if(command.substring(0, 2) == "cd"){
+        if(command.substring(0, 3) == "cd " && command.substring(3, command.length) != ""){
           localStorage.setItem('actualdir', "/"+command.substring(3, command.length));
-          text = localStorage.getItem('actualdir');
-        } else if(command == "") {
-          localStorage.setItem('actualdir', "");
-          text = localStorage.getItem('actualdir');
         }
+
+        if(command == "cd ..") {
+          localStorage.setItem('actualdir', "");
+        }
+
+        dir = localStorage.getItem('actualdir');
 
         self.append(
           '<p class="input">'
-        +   '<span class="prompt">you@tutorial:~'+text+'$ </span>'
+        +   '<span class="prompt">you@tutorial:~'+dir+'$ </span>'
         +   '<span id="'+idinput+'" class="parent-textinline">'
-        +     '<span class="textinline" style="outline:none" contenteditable="true"></span>'
+        +     '<span id="'+idinput+'" class="textinline" style="outline-color:black" contenteditable="true">'
+        +     '</span>'
         +   '</span>'
         + '</p>'
         );
@@ -712,6 +712,8 @@
     +   '</div>'
     + '</div>'
     );
+
+    localStorage.setItem('actualdir',"");
 
     $(".heightTerminal").css("height",opts.heightTerminal + "px");
 
