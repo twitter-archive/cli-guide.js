@@ -92,5 +92,39 @@
       " <div class='codeofcommand'>config</div> Work with an aurora configuration file <br/> ",
       " <div class='codeofcommand'>sla</div> Work with SLA data in Aurora cluster. "
     ]
+  },
+  {
+    "command":"vagrant ssh",
+    "result": [
+      " Welcome to Ubuntu 14.04.2 LTS (GNU/Linux 3.13.0-55-generic x86_64) <br/> ",
+      " <br/> ",
+      " &nbsp;* Documentation:  https://help.ubuntu.com/ <br/> ",
+      " <br/> ",
+      " &nbsp;&nbsp;System information as of Tue Jul 21 01:41:17 UTC 2015 <br/> ",
+      " &nbsp;&nbsp;System load: 0.89 Users logged in: 0 <br/> ",
+      " &nbsp;&nbsp;Usage of /: 7.4% of 39.34GB IP address for eth0: 10.0.2.15 <br/> ",
+      " &nbsp;&nbsp;Memory usage: 12% IP address for eth1: 192.168.33.7 <br/> ",
+      " &nbsp;&nbsp;Swap usage: 0% IP address for docker0: 172.17.42.1 <br/> ",
+      " &nbsp;&nbsp;Processes:    98 <br/> ",
+      " <br/> ",
+      " &nbsp;&nbsp;Graph this data and manage this system at: <br/> ",
+      " &nbsp;&nbsp;&nbsp;&nbsp;https://landscape.canonical.com/ <br/> ",
+      " <br/> ",
+      " &nbsp;&nbsp;Get cloud support with Ubuntu Advantage Cloud Guest: <br/> ",
+      " &nbsp;&nbsp;&nbsp;&nbsp;http://www.ubuntu.com/business/services/cloud <br/> ",
+      " <br/><br/> ",
+      " Last login: Sun Jul 19 21:36:45 2015 from 10.0.2.2 "
+    ]
+  },
+  {
+    "command":"cat /etc/aurora/clusters.json",
+    "result": [
+      " [{ <br/> ",
+      " &nbsp;&nbsp; \"name\": \"devcluster\", <br/> ",
+      " &nbsp;&nbsp; \"zk\": \"192.168.33.7\", <br/> ",
+      " &nbsp;&nbsp; \"scheduler_zk_path\": \"/aurora/scheduler\", <br/> ",
+      " &nbsp;&nbsp; \"auth_mechanism\": \"UNAUTHENTICATED\", <br/> ",
+      " }] "
+    ]
   }
 ]
