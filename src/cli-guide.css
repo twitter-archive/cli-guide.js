@@ -147,13 +147,18 @@ ul#listofcommands {
   display: inline-block;
   color: #76EE00;
   height: 15px;
-  width: 15%;
+  width: auto;
+  padding-right: 5px;
 }
 
 .textinline {
   display: inline-block;
   height: 15px;
-  width: 83%;
+  width: auto;
+}
+
+span.textinline br {
+  display:none
 }
 
 #editor-header {
