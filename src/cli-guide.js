@@ -314,7 +314,7 @@
             }
           }
 
-          // delete file remote key from LocalStorage issue #81
+          // delete file remove a key from LocalStorage issue #81
           if($(this).text().replace(/\s\s+/g,' ') == "rm -r " + $(this).text().split(" ").pop()) {
             var fileName = $(this).text().split(" ").pop();
             if(localStorage.getItem(fileName) != null){
@@ -454,9 +454,12 @@
             }
 
           }
+
           $("#"+id+".cline").css({'display':'none'});
           var inputUser = $(this).text();
-          if(inputUser == "vagrant up"){
+          if(inputUser == "vagrant up" ||
+          inputUser ==  "aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"
+          ){
             $.each($("#"+id+".cline"), function(i, el){
               $( el ).delay(400*i).fadeIn("fast");
             }).promise().done(function(){
