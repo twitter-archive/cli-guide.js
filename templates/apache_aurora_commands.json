@@ -97,7 +97,11 @@
   {
     "step": "4",
     "command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
-    "result": [""]
+    "result": [
+      "  INFO] Creating job hello_world <br/> ",
+      "  INFO] Checking status of devcluster/www-data/devel/hello_world <br/> ",
+      " Job create succeeded: job url=http://192.168.33.7:8081/scheduler/www-data/devel/hello_world "
+    ]
   },
   {
     "step": "5",
