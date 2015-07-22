@@ -66,6 +66,9 @@
   }
 
   function showInfoOfEachStep(opts,step){
+    // select current step
+    localStorage.setItem('actualstep',step);
+
     $(".btn-step").removeClass("active");
     $("#stepscontent").html('');
     $.getJSON(opts.stepsFile,function(data){
@@ -169,20 +172,28 @@
             if(Array.isArray(v.command)){
               for(var c = 0; c < v.command.length; c++){
                 if(text == v.command[c]) {
-                  var arrayMultiResult = [];
-                  for (var i = 0; i < v.result.length; i++) {
-                    arrayMultiResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
+                  if(localStorage.getItem('actualstep') == v.step || v.step == "general") {
+                    var arrayMultiResult = [];
+                    for (var i = 0; i < v.result.length; i++) {
+                      arrayMultiResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
+                    }
+                    result = arrayMultiResult;
+                  } else {
+                    result = "you can only run that command in step " + v.step;
                   }
-                  result = arrayMultiResult;
                 }
               }
             }
             if(text == v.command) {
-              var arrayResult = [];
-              for (var i = 0; i < v.result.length; i++) {
-                arrayResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
+              if(localStorage.getItem('actualstep') == v.step || v.step == "general") {
+                var arrayResult = [];
+                for (var i = 0; i < v.result.length; i++) {
+                  arrayResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
+                }
+                result = arrayResult;
+              } else {
+                result = "you can only run that command in step " + v.step;
               }
-              result = arrayResult;
             }
           });
         });
@@ -713,14 +724,17 @@
     + '</div>'
     );
 
+    localStorage.setItem('actualstep',"");
     localStorage.setItem('actualdir',"");
 
     $(".heightTerminal").css("height",opts.heightTerminal + "px");
 
     $("#editor").hide();
-
+    console.log(localStorage.getItem('actualstep'))
     listOfSteps(opts);
     showInfoOfEachStep(opts, opts.initStep);
+    localStorage.setItem('actualstep',opts.initStep);
+    console.log(localStorage.getItem('actualstep'))
 
     $(document).on('click','.btn-step',function(){
       showInfoOfEachStep(opts,$(this).data('step'));
