@@ -162,6 +162,87 @@
 
         var result = "";
 
+        if(localStorage.getItem(text) != null){
+          var object  = JSON.parse(localStorage.getItem(text));
+          // verify the command if it is for the correct step
+          if(object.step != localStorage.getItem('actualstep')){
+            newline("");
+            return result = "you can only run this command in step " + object.step;
+          } else {
+            // If is it has dependencies?
+            if(Array.isArray(object.depend)){
+              //newline("");
+              var missingCommands = [];
+              for (var i = 0; i < object.depend.length; i++) {
+                var missingCommand  = JSON.parse(localStorage.getItem(object.depend[i]));
+                if(!missingCommand.done){
+                  missingCommands.push(missingCommand.command)
+                }
+              }
+              if(missingCommands.length > 1){
+                newline("");
+                return result = "You have to run these commands before: "+missingCommands.join(' | ');
+              } else if(missingCommands.length == 1){
+                newline("");
+                return result = "You have to run this command before: "+missingCommands.join(' | ');
+              } else {
+                // update
+                localStorage.setItem(text,
+                  JSON.stringify(
+                    {step:object.step,
+                     command:object.command,
+                     depend: object.depend,
+                     done:true,
+                     orden: object.order,
+                     max:object.count
+                    }));
+                return result = restCommand(opts,text,id);
+              }
+            } else if(object.depend != ""){
+              // check which command or commands depends
+              var dependCommand  = JSON.parse(localStorage.getItem(object.depend));
+              if(!dependCommand.done){
+                newline("");
+                return result = "You have to run this command before: "+dependCommand.command;
+              } else {
+                // update
+                localStorage.setItem(text,
+                  JSON.stringify(
+                    {step:object.step,
+                     command:object.command,
+                     depend: object.depend,
+                     done:true,
+                     orden: object.order,
+                     max:object.count
+                    }));
+                //newline(text);
+                return result = restCommand(opts,text,id);
+              }
+            } else {
+              // update
+              localStorage.setItem(text,
+                JSON.stringify(
+                  {step:object.step,
+                   command:object.command,
+                   depend: object.depend,
+                   done:true,
+                   orden: object.order,
+                   max:object.count
+                  }));
+              //newline("");
+              return result = restCommand(opts,text,id);
+            }
+          }
+        } else {
+          newline(text);
+        }
+
+      }
+
+      function restCommand(opts,text,id){
+
+        var result = "";
+
         $.ajaxSetup({
           async: false
         });
@@ -172,34 +253,46 @@
             if(Array.isArray(v.command)){
               for(var c = 0; c < v.command.length; c++){
                 if(text == v.command[c]) {
-                  if(localStorage.getItem('actualstep') == v.step || v.step == "general") {
-                    var arrayMultiResult = [];
-                    for (var i = 0; i < v.result.length; i++) {
-                      arrayMultiResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
-                    }
-                    result = arrayMultiResult;
-                  } else {
-                    result = "you can only run that command in step " + v.step;
+                  var arrayMultiResult = [];
+                  for (var i = 0; i < v.result.length; i++) {
+                    arrayMultiResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
                   }
+                  result = arrayMultiResult;
                 }
               }
             }
             if(text == v.command) {
-              if(localStorage.getItem('actualstep') == v.step || v.step == "general") {
-                var arrayResult = [];
-                for (var i = 0; i < v.result.length; i++) {
-                  arrayResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
-                }
-                result = arrayResult;
-              } else {
-                result = "you can only run that command in step " + v.step;
+              var arrayResult = [];
+              for (var i = 0; i < v.result.length; i++) {
+                arrayResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
               }
+              result = arrayResult;
             }
           });
         });
 
         return result;
 
+      }
+
+      function loadStepToLocalStorage(jsonCommands){
+        $.getJSON("src/test.json",function(data){
+          $.each(data,function(ks,steps){
+            $.each(steps,function(kc,commands){
+              for (var i = 0; i < commands.length; i++) {
+                localStorage.setItem(commands[i].command,
+                  JSON.stringify(
+                    {step:steps.step,
+                     command:commands[i].command,
+                     depend: commands[i].depend,
+                     done:false,
+                     orden: commands[i].order,
+                     max:steps.count
+                    }));
+              }
+            });
+          });
+        });
       }
 
       function preLoadFile(data){
@@ -242,8 +335,11 @@
 
       newline("");
       autocompleteCommands(opts.commandStepsFile);
+      // load commands steps from json
+      loadStepToLocalStorage(opts.commandStepsFile);
       // preload all files from json
       preLoadFile(opts.preloadfile);
+
       var id = 0;
 
       self.on('keydown', '[contenteditable]', function(event){
@@ -443,6 +539,10 @@
                       });
                     });
 
+                    $("#"+id+".response .files").promise().done(function(){
+                      newline("");
+                    });
+
                   });
 
                 });
@@ -469,7 +569,8 @@
             $.each($("#"+id+".cline"), function(i, el){
               $( el ).fadeIn(10);
             }).promise().done(function(){
-              newline(inputUser);
+              console.log("last..." + inputUser)
+              //newline(inputUser);
             });
           }
 

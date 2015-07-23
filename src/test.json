@@ -1,0 +1,23 @@
+[
+  {
+    "step": "1",
+    "count": "3",
+    "commands": [
+      {
+        "order" : 1,
+        "command":"git clone git://git.apache.org/aurora.git",
+        "depend": ""
+      },
+      {
+        "order" : 2,
+        "command":"cd aurora",
+        "depend": "git clone git://git.apache.org/aurora.git"
+      },
+      {
+        "order" : 3,
+        "command":"vagrant up",
+        "depend": ["git clone git://git.apache.org/aurora.git","cd aurora"]
+      }
+    ]
+  }
+]
