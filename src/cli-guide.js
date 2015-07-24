@@ -165,7 +165,9 @@
         if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
           // verify the command if it is for the correct step
-          if(object.step != localStorage.getItem('actualstep')){
+          if(object.step == "general"){
+            return result = restCommand(opts,text,id);
+          } else if(object.step != localStorage.getItem('actualstep')) {
             newline("");
             return result = "you can only run this command in step " + object.step;
           } else {
@@ -248,26 +250,32 @@
         });
 
         $.getJSON(opts,function(data){
-          $.each(data,function(k,v){
-            // when more than one command have the same result
-            if(Array.isArray(v.command)){
-              for(var c = 0; c < v.command.length; c++){
-                if(text == v.command[c]) {
-                  var arrayMultiResult = [];
-                  for (var i = 0; i < v.result.length; i++) {
-                    arrayMultiResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
+          $.each(data,function(key,steps){
+            $.each(steps,function(k,commands){
+              for (var i = 0; i < commands.length; i++) {
+                // when more than one command have the same result
+                if(Array.isArray(commands[i].command)){
+                  for(var c = 0; c < commands[i].command.length; c++){
+                    if(text == commands[i].command[c]) {
+                      var arrayMultiResult = [];
+                      for (var l = 0; l < commands[i].result.length; l++) {
+                        arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                      }
+                      result = arrayMultiResult;
+                    }
                   }
-                  result = arrayMultiResult;
+                }
+                if(text == commands[i].command) {
+                  if(commands[i].result != undefined){
+                    var arrayResult = [];
+                    for (var l = 0; l < commands[i].result.length; l++) {
+                      arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                    }
+                    result = arrayResult;
+                  }
                 }
               }
-            }
-            if(text == v.command) {
-              var arrayResult = [];
-              for (var i = 0; i < v.result.length; i++) {
-                arrayResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
-              }
-              result = arrayResult;
-            }
+            });
           });
         });
 
@@ -276,19 +284,34 @@
       }
 
       function loadStepToLocalStorage(jsonCommands){
-        $.getJSON("src/test.json",function(data){
+        $.getJSON(jsonCommands,function(data){
           $.each(data,function(ks,steps){
             $.each(steps,function(kc,commands){
               for (var i = 0; i < commands.length; i++) {
-                localStorage.setItem(commands[i].command,
-                  JSON.stringify(
-                    {step:steps.step,
-                     command:commands[i].command,
-                     depend: commands[i].depend,
-                     done:false,
-                     orden: commands[i].order,
-                     max:steps.count
-                    }));
+                // when more than one command have the same result
+                if(Array.isArray(commands[i].command)){
+                  for(var c = 0; c < commands[i].command.length; c++){
+                    localStorage.setItem(commands[i].command[c],
+                      JSON.stringify(
+                        {step:steps.step,
+                         command:commands[i].command[c],
+                         depend: commands[i].depend,
+                         done:false,
+                         orden: commands[i].order,
+                         max:steps.count
+                        }));
+                  }
+                } else {
+                  localStorage.setItem(commands[i].command,
+                    JSON.stringify(
+                      {step:steps.step,
+                       command:commands[i].command,
+                       depend: commands[i].depend,
+                       done:false,
+                       orden: commands[i].order,
+                       max:steps.count
+                      }));
+                }
               }
             });
           });
@@ -569,8 +592,7 @@
             $.each($("#"+id+".cline"), function(i, el){
               $( el ).fadeIn(10);
             }).promise().done(function(){
-              console.log("last..." + inputUser)
-              //newline(inputUser);
+              newline(inputUser);
             });
           }
 
@@ -834,11 +856,10 @@
     $(".heightTerminal").css("height",opts.heightTerminal + "px");
 
     $("#editor").hide();
-    console.log(localStorage.getItem('actualstep'))
+
     listOfSteps(opts);
     showInfoOfEachStep(opts, opts.initStep);
     localStorage.setItem('actualstep',opts.initStep);
-    console.log(localStorage.getItem('actualstep'))
 
     $(document).on('click','.btn-step',function(){
       showInfoOfEachStep(opts,$(this).data('step'));
