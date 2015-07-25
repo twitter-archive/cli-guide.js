@@ -164,8 +164,14 @@
 
         if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
+          console.log(object)
           // verify the command if it is for the correct step
           if(object.step == "general"){
+            if(text.indexOf("cd ") > -1){
+              newline(text);
+            } else if(!object.animation){
+              newline(text);
+            }
             return result = restCommand(opts,text,id);
           } else if(object.step != localStorage.getItem('actualstep')) {
             newline("");
@@ -198,6 +204,9 @@
                      orden: object.order,
                      max:object.count
                     }));
+                if(text.indexOf("cd ") > -1){
+                  newline(text);
+                }
                 return result = restCommand(opts,text,id);
               }
             } else if(object.depend != ""){
@@ -217,7 +226,9 @@
                      orden: object.order,
                      max:object.count
                     }));
-                //newline(text);
+                if(text.indexOf("cd ") > -1){
+                  newline(text);
+                }
                 return result = restCommand(opts,text,id);
               }
             } else {
@@ -231,6 +242,9 @@
                    orden: object.order,
                    max:object.count
                   }));
+              if(text.indexOf("cd ") > -1){
+                newline(text);
+              }
               //newline("");
               return result = restCommand(opts,text,id);
             }
@@ -257,21 +271,33 @@
                 if(Array.isArray(commands[i].command)){
                   for(var c = 0; c < commands[i].command.length; c++){
                     if(text == commands[i].command[c]) {
-                      var arrayMultiResult = [];
-                      for (var l = 0; l < commands[i].result.length; l++) {
-                        arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                      if(commands[i].animation != undefined){
+                        if(commands[i].animation){
+                          var arrayMultiResult = [];
+                          for (var l = 0; l < commands[i].result.length; l++) {
+                            arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                          }
+                          result = arrayMultiResult;
+                        }
+                      } else {
+                        result = commands[i].result;
                       }
-                      result = arrayMultiResult;
                     }
                   }
                 }
                 if(text == commands[i].command) {
                   if(commands[i].result != undefined){
-                    var arrayResult = [];
-                    for (var l = 0; l < commands[i].result.length; l++) {
-                      arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                    if(commands[i].animation != undefined){
+                      if(commands[i].animation){
+                        var arrayResult = [];
+                        for (var l = 0; l < commands[i].result.length; l++) {
+                          arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                        }
+                        result = arrayResult;
+                      }
+                    } else {
+                      result = commands[i].result;
                     }
-                    result = arrayResult;
                   }
                 }
               }
@@ -291,6 +317,7 @@
                 // when more than one command have the same result
                 if(Array.isArray(commands[i].command)){
                   for(var c = 0; c < commands[i].command.length; c++){
+                    console.log( commands[i].animation)
                     localStorage.setItem(commands[i].command[c],
                       JSON.stringify(
                         {step:steps.step,
@@ -298,7 +325,8 @@
                          depend: commands[i].depend,
                          done:false,
                          orden: commands[i].order,
-                         max:steps.count
+                         max:steps.count,
+                         animation: (commands[i].animation == undefined) ? false : commands[i].animation
                         }));
                   }
                 } else {
@@ -309,7 +337,8 @@
                        depend: commands[i].depend,
                        done:false,
                        orden: commands[i].order,
-                       max:steps.count
+                       max:steps.count,
+                       animation: (commands[i].animation == undefined) ? false : commands[i].animation
                       }));
                 }
               }
@@ -385,6 +414,7 @@
             $("#command-x").hide();
             $("#editor").show();
             $('#editor-content').focus();
+            //newline("");
           }
 
           if( $(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop() ){
@@ -578,21 +608,13 @@
 
           }
 
-          $("#"+id+".cline").css({'display':'none'});
           var inputUser = $(this).text();
-          if(inputUser == "vagrant up" ||
-          inputUser ==  "aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"
-          ){
+          if($("#"+id+".cline").length > 0){
+            $("#"+id+".cline").css({'display':'none'});
             $.each($("#"+id+".cline"), function(i, el){
-              $( el ).delay(400*i).fadeIn("fast");
+              $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              newline(inputUser);
-            });
-          } else {
-            $.each($("#"+id+".cline"), function(i, el){
-              $( el ).fadeIn(10);
-            }).promise().done(function(){
-              newline(inputUser);
+              newline("");
             });
           }
 
