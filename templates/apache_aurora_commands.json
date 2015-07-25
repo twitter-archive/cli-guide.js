@@ -16,6 +16,7 @@
       {
         "order" : 3,
         "command":"vagrant up",
+        "animation": true,
         "result": [
           " Bringing machine 'devcluster' up with 'virtualbox' provider... <br/> ",
           " ==> devcluster: Checking if box 'ubuntu/trusty64' is up to date... <br/> ",
@@ -122,6 +123,7 @@
       {
         "order" : 1,
         "command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
+        "animation": true,
         "result": [
           "  INFO] Creating job hello_world <br/> ",
           "  INFO] Checking status of devcluster/www-data/devel/hello_world <br/> ",
