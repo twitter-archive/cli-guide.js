@@ -164,7 +164,6 @@
 
         if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
-          console.log(object)
           // verify the command if it is for the correct step
           if(object.step == "general"){
             if(text.indexOf("cd ") > -1){
@@ -317,7 +316,6 @@
                 // when more than one command have the same result
                 if(Array.isArray(commands[i].command)){
                   for(var c = 0; c < commands[i].command.length; c++){
-                    console.log( commands[i].animation)
                     localStorage.setItem(commands[i].command[c],
                       JSON.stringify(
                         {step:steps.step,
@@ -356,8 +354,13 @@
           $.getJSON(data,function(data){
             $.each(data,function(k,v){
               // using .join method to convert array to string without commas
-              files.push(v.name)
-              localStorage.setItem(v.name, v.content.join(""));
+              files.push(v.name);
+              // save each file
+              localStorage.setItem(v.name,
+                JSON.stringify({
+                  content: v.content.join(""),
+                  language: (v.language == undefined) ? "markup" : v.language
+                }));
             });
           });
           localStorage.setItem("files",files);
@@ -425,7 +428,13 @@
             $("#editor").show();
 
             if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
-              $('#editor-content').html(localStorage.getItem($(this).text().split(" ").pop()));
+              var file = JSON.parse(localStorage.getItem($(this).text().split(" ").pop()));
+              $('#editor-content').html(
+                '<pre><code id="lang" class="language-'+file.language+'">'
+                +'</code></pre>'
+              );
+              $('#lang').html(file.content);
+              Prism.highlightElement($('#lang')[0]);
               // show the name of the file in header
               $('#editor-header-filename').html("File: " + $(this).text().split(" ").pop());
               // show the name of the file again
@@ -475,6 +484,7 @@
             }
           }
 
+          // git clone
           if($(this).text().replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
 
             $("#"+id+".response").html("");
@@ -730,8 +740,22 @@
 
       $(document).on('keydown','#namefile-x',function(event){
         if (event.keyCode == 13){
-          // save a new file
-          localStorage.setItem($(this).text(), $("#editor-content").html());
+          if(localStorage.getItem($(this).text()) != null){
+            // update file
+            var file = JSON.parse(localStorage.getItem($(this).text()));
+            localStorage.setItem($(this).text(),
+              JSON.stringify({
+                content: $("#editor-content").html(),
+                language: file.language
+              }));
+          } else {
+            // save a new file
+            localStorage.setItem($(this).text(),
+              JSON.stringify({
+                content: $("#editor-content").html(),
+                language: "markup"
+              }));
+          }
           $("#editor").hide();
           $("#terminal").show();
           $('.textinline').focus();
