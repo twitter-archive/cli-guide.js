@@ -11,9 +11,9 @@
     <title>Cli-Guide.JS</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet" />
 
-    <link href="./css/docs.min.css" rel="stylesheet">
+    <link href="./css/prism.css" rel="stylesheet" />
 
     <!-- Font Awesome -->
     <link href="./css/font-awesome.min.css" rel="stylesheet">
@@ -69,9 +69,9 @@
               <a href="./demo/aurora.html" class="btn btn-primary btn-lg">
                 <i class="fa fa-rocket"></i> Apache Aurora Tutorial
               </a>
-              <a href="./demo/chef.html" class="btn btn-primary btn-lg">
+              <!--a href="./demo/chef.html" class="btn btn-primary btn-lg">
                 <i class="fa fa-rocket"></i> Chef Tutorial
-              </a>
+              </a-->
               <br/><br/>
             </div>
 
@@ -82,44 +82,43 @@
                 Initial configurarion of the plugin, is necessary to use bootstrap.min.css is required because the plugin uses a Bootstrap CSS grid
               </p>
               <br/>
-              <div class="highlight">
-                <pre>
-                  <code class="language-html" data-lang="html">
-<span class="w">&lt;!DOCTYPE html&gt;</span>
-<span class="w">&lt;</span><span class="t">html</span> <span class="a">lang</span><span class="w">=</span><span class="v">"en"</span><span class="w">&gt;</span>
-<span class="w">&lt;</span><span class="t">head</span><span class="w">&gt;</span>
-  <span class="w">&lt;</span><span class="t">meta</span> <span class="a">charset</span><span class="w">=</span><span class="v">"utf-8"</span> <span class="w">/&gt;</span>
-  <span class="w">&lt;</span><span class="t">title</span><span class="w">&gt;Cli Guide JS&lt;/</span><span class="t">title</span><span class="w">&gt;</span>
-  <span class="w">&lt;</span><span class="t">link</span> <span class="a">rel</span><span class="w">=</span><span class="v">"stylesheet"</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/css"</span> <span class="a">href</span><span class="w">=</span><span class="v">"./src/bootstrap.min.css"</span> <span class="w">/&gt;</span>
-  <span class="w">&lt;</span><span class="t">link</span> <span class="a">rel</span><span class="w">=</span><span class="v">"stylesheet"</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/css"</span> <span class="a">href</span><span class="w">=</span><span class="v">"./src/cli-guide.css"</span> <span class="w">/&gt;</span>
-<span class="w">&lt;/</span><span class="t">head</span><span class="w">&gt;</span>
-<span class="w">&lt;</span><span class="t">body</span><span class="w">&gt;</span>
-  <span class="w">&lt;</span><span class="t">div</span> <span class="i">id</span><span class="w">=</span><span class="v">"stepsdiv"</span><span class="w">&gt;&lt;/</span><span class="t">div</span><span class="w">&gt;</span>
-  <span class="w">&lt;</span><span class="t">script</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/javascript"</span> <span class="a">src</span><span class="w">=</span><span class="v">"./libs/jquery-1.11.3.min.js"</span><span class="w">&gt;&lt;/</span><span class="t">script</span><span class="w">&gt;</span>
-  <span class="w">&lt;</span><span class="t">script</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/javascript"</span> <span class="a">src</span><span class="w">=</span><span class="v">"./src/cli-guide.js"</span><span class="w">&gt;&lt;/</span><span class="t">script</span><span class="w">&gt;</span>
-  <span class="w">&lt;</span><span class="t">script</span> <span class="a">type</span><span class="w">=</span><span class="v">"text/javascript"</span> <span class="w">&gt;</span>
-                  </code>
-                  <code class="language-js" data-lang="js">
-    <span class="w">
+
+              <pre><code class="language-markup">
+&lt;!DOCTYPE html>
+&lt;html lang="en">
+&lt;head>
+  &lt;meta charset="utf-8" />
+  &lt;title>CLI Guide JS&lt;/title>
+  &lt;link rel="stylesheet" type="text/css" href="./src/bootstrap.min.css" />
+  &lt;link rel="stylesheet" type="text/css" href="./src/prism.css" />
+  &lt;link rel="stylesheet" type="text/css" href="./src/cli-guide.css" />
+&lt;/head>
+&lt;body>
+  &lt;div id="stepsdiv">&lt;/div>
+  &lt;script type="text/javascript" src="./libs/jquery-1.11.3.min.js">&lt;/script>
+  &lt;script type="text/javascript" src="./src/prism.js">&lt;/script>
+  &lt;script type="text/javascript" src="./src/cli-guide.js" >&lt;/script>
+
+  &lt;script type="text/javascript">
     $('#stepsdiv').cliguide(
     {
-      nameOfTheProject: <span class="v">'Apache Aurora'</span>,
-      stepsFile:        <span class="v">'templates/apache_aurora.json'</span>,
+      nameOfTheProject: 'Apache Aurora',
+      stepsFile:        'templates/apache_aurora.json',
       initStep: 1
-    }).cli(
+    }
+    ).cli(
     {
-      commandStepsFile: <span class="v">'templates/apache_aurora_commands.json'</span>,
-      preloadfile: <span class="v">'templates/apache_aurora_files.json'</span>
-    }, <span class="f">function</span>(){});
-    </span>
-                  </code>
-                  <code class="language-html" data-lang="html">
-  <span class="w">&lt;/</span><span class="t">script</span><span class="w">&gt;</span>
-<span class="w">&lt;/</span><span class="t">body</span><span class="w">&gt;</span>
-<span class="w">&lt;/</span><span class="t">html</span><span class="w">&gt;</span>
-                  </code>
-                </pre>
-              </div>
+      commandStepsFile: 'templates/apache_aurora_commands.json',
+      preloadfile: 'templates/apache_aurora_files.json'
+    },
+    function(){
+    });
+	&lt;/script>
+
+&lt;/body>
+&lt;/html>
+              </code></pre>
+
 
             </div>
             <div class="col-xs-12">
@@ -135,31 +134,30 @@
                 </a>
               </p>
               <br/>
-              <div class="highlight">
-                <pre>
-                  <code class="language-js" data-lang="js">
-<span class="w">[
+              <pre><code class="language-markup">
+[
   {
-  <span class="t">"step"</span>: <span class="v">"1"</span>,
-    <span class="t">"content"</span>: {
-      <span class="t">"title"</span>: <span class="v">"Setup: Install Aurora"</span>,
-      <span class="t">"content"</span>: [
-          <span class="v">" You use the Aurora client and web UI to interact with Aurora jobs. ",
-          " To install it locally, see vagrant.md ",
-          " The remainder of this Tutorial assumes you are running ",
-          " Aurora using Vagrant. Unless otherwise stated, ",
-          " all commands are to be run from the root ",
-          " of the aurora repository clone. "</span>
-          ],
-      <span class="t">"tips"</span>: <span class="v">""</span>,
-      <span class="t">"commands"</span>: [
+    "step": "1",
+    "content": {
+      "title": "Setup: Install Aurora",
+      "content": [
+        " You use the Aurora client and web UI to interact with Aurora jobs. ",
+        " To install it locally, see ",
+        " <a href='http://aurora.apache.org/documentation/latest/vagrant/'>vagrant.md</a> ",
+        " The remainder of this Tutorial assumes you are running ",
+        " Aurora using Vagrant. Unless otherwise stated, ",
+        " all commands are to be run from the root ",
+        " of the aurora repository clone. "
+      ],
+      "tips": "let's try with following commands",
+      "commands": [
+        {"command":"git clone git://git.apache.org/aurora.git"},
+        {"command":"cd aurora"},
+        {"command":"vagrant up"}
       ]
     }
   }
-]</span>
-                  </code>
-                </pre>
-              </div>
+]</code></pre>
 
               <br/>
               <p class="text">
@@ -170,37 +168,71 @@
                 </a>
               </p>
               <br/>
-              <div class="highlight">
-                <pre>
-                  <code class="language-js" data-lang="js">
-<span class="w">[
+              <pre><code class="language-markup">
+[
   {
-    <span class="t">"command"</span>:<span class="v">"aurora"</span>,
-    <span class="t">"result"</span>: [
-      <span class="v">"usage: aurora [-h] [--version] {task,quota,update,cron,job,config,sla} ... &lt;br/&gt;",
-      "&lt;br/&gt;",
-      "optional arguments: &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;-h, --help&lt;/div&gt; show this help message and exit &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;--version&lt;/div&gt; show program's version number and exit &lt;br/&gt;",
-      "commands: &lt;br/&gt;",
-      "{task,quota,update,cron,job,config,sla} &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;task&lt;/div&gt; Work with a task running in an Apache Aurora cluster &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;quota&lt;/div&gt; Work with quota settings for an Apache Aurora cluster &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;update&lt;/div&gt; Interact with the aurora update service. &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;cron&lt;/div&gt; Work with entries in the aurora cron scheduler &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;job&lt;/div&gt; Work with an aurora job &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;config&lt;/div&gt; Work with an aurora configuration file &lt;br/&gt;",
-      "&lt;div class='codeofcommand'&gt;sla&lt;/div&gt; Work with SLA data in Aurora cluster."</span>
+    "step": "1",
+    "count": "3",
+    "commands": [
+      {
+        "order" : 1,
+        "command":"git clone git://git.apache.org/aurora.git",
+        "depend": ""
+      },
+      {
+        "order" : 2,
+        "command":"cd aurora",
+        "depend": "git clone git://git.apache.org/aurora.git"
+      },
+      {
+        "order" : 3,
+        "command":"vagrant up",
+        "animation": true,
+        "result": [
+          " Bringing machine 'devcluster' up with 'virtualbox' provider... <br/> ",
+          " ==> devcluster: Checking if box 'ubuntu/trusty64' is up to date... <br/> ",
+          " ==> devcluster: Clearing any previously set forwarded ports... <br/> ",
+          " ==> devcluster: Clearing any previously set network interfaces... <br/> ",
+          " ==> devcluster: Preparing network interfaces based on configuration... <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: Adapter 1: nat <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: Adapter 2: hostonly <br/> ",
+          " ==> devcluster: Forwarding ports... <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: 22 => 2222 (adapter 1) <br/> ",
+          " ==> devcluster: Running 'pre-boot' VM customizations... <br/> ",
+          " ==> devcluster: Booting VM... <br/> ",
+          " ==> devcluster: Waiting for machine to boot. This may take a few minutes... <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: SSH address: 127.0.0.1:2222 <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: SSH username: vagrant <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: SSH auth method: private key <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: Warning: Connection timeout. Retrying... <br/> ",
+          " ==> devcluster: Machine booted and ready! <br/> ",
+          " ==> devcluster: Checking for guest additions in VM... <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: The guest additions on this VM do not match the installed version of <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: VirtualBox! In most cases this is fine, but in rare cases it can <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: prevent things such as shared folders from working properly. If you see <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: shared folder errors, please make sure the guest additions within the <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: virtual machine match the version of VirtualBox you have installed on <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: your host and reload your VM. <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: Guest Additions Version: 4.3.10 <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: VirtualBox Version: 5.0 <br/> ",
+          " ==> devcluster: Setting hostname... <br/> ",
+          " ==> devcluster: Configuring and enabling network interfaces... <br/> ",
+          " ==> devcluster: Mounting shared folders... <br/> ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: /vagrant => /Users/Tutorial/Application/aurora <br/> ",
+          " ==> devcluster: Machine already provisioned. Run `vagrant provision` or use the `--provision` <br/> ",
+          " ==> devcluster: flag to force provisioning. Provisioners marked to run always will still run. "
+        ],
+        "depend": ["git clone git://git.apache.org/aurora.git","cd aurora"]
+      }
     ]
   }
-]</span>
-                  </code>
-                </pre>
-              </div>
+]</code></pre>
+
               <br/>
               <img class="imgb" src="./img/aurora.gif"/>
               <br/><br/>
-              <p class="text">
+              <!--p class="text">
                 You can style the result
               </p>
               <div class="highlight">
@@ -217,19 +249,15 @@
 }</span>
                   </code>
                 </pre>
-              </div>
+              </div-->
               <br/>
               <p class="text">
                 For example if multiple commands return the same result. You can do this
               </p>
               <br/>
-              <div class="highlight">
-                <pre>
-                  <code class="language-js" data-lang="js">
-<span class="w"><span class="t">"command"</span>:[<span class="v">"vagrant"</span>, <span class="v">"vagrant list-commands"</span>]</span>
-                  </code>
-                </pre>
-              </div>
+              <pre><code class="language-markup">
+"command":["vagrant", "vagrant list-commands"]</code></pre>
+
 
               <br/>
               <p class="text">
@@ -243,33 +271,32 @@
                 </a>
               </p>
               <br/>
-              <div class="highlight">
+
                 <pre>
-                  <code class="language-js" data-lang="js">
-<span class="w">[
+<code class="language-markup">
+[
   {
-    <span class="t">"name"</span>:<span class="v">"hello_world.py"</span>,
-    <span class="t">"content"</span>: [
-      <span class="v">"import sys &lt;br/&gt;",
-      "import time &lt;br/&gt;",
-      "&lt;br/&gt;",
-      "def main(argv): &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;SLEEP_DELAY = 10 &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;# Python ninjas - ignore this blatant bug. &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;for i in xrang(100): &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print(\"Hello world! The time is now: %s. Sleeping for %d secs\" % ( &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.asctime(), SLEEP_DELAY)) &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sys.stdout.flush() &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.sleep(SLEEP_DELAY) &lt;br/&gt;",
-      "&lt;br/&gt;",
-      "if __name__ == \"__main__\": &lt;br/&gt;",
-      "&nbsp;&nbsp;&nbsp;&nbsp;main(sys.argv)"</span>
+    "name":"hello_world.py",
+    "language": "python",
+    "content": [
+      "import sys \n",
+      "import time \n",
+      "\n",
+      "def main(argv): \n",
+      "   SLEEP_DELAY = 10 \n",
+      "   # Python ninjas - ignore this blatant bug. \n",
+      "   for i in xrang(100): \n",
+      "       print(\"Hello world! The time is now: %s. Sleeping for %d secs\" % ( \n",
+      "         time.asctime(), SLEEP_DELAY)) \n",
+      "       sys.stdout.flush() \n",
+      "       time.sleep(SLEEP_DELAY) \n",
+      "\n",
+      "if __name__ == \"__main__\": \n",
+      "    main(sys.argv)"
     ]
   }
-]</span>
-                  </code>
-                </pre>
-              </div>
+]</code></pre>
+
               <br/>
               <p class="text">
                 You can see the result in the terminal
@@ -291,6 +318,7 @@
 
 
       <br/><br/><br/>
+
     </div>
 
     <!-- Bootstrap core JavaScript
@@ -298,6 +326,7 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/prism.js"></script>
 
   </body>
 </html>

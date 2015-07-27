@@ -4,7 +4,6 @@
 }
 
 body {
-  //background-image: url('swirl_pattern.png');
   background: #bababa url('grain.png');
 }
 
@@ -95,50 +94,4 @@ span.v {
 
 span.f {
   color: #8470FF;
-}
-
-/* custom boostrap buttons */
-/*.btn {
-    padding: 14px 24px;
-    border: 0 none;
-    font-weight: 900;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-family: 'Code New Roman';
-}
-
-.btn:focus, .btn:active:focus, .btn.active:focus {
-    outline: 0 none;
-}
-
-.btn-primary {
-    background: #5F9EA0;
-    color: white;
-}
-
-.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
-    background: #00868B;
-    color: white;
-}
-
-.btn-primary:active, .btn-primary.active {
-    background: #00868B;
-    box-shadow: none;
-}*/
-
-/* customs */
-.carousel-control.left, .carousel-control.right{
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.0) 0px, transparent 100%);
-}
-
-.carousel-caption {
-  padding: 5px;
-  position: sticky;
-  background-color: #CDC9A5;
-  bottom: 0px;
-  color: #212121;
-  font-size: 16px;
-  font-family: 'Code New Roman';
-  text-shadow: none;
-  font-style: italic;
 }

@@ -66,6 +66,9 @@
   }
 
   function showInfoOfEachStep(opts,step){
+    // select current step
+    localStorage.setItem('actualstep',step);
+
     $(".btn-step").removeClass("active");
     $("#stepscontent").html('');
     $.getJSON(opts.stepsFile,function(data){
@@ -159,36 +162,192 @@
 
         var result = "";
 
+        if(localStorage.getItem(text) != null){
+          var object  = JSON.parse(localStorage.getItem(text));
+          // verify the command if it is for the correct step
+          if(object.step == "general"){
+            if(text.indexOf("cd ") > -1){
+              newline(text);
+            } else if(!object.animation){
+              newline(text);
+            }
+            return result = restCommand(opts,text,id);
+          } else if(object.step != localStorage.getItem('actualstep')) {
+            newline("");
+            return result = "you can only run this command in step " + object.step;
+          } else {
+            // If is it has dependencies?
+            if(Array.isArray(object.depend)){
+              //newline("");
+              var missingCommands = [];
+              for (var i = 0; i < object.depend.length; i++) {
+                var missingCommand  = JSON.parse(localStorage.getItem(object.depend[i]));
+                if(!missingCommand.done){
+                  missingCommands.push(missingCommand.command)
+                }
+              }
+              if(missingCommands.length > 1){
+                newline("");
+                return result = "You have to run these commands before: "+missingCommands.join(' | ');
+              } else if(missingCommands.length == 1){
+                newline("");
+                return result = "You have to run this command before: "+missingCommands.join(' | ');
+              } else {
+                // update
+                localStorage.setItem(text,
+                  JSON.stringify(
+                    {step:object.step,
+                     command:object.command,
+                     depend: object.depend,
+                     done:true,
+                     orden: object.order,
+                     max:object.count
+                    }));
+                if(text.indexOf("cd ") > -1){
+                  newline(text);
+                } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                  newline("");
+                }
+                return result = restCommand(opts,text,id);
+              }
+            } else if(object.depend != ""){
+              // check which command or commands depends
+              var dependCommand  = JSON.parse(localStorage.getItem(object.depend));
+              if(!dependCommand.done){
+                newline("");
+                return result = "You have to run this command before: "+dependCommand.command;
+              } else {
+                // update
+                localStorage.setItem(text,
+                  JSON.stringify(
+                    {step:object.step,
+                     command:object.command,
+                     depend: object.depend,
+                     done:true,
+                     orden: object.order,
+                     max:object.count
+                    }));
+                if(text.indexOf("cd ") > -1){
+                  newline(text);
+                } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                  newline("");
+                }
+                return result = restCommand(opts,text,id);
+              }
+            } else {
+              // update
+              localStorage.setItem(text,
+                JSON.stringify(
+                  {step:object.step,
+                   command:object.command,
+                   depend: object.depend,
+                   done:true,
+                   orden: object.order,
+                   max:object.count
+                  }));
+              if(text.indexOf("cd ") > -1){
+                newline(text);
+              } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                newline("");
+              }
+              return result = restCommand(opts,text,id);
+            }
+          }
+        } else {
+          newline(text);
+        }
+
+      }
+
+      function restCommand(opts,text,id){
+
+        var result = "";
+
         $.ajaxSetup({
           async: false
         });
 
         $.getJSON(opts,function(data){
-          $.each(data,function(k,v){
-            // when more than one command have the same result
-            if(Array.isArray(v.command)){
-              for(var c = 0; c < v.command.length; c++){
-                if(text == v.command[c]) {
-                  var arrayMultiResult = [];
-                  for (var i = 0; i < v.result.length; i++) {
-                    arrayMultiResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
+          $.each(data,function(key,steps){
+            $.each(steps,function(k,commands){
+              for (var i = 0; i < commands.length; i++) {
+                // when more than one command have the same result
+                if(Array.isArray(commands[i].command)){
+                  for(var c = 0; c < commands[i].command.length; c++){
+                    if(text == commands[i].command[c]) {
+                      if(commands[i].animation != undefined){
+                        if(commands[i].animation){
+                          var arrayMultiResult = [];
+                          for (var l = 0; l < commands[i].result.length; l++) {
+                            arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                          }
+                          result = arrayMultiResult;
+                        }
+                      } else {
+                        result = commands[i].result;
+                      }
+                    }
                   }
-                  result = arrayMultiResult;
+                }
+                if(text == commands[i].command) {
+                  if(commands[i].result != undefined){
+                    if(commands[i].animation != undefined){
+                      if(commands[i].animation){
+                        var arrayResult = [];
+                        for (var l = 0; l < commands[i].result.length; l++) {
+                          arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                        }
+                        result = arrayResult;
+                      }
+                    } else {
+                      result = commands[i].result;
+                    }
+                  }
                 }
               }
-            }
-            if(text == v.command) {
-              var arrayResult = [];
-              for (var i = 0; i < v.result.length; i++) {
-                arrayResult.push('<div id='+id+' class="cline">'+v.result[i]+'</div>');
-              }
-              result = arrayResult;
-            }
+            });
           });
         });
 
         return result;
 
+      }
+
+      function loadStepToLocalStorage(jsonCommands){
+        $.getJSON(jsonCommands,function(data){
+          $.each(data,function(ks,steps){
+            $.each(steps,function(kc,commands){
+              for (var i = 0; i < commands.length; i++) {
+                // when more than one command have the same result
+                if(Array.isArray(commands[i].command)){
+                  for(var c = 0; c < commands[i].command.length; c++){
+                    localStorage.setItem(commands[i].command[c],
+                      JSON.stringify(
+                        {step:steps.step,
+                         command:commands[i].command[c],
+                         depend: commands[i].depend,
+                         done:false,
+                         orden: commands[i].order,
+                         max:steps.count,
+                         animation: (commands[i].animation == undefined) ? false : commands[i].animation
+                        }));
+                  }
+                } else {
+                  localStorage.setItem(commands[i].command,
+                    JSON.stringify(
+                      {step:steps.step,
+                       command:commands[i].command,
+                       depend: commands[i].depend,
+                       done:false,
+                       orden: commands[i].order,
+                       max:steps.count,
+                       animation: (commands[i].animation == undefined) ? false : commands[i].animation
+                      }));
+                }
+              }
+            });
+          });
+        });
       }
 
       function preLoadFile(data){
@@ -200,8 +359,13 @@
           $.getJSON(data,function(data){
             $.each(data,function(k,v){
               // using .join method to convert array to string without commas
-              files.push(v.name)
-              localStorage.setItem(v.name, v.content.join(""));
+              files.push(v.name);
+              // save each file
+              localStorage.setItem(v.name,
+                JSON.stringify({
+                  content: v.content.join(""),
+                  language: (v.language == undefined) ? "markup" : v.language
+                }));
             });
           });
           localStorage.setItem("files",files);
@@ -231,8 +395,11 @@
 
       newline("");
       autocompleteCommands(opts.commandStepsFile);
+      // load commands steps from json
+      loadStepToLocalStorage(opts.commandStepsFile);
       // preload all files from json
       preLoadFile(opts.preloadfile);
+
       var id = 0;
 
       self.on('keydown', '[contenteditable]', function(event){
@@ -255,6 +422,7 @@
             $("#command-x").hide();
             $("#editor").show();
             $('#editor-content').focus();
+            //newline("");
           }
 
           if( $(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop() ){
@@ -265,7 +433,13 @@
             $("#editor").show();
 
             if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
-              $('#editor-content').html(localStorage.getItem($(this).text().split(" ").pop()));
+              var file = JSON.parse(localStorage.getItem($(this).text().split(" ").pop()));
+              $('#editor-content').html(
+                '<pre><code id="lang" class="language-'+file.language+'">'
+                +'</code></pre>'
+              );
+              $('#lang').html(file.content);
+              Prism.highlightElement($('#lang')[0]);
               // show the name of the file in header
               $('#editor-header-filename').html("File: " + $(this).text().split(" ").pop());
               // show the name of the file again
@@ -303,7 +477,7 @@
             }
           }
 
-          // delete file remote key from LocalStorage issue #81
+          // delete file remove a key from LocalStorage issue #81
           if($(this).text().replace(/\s\s+/g,' ') == "rm -r " + $(this).text().split(" ").pop()) {
             var fileName = $(this).text().split(" ").pop();
             if(localStorage.getItem(fileName) != null){
@@ -315,6 +489,7 @@
             }
           }
 
+          // git clone
           if($(this).text().replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
 
             $("#"+id+".response").html("");
@@ -432,6 +607,10 @@
                       });
                     });
 
+                    $("#"+id+".response .files").promise().done(function(){
+                      newline("");
+                    });
+
                   });
 
                 });
@@ -443,19 +622,14 @@
             }
 
           }
-          $("#"+id+".cline").css({'display':'none'});
+
           var inputUser = $(this).text();
-          if(inputUser == "vagrant up"){
+          if($("#"+id+".cline").length > 0){
+            $("#"+id+".cline").css({'display':'none'});
             $.each($("#"+id+".cline"), function(i, el){
-              $( el ).delay(400*i).fadeIn("fast");
+              $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              newline(inputUser);
-            });
-          } else {
-            $.each($("#"+id+".cline"), function(i, el){
-              $( el ).fadeIn(10);
-            }).promise().done(function(){
-              newline(inputUser);
+              newline("");
             });
           }
 
@@ -571,8 +745,22 @@
 
       $(document).on('keydown','#namefile-x',function(event){
         if (event.keyCode == 13){
-          // save a new file
-          localStorage.setItem($(this).text(), $("#editor-content").html());
+          if(localStorage.getItem($(this).text()) != null){
+            // update file
+            var file = JSON.parse(localStorage.getItem($(this).text()));
+            localStorage.setItem($(this).text(),
+              JSON.stringify({
+                content: $("#editor-content").html(),
+                language: file.language
+              }));
+          } else {
+            // save a new file
+            localStorage.setItem($(this).text(),
+              JSON.stringify({
+                content: $("#editor-content").html(),
+                language: "markup"
+              }));
+          }
           $("#editor").hide();
           $("#terminal").show();
           $('.textinline').focus();
@@ -713,6 +901,7 @@
     + '</div>'
     );
 
+    localStorage.setItem('actualstep',"");
     localStorage.setItem('actualdir',"");
 
     $(".heightTerminal").css("height",opts.heightTerminal + "px");
@@ -721,6 +910,7 @@
 
     listOfSteps(opts);
     showInfoOfEachStep(opts, opts.initStep);
+    localStorage.setItem('actualstep',opts.initStep);
 
     $(document).on('click','.btn-step',function(){
       showInfoOfEachStep(opts,$(this).data('step'));
