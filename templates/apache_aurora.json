@@ -15,7 +15,7 @@
       "tips": "let's try with following commands",
       "commands": [
         {"command":"git clone git://git.apache.org/aurora.git"},
-        {"command":"cd aurora/"},
+        {"command":"cd aurora"},
         {"command":"vagrant up"}
       ]
     }
@@ -36,7 +36,7 @@
       "tips": " Open the files ",
       "commands": [
         {"command":"nano hello_world.py"},
-        {"command":"hello_world.aurora"}
+        {"command":"nano hello_world.aurora"}
       ]
     }
   },
