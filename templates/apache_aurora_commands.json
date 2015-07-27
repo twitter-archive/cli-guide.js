@@ -125,8 +125,8 @@
         "command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
         "animation": true,
         "result": [
-          "  INFO] Creating job hello_world <br/> ",
-          "  INFO] Checking status of devcluster/www-data/devel/hello_world <br/> ",
+          " INFO] Creating job hello_world <br/> ",
+          " INFO] Checking status of devcluster/www-data/devel/hello_world <br/> ",
           " Job create succeeded: job url=http://192.168.33.7:8081/scheduler/www-data/devel/hello_world "
         ],
         "depend": ""
@@ -140,7 +140,12 @@
       {
         "order" : 1,
         "command":"aurora job killall devcluster/www-data/devel/hello_world",
-        "result": [""],
+        "animation": true,
+        "result": [
+          " INFO] Killing tasks for job: devcluster/www-data/devel/hello_world <br/> ",
+          " INFO] Response from scheduler: OK (message: Tasks killed.) <br/> ",
+          " INFO] Job url: http://precise64:8081/scheduler/www-data/devel/hello_world "
+        ],
         "depend": ""
       }
     ]

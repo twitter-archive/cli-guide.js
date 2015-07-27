@@ -205,6 +205,8 @@
                     }));
                 if(text.indexOf("cd ") > -1){
                   newline(text);
+                } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                  newline("");
                 }
                 return result = restCommand(opts,text,id);
               }
@@ -227,6 +229,8 @@
                     }));
                 if(text.indexOf("cd ") > -1){
                   newline(text);
+                } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                  newline("");
                 }
                 return result = restCommand(opts,text,id);
               }
@@ -243,8 +247,9 @@
                   }));
               if(text.indexOf("cd ") > -1){
                 newline(text);
+              } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                newline("");
               }
-              //newline("");
               return result = restCommand(opts,text,id);
             }
           }
