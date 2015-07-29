@@ -81,6 +81,17 @@
           + '<hr/ class="style">'
           + "<p>"+v.content.content.join("")+"</p>"
           );
+          if(v.content.moreinfo != undefined){
+            $("#moreinfo").html(
+                '<div id="openModal" class="modalDialog">'
+              +   '<div>'
+              +     '<a href="#close" title="Close" class="close">X</a>'
+              +     v.content.moreinfo.join("")
+              +   '</div>'
+              + '</div>'
+            );
+          }
+          console.log(v.content.moreinfo)
           if(v.content.tips != ""){
             $("#stepscontent").append(
               '<hr/ class="style">'
@@ -822,6 +833,7 @@
     +       '</ul>'
     +       '<hr/ class="style">'
     +       '<div id="stepscontent"></div>'
+    +       '<div id="moreinfo"></div>'
     +       '<br/><br/>'
     +     '</div>'
 

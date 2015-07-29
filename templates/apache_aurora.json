@@ -31,7 +31,21 @@
         " The script has an intentional bug, which we will explain later on. ",
         " <h3>Aurora Configuration</h3> ",
         " Once we have our script/program, we need to create a ",
-        " <i>configuration file</i> that tells Aurora how to manage and launch our Job. "
+        " <i>configuration file</i> that tells Aurora how to manage and launch our Job. ",
+        " <a href=\"#openModal\">More Info</a>"
+      ],
+      "moreinfo": [
+        " <h3>Aurora Configuration</h3> ",
+        " <p>To run a job on Aurora, you must specify a configuration file that tells Aurora what it needs ",
+        " to know to schedule the job, what Mesos needs to run the tasks the job is made up of, ",
+        " and what Thermos needs to run the processes that make up the tasks. This file must have a.aurora suffix. </p> ",
+        " <p>configuration file defines a collection of objects, along with parameter values for their attributes. ",
+        " An Aurora configuration file contains the following three types of objects: </p>",
+        " <ul> ",
+        " <li>Job</li> ",
+        " <li>Task</li> ",
+        " <li>Process</li> ",
+        " </ul> "
       ],
       "tips": " Open the files ",
       "commands": [
