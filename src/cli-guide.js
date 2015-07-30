@@ -510,8 +510,14 @@
             var gitURL = "git://";
             var httpURL = "https://";
             var git = ".git";
+            var valError = ".gitgit://";
             var urlBoolean = false;
             var gitBoolean = false;
+            var valErrorBooler = false;
+
+            if(url.indexOf(valError) > -1){
+              valErrorBooler = true;
+            }
 
             if ( url.indexOf(gitURL) > -1 || url.indexOf(httpURL) > -1 ) {
               urlBoolean = true
@@ -523,7 +529,7 @@
 
             var repoName= url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".git"));
 
-            if(urlBoolean && gitBoolean){
+            if(urlBoolean && gitBoolean && !valErrorBooler){
 
               $("#"+id+".response").append("Cloning into '"+repoName+"'... <br/>");
               $("#"+id+".response").append("remote: Counting objects: 4643, done.<br/>");
