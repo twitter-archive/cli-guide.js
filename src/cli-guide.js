@@ -77,9 +77,8 @@
           $("#"+step+".btn-step").addClass("active");
           $("#steptitle").html("<h3>Step "+v.step+"</h3>");
           $("#stepscontent").append(
-            "<h3>"+v.content.title+"</h3>"
-          + '<hr/ class="style">'
-          + "<p>"+v.content.content.join("")+"</p>"
+            '<h3>'+v.content.title+'</h3><span class="finish" data-step="'+step+'"></span>'
+          + '<p>'+v.content.content.join("")+'</p>'
           );
           if(v.content.moreinfo != undefined){
             $("#moreinfo").html(
@@ -91,7 +90,6 @@
               + '</div>'
             );
           }
-          console.log(v.content.moreinfo)
           if(v.content.tips != ""){
             $("#stepscontent").append(
               '<hr/ class="style">'
@@ -110,6 +108,15 @@
         }
       });
     });
+
+    var actualStep = localStorage.getItem('actualstep');
+    var $finish = $(".finish[data-step="+actualStep+"]");
+    if(localStorage.getItem(step)){
+      $finish.html("✓");
+    } else {
+      $finish.html("");
+    }
+
   }
 
   $.fn.cli = function(options, handler, effect){
@@ -172,9 +179,19 @@
       function commands(opts,text,id){
 
         var result = "";
+        var actualStep = localStorage.getItem('actualstep');
+        var $finish = $(".finish[data-step="+actualStep+"]");
 
         if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
+
+          if(object.lastCommand || localStorage.getItem(actualStep)){
+            $finish.html("✓");
+            localStorage.setItem("1",true);
+          } else {
+            $finish.html("");
+          }
+
           // verify the command if it is for the correct step
           if(object.step == "general"){
             if(text.indexOf("cd ") > -1){
@@ -340,7 +357,8 @@
                          done:false,
                          orden: commands[i].order,
                          max:steps.count,
-                         animation: (commands[i].animation == undefined) ? false : commands[i].animation
+                         animation: (commands[i].animation == undefined) ? false : commands[i].animation,
+                         lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
                         }));
                   }
                 } else {
@@ -352,11 +370,20 @@
                        done:false,
                        orden: commands[i].order,
                        max:steps.count,
-                       animation: (commands[i].animation == undefined) ? false : commands[i].animation
+                       animation: (commands[i].animation == undefined) ? false : commands[i].animation,
+                       lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
                       }));
                 }
               }
             });
+          });
+        });
+      }
+
+      function cleanSteps(jsonCommands){
+        $.getJSON(jsonCommands,function(data){
+          $.each(data,function(ks,steps){
+            localStorage.setItem(steps.step,false);
           });
         });
       }
@@ -408,6 +435,9 @@
       autocompleteCommands(opts.commandStepsFile);
       // load commands steps from json
       loadStepToLocalStorage(opts.commandStepsFile);
+      // clean each steps
+      cleanSteps(opts.commandStepsFile);
+
       // preload all files from json
       preLoadFile(opts.preloadfile);
 
