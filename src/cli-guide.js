@@ -77,7 +77,7 @@
           $("#"+step+".btn-step").addClass("active");
           $("#steptitle").html("<h3>Step "+v.step+"</h3>");
           $("#stepscontent").append(
-            '<h3>'+v.content.title+'</h3><span class="finish" data-step="'+step+'"></span>'
+            '<h3>'+v.content.title+' <span id="finish" data-step="'+step+'"></span></h3>'
           + '<p>'+v.content.content.join("")+'</p>'
           );
           if(v.content.moreinfo != undefined){
@@ -109,9 +109,12 @@
       });
     });
 
+    // appears a check when a Step finished
     var actualStep = localStorage.getItem('actualstep');
-    var $finish = $(".finish[data-step="+actualStep+"]");
-    if(localStorage.getItem(step)){
+    var $finish = $("#finish[data-step="+actualStep+"]");
+    var finishStep = JSON.parse(localStorage.getItem(step));
+    if(finishStep){
+      $finish.addClass("finishStep");
       $finish.html("✓");
     } else {
       $finish.html("");
@@ -180,12 +183,13 @@
 
         var result = "";
         var actualStep = localStorage.getItem('actualstep');
-        var $finish = $(".finish[data-step="+actualStep+"]");
+        var $finish = $("#finish[data-step="+actualStep+"]");
 
         if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
 
-          if(object.lastCommand || localStorage.getItem(actualStep)){
+          if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
+            $finish.addClass("finishStep");
             $finish.html("✓");
             localStorage.setItem("1",true);
           } else {

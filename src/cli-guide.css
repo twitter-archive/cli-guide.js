@@ -94,6 +94,13 @@ a.btn-step:active {
   color: white !important;
 }
 
+.finishStep {
+  border-radius: 10px;
+  background: #BADA55;
+  padding: 5px 10px 5px 10px;
+  color: white;
+}
+
 ul#listofcommands {
   list-style-type: none;
   margin: 0;
