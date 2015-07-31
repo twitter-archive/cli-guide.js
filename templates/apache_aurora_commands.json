@@ -52,12 +52,13 @@
           " ==> devcluster: Machine already provisioned. Run `vagrant provision` or use the `--provision` <br/> ",
           " ==> devcluster: flag to force provisioning. Provisioners marked to run always will still run. "
         ],
-        "depend": ["git clone git://git.apache.org/aurora.git","cd aurora"]
+        "depend": ["git clone git://git.apache.org/aurora.git","cd aurora"],
+        "lastCommand": true
       }
     ]
   },
   {
-    "step": "general",
+    "step": "3",
     "count": "2",
     "commands": [
       {
