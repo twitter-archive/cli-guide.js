@@ -31,11 +31,8 @@ code {
 }
 
 hr.style {
-  border: 0;
-  height: 0;
-  border-top: 1px
-  solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(74, 74, 74, 0.5);
+  border-top: 1px dashed #8c8b8b;
+	border-bottom: 1px dashed #fff;
 }
 
 .element { overflow: -moz-scrollbars-none; }
