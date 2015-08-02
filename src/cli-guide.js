@@ -513,6 +513,13 @@
             $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
           }
 
+          // clear all content #101
+          if($(this).text().toLowerCase() == 'clear'){
+            $(".input").remove();
+            $(".response").remove();
+            newline("");
+          }
+
           function removeItemFromArray(array, item){
             for(var i in array){
               if(array[i]==item){
