@@ -23,7 +23,7 @@
     "url": "https://github.com/twitter/cli-guide.js/issues"
   },
   "homepage": "https://github.com/twitter/cli-guide.js",
-  "dependencies" : {
+  "devDependencies" : {
     "gulp":            "3.8.11",
     "gulp-jsmin":      "0.1.5",
     "gulp-rename":     "1.2.2",
