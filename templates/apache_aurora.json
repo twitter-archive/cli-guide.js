@@ -47,10 +47,9 @@
         " <li>Process</li> ",
         " </ul> "
       ],
-      "tips": " Open the files ",
+      "tips": " Write the following command for see these files and open with nano editor ",
       "commands": [
-        {"command":"nano hello_world.py"},
-        {"command":"nano hello_world.aurora"}
+        {"command":"ls"}
       ]
     }
   },

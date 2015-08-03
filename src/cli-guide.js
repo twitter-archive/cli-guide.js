@@ -191,7 +191,7 @@
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             $finish.addClass("finishStep");
             $finish.html("✓");
-            localStorage.setItem("1",true);
+            localStorage.setItem(actualStep,true);
           } else {
             $finish.html("");
           }
@@ -204,10 +204,10 @@
               newline(text);
             }
             return result = restCommand(opts,text,id);
-          } else if(object.step != localStorage.getItem('actualstep')) {
+          } /*else if(object.step != localStorage.getItem('actualstep')) {
             newline("");
             return result = "you can only run this command in step " + object.step;
-          } else {
+          }*/ else {
             // If is it has dependencies?
             if(Array.isArray(object.depend)){
               //newline("");
@@ -277,7 +277,7 @@
                    orden: object.order,
                    max:object.count
                   }));
-              if(text.indexOf("cd ") > -1){
+              if(text.indexOf("cd ") > -1 || text.indexOf("ls") > -1){
                 newline(text);
               } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
                 newline("");
@@ -476,6 +476,7 @@
             $('#editor-header-filename').html("File: ");
             $('#namefile-x').html('');
             $("#editor").show();
+            newline("");
 
             if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
               var file = JSON.parse(localStorage.getItem($(this).text().split(" ").pop()));
