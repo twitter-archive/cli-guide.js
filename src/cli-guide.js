@@ -77,9 +77,8 @@
           $("#"+step+".btn-step").addClass("active");
           $("#steptitle").html("<h3>Step "+v.step+"</h3>");
           $("#stepscontent").append(
-            "<h3>"+v.content.title+"</h3>"
-          + '<hr/ class="style">'
-          + "<p>"+v.content.content.join("")+"</p>"
+            '<h3>'+v.content.title+' <span id="finish" data-step="'+step+'"></span></h3>'
+          + '<p>'+v.content.content.join("")+'</p>'
           );
           if(v.content.moreinfo != undefined){
             $("#moreinfo").html(
@@ -91,7 +90,6 @@
               + '</div>'
             );
           }
-          console.log(v.content.moreinfo)
           if(v.content.tips != ""){
             $("#stepscontent").append(
               '<hr/ class="style">'
@@ -103,13 +101,25 @@
           if(v.content.commands.length > 0){
             $.each(v.content.commands,function(key,val){
               $("#listofcommands").append(
-                "<li><code> $ "+val.command+"</code></li>"
+                "<li> $ "+val.command+"</li>"
               );
             });
           }
         }
       });
     });
+
+    // appears a check when a Step finished
+    var actualStep = localStorage.getItem('actualstep');
+    var $finish = $("#finish[data-step="+actualStep+"]");
+    var finishStep = JSON.parse(localStorage.getItem(step));
+    if(finishStep){
+      $finish.addClass("ok-b");
+      $finish.html("✓");
+    } else {
+      $finish.html("");
+    }
+
   }
 
   $.fn.cli = function(options, handler, effect){
@@ -172,9 +182,20 @@
       function commands(opts,text,id){
 
         var result = "";
+        var actualStep = localStorage.getItem('actualstep');
+        var $finish = $("#finish[data-step="+actualStep+"]");
 
         if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
+
+          if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
+            $finish.addClass("ok-b");
+            $finish.html("✓");
+            localStorage.setItem(actualStep,true);
+          } else {
+            $finish.html("");
+          }
+
           // verify the command if it is for the correct step
           if(object.step == "general"){
             if(text.indexOf("cd ") > -1){
@@ -183,10 +204,10 @@
               newline(text);
             }
             return result = restCommand(opts,text,id);
-          } else if(object.step != localStorage.getItem('actualstep')) {
+          } /*else if(object.step != localStorage.getItem('actualstep')) {
             newline("");
             return result = "you can only run this command in step " + object.step;
-          } else {
+          }*/ else {
             // If is it has dependencies?
             if(Array.isArray(object.depend)){
               //newline("");
@@ -256,7 +277,7 @@
                    orden: object.order,
                    max:object.count
                   }));
-              if(text.indexOf("cd ") > -1){
+              if(text.indexOf("cd ") > -1 || text.indexOf("ls") > -1){
                 newline(text);
               } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
                 newline("");
@@ -340,7 +361,8 @@
                          done:false,
                          orden: commands[i].order,
                          max:steps.count,
-                         animation: (commands[i].animation == undefined) ? false : commands[i].animation
+                         animation: (commands[i].animation == undefined) ? false : commands[i].animation,
+                         lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
                         }));
                   }
                 } else {
@@ -352,11 +374,20 @@
                        done:false,
                        orden: commands[i].order,
                        max:steps.count,
-                       animation: (commands[i].animation == undefined) ? false : commands[i].animation
+                       animation: (commands[i].animation == undefined) ? false : commands[i].animation,
+                       lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
                       }));
                 }
               }
             });
+          });
+        });
+      }
+
+      function cleanSteps(jsonCommands){
+        $.getJSON(jsonCommands,function(data){
+          $.each(data,function(ks,steps){
+            localStorage.setItem(steps.step,false);
           });
         });
       }
@@ -408,6 +439,9 @@
       autocompleteCommands(opts.commandStepsFile);
       // load commands steps from json
       loadStepToLocalStorage(opts.commandStepsFile);
+      // clean each steps
+      cleanSteps(opts.commandStepsFile);
+
       // preload all files from json
       preLoadFile(opts.preloadfile);
 
@@ -442,6 +476,7 @@
             $('#editor-header-filename').html("File: ");
             $('#namefile-x').html('');
             $("#editor").show();
+            newline("");
 
             if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
               var file = JSON.parse(localStorage.getItem($(this).text().split(" ").pop()));
@@ -477,6 +512,13 @@
           // show preload files issue #62
           if($(this).text() == "ls") {
             $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
+          }
+
+          // clear all content #101
+          if($(this).text().toLowerCase() == 'clear'){
+            $(".input").remove();
+            $(".response").remove();
+            newline("");
           }
 
           function removeItemFromArray(array, item){

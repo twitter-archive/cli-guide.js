@@ -6,7 +6,7 @@
       "content": [
         " You use the Aurora client and web UI to interact with Aurora jobs. ",
         " To install it locally, see ",
-        " <a href='http://aurora.apache.org/documentation/latest/vagrant/'>vagrant.md</a> ",
+        " <a class=\"link-b\" href='http://aurora.apache.org/documentation/latest/vagrant/' target=\"_blank\">vagrant.md</a> ",
         " The remainder of this Tutorial assumes you are running ",
         " Aurora using Vagrant. Unless otherwise stated, ",
         " all commands are to be run from the root ",
@@ -32,7 +32,7 @@
         " <h3>Aurora Configuration</h3> ",
         " Once we have our script/program, we need to create a ",
         " <i>configuration file</i> that tells Aurora how to manage and launch our Job. ",
-        " <a href=\"#openModal\">More Info</a>"
+        " <a href=\"#openModal\" class=\"link-b\">More Info</a>"
       ],
       "moreinfo": [
         " <h3>Aurora Configuration</h3> ",
@@ -47,10 +47,9 @@
         " <li>Process</li> ",
         " </ul> "
       ],
-      "tips": " Open the files ",
+      "tips": " Write the following command for see these files and open with <span class=\"editor-b\">nano editor</span> ",
       "commands": [
-        {"command":"nano hello_world.py"},
-        {"command":"nano hello_world.aurora"}
+        {"command":"ls"}
       ]
     }
   },

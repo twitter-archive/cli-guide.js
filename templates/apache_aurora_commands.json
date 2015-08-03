@@ -52,23 +52,20 @@
           " ==> devcluster: Machine already provisioned. Run `vagrant provision` or use the `--provision` <br/> ",
           " ==> devcluster: flag to force provisioning. Provisioners marked to run always will still run. "
         ],
-        "depend": ["git clone git://git.apache.org/aurora.git","cd aurora"]
+        "depend": ["git clone git://git.apache.org/aurora.git","cd aurora"],
+        "lastCommand": true
       }
     ]
   },
   {
-    "step": "general",
-    "count": "2",
+    "step": "2",
+    "count": "1",
     "commands": [
       {
         "order" : 0,
-        "command":"nano hello_world.py",
-        "depend": ""
-      },
-      {
-        "order" : 0,
-        "command":"nano hello_world.aurora",
-        "depend": ""
+        "command":"ls",
+        "depend": "",
+        "lastCommand": true
       }
     ]
   },
@@ -112,7 +109,8 @@
           " &nbsp;&nbsp; \"auth_mechanism\": \"UNAUTHENTICATED\", <br/> ",
           " }] "
         ],
-        "depend": "vagrant ssh"
+        "depend": "vagrant ssh",
+        "lastCommand": true
       }
     ]
   },
@@ -129,7 +127,8 @@
           " INFO] Checking status of devcluster/www-data/devel/hello_world <br/> ",
           " Job create succeeded: job url=http://192.168.33.7:8081/scheduler/www-data/devel/hello_world "
         ],
-        "depend": ""
+        "depend": "",
+        "lastCommand": true
       }
     ]
   },
@@ -144,9 +143,15 @@
         "result": [
           " INFO] Killing tasks for job: devcluster/www-data/devel/hello_world <br/> ",
           " INFO] Response from scheduler: OK (message: Tasks killed.) <br/> ",
-          " INFO] Job url: http://precise64:8081/scheduler/www-data/devel/hello_world "
+          " INFO] Job url: http://precise64:8081/scheduler/www-data/devel/hello_world ",
+          " <br/> ",
+          " <br/> ",
+          " ╔════════════════════════════════════════╗ ",
+          " &nbsp;Congratulations you finish the tutorial! ",
+          " ╚════════════════════════════════════════╝ "
         ],
-        "depend": ""
+        "depend": "",
+        "lastCommand": true
       }
     ]
   },
