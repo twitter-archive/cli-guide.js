@@ -143,7 +143,12 @@
         "result": [
           " INFO] Killing tasks for job: devcluster/www-data/devel/hello_world <br/> ",
           " INFO] Response from scheduler: OK (message: Tasks killed.) <br/> ",
-          " INFO] Job url: http://precise64:8081/scheduler/www-data/devel/hello_world "
+          " INFO] Job url: http://precise64:8081/scheduler/www-data/devel/hello_world ",
+          " <br/> ",
+          " <br/> ",
+          " ╔════════════════════════════════════════╗ ",
+          " &nbsp;Congratulations you finish the tutorial! ",
+          " ╚════════════════════════════════════════╝ "
         ],
         "depend": "",
         "lastCommand": true
