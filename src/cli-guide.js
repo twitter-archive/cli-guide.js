@@ -101,7 +101,7 @@
           if(v.content.commands.length > 0){
             $.each(v.content.commands,function(key,val){
               $("#listofcommands").append(
-                "<li><code> $ "+val.command+"</code></li>"
+                "<li> $ "+val.command+"</li>"
               );
             });
           }
@@ -114,7 +114,7 @@
     var $finish = $("#finish[data-step="+actualStep+"]");
     var finishStep = JSON.parse(localStorage.getItem(step));
     if(finishStep){
-      $finish.addClass("finishStep");
+      $finish.addClass("ok-b");
       $finish.html("✓");
     } else {
       $finish.html("");
@@ -189,7 +189,7 @@
           var object  = JSON.parse(localStorage.getItem(text));
 
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
-            $finish.addClass("finishStep");
+            $finish.addClass("ok-b");
             $finish.html("✓");
             localStorage.setItem(actualStep,true);
           } else {

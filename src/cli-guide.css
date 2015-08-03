@@ -45,18 +45,26 @@ hr.style {
   height: 500px;
 }
 
+#listofsteps {
+  padding: 0;
+}
+
 #stepscontent {
   text-align: left;
+  line-height: 25px;
+}
+
+#listofcommands {
+  background: black;
+  color: white;
+  font-family: 'Code New Roman';
+  border-radius: 3px;
+  padding: 10px;
+  list-style-type: none;
 }
 
 div.stepcontent {
 	background-color: white;
-}
-
-ul#listofsteps {
-	list-style-type: none;
-  margin: 0;
-  padding: 0;
 }
 
 li.step {
@@ -91,17 +99,35 @@ a.btn-step:active {
   color: white !important;
 }
 
-.finishStep {
-  border-radius: 10px;
-  background: #BADA55;
-  padding: 5px 10px 5px 10px;
+.ok-b {
+  border: 1px solid #008B00;
+  border-radius: 3px;
+  background: #00CD00;
+  padding: 3px;
   color: white;
 }
 
-ul#listofcommands {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+.editor-b {
+  border: 1px solid #CDAD00;
+  border-radius: 3px;
+  background: #FFD700;
+  padding: 3px;
+}
+
+.link-b {
+  border: 1px solid #3A5FCD;
+  border-radius: 3px;
+  background: #4876FF;
+  padding: 3px;
+  color: white;
+}
+
+a.link-b {
+  text-decoration: none;
+}
+
+a.link-b:hover, a.link-b:visited, a.link-b:active {
+  color: white;
 }
 
 #terminal_section {
@@ -137,12 +163,13 @@ ul#listofcommands {
   right: -30px;
 }
 
-#terminal ::-moz-selection, #editor ::-moz-selection { /* Code for Firefox */
+#listofcommands ::-moz-selection, #terminal ::-moz-selection,
+#editor ::-moz-selection { /* Code for Firefox */
   color: black;
   background: #F0E68C;
 }
 
-#terminal ::selection, #editor ::selection {
+#listofcommands ::selection, #terminal ::selection, #editor ::selection {
   color: black;
   background: #F0E68C;
 }
