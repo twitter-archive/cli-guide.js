@@ -85,11 +85,19 @@
         " Now that our job is running, let’s see what it’s doing. Access the scheduler ",
         " web interface at <code>http://$scheduler_hostname:$scheduler_port/scheduler</code> ",
         " Or when using <code>vagrant</code> <code>http://192.168.33.7:8081/scheduler</code> ",
-        " First we see what Jobs are scheduled "
+        " First we see what Jobs are scheduled. <br/><br/> ",
+        " Oops, looks like our first job didn’t quite work! The task failed, so we have to figure ",
+        " out what went wrong. Access the page for our Task by clicking on its host. ",
+        " <br/><br/> ",
+        " Once there, we see that the hello_world process failed. The Task page captures the standard ",
+        " error and standard output streams and makes them available. Clicking through to stderr on ",
+        " the failed hello_world process, we see what happened. "
       ],
-      "tips": "Correct hello_world.py",
+      "tips": [" It looks like we made a typo in our Python script. We wanted xrange, not xrang.",
+              " Edit the hello_world.py script to use the correct function and we will try again."],
       "commands": [
-        {"command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
+        {"command":"nano hello_world.py"},
+        {"command":"aurora job update devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
       ]
     }
   },

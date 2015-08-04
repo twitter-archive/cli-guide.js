@@ -91,10 +91,11 @@
             );
           }
           if(v.content.tips != ""){
+            var tips =  Array.isArray(v.content.tips) ? v.content.tips.join("") : v.content.tips
             $("#stepscontent").append(
               '<hr/ class="style">'
             + "<h3>Tips</h3>"
-            + "<p>"+v.content.tips+"</p>"
+            + "<p>"+tips+"</p>"
             + '<ul id="listofcommands"></ul>'
             );
           }
