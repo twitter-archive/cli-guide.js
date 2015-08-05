@@ -163,9 +163,13 @@
           " INFO] Job url: http://precise64:8081/scheduler/www-data/devel/hello_world ",
           " <br/> ",
           " <br/> ",
-          " ╔════════════════════════════════════════╗ ",
-          " &nbsp;Congratulations you finish the tutorial! ",
-          " ╚════════════════════════════════════════╝ "
+          " ╔════════════════════════════════════════════════╗ ",
+          " &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Congratulations! you finish the tutorial ",
+          " &nbsp;&nbsp;---------------------------------------------- ",
+          " &nbsp;&nbsp;You find more information in our <a href=\"http://aurora.apache.org/documentation/latest/\" target=\"_blank\">Documentation</a>",
+          " &nbsp;&nbsp;---------------------------------------------- ",
+          " &nbsp;&nbsp;For get involved with the <a href=\"http://aurora.apache.org/community/\" target=\"_blank\">Community</a>",
+          " ╚════════════════════════════════════════════════╝ "
         ],
         "depend": "",
         "lastCommand": true
