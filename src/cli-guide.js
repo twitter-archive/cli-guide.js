@@ -30,7 +30,6 @@
       welcomeMessage: 'Welcome to the interactive tutorial',
       nameOfTheProject: 'Apache Aurora',
       heightTerminal: window.innerHeight,
-      stepsFile: 'src/listofsteps.json',
       initStep: 0
     };
 
@@ -51,78 +50,6 @@
     this.init();
   }
 
-  function listOfSteps(opts) {
-    $.getJSON(opts.stepsFile,function(data){
-      $.each(data,function(k,v){
-        $("#listofsteps").append(
-          '<li class="step">'
-        +   '<a id="'+v.step+'" class="btn-step" href="#" data-step="'+v.step+'">'
-        +     v.step
-        +   '</a>'
-        + '</li>'
-        );
-      });
-    });
-  }
-
-  function showInfoOfEachStep(opts,step){
-    // select current step
-    localStorage.setItem('actualstep',step);
-
-    $(".btn-step").removeClass("active");
-    $("#stepscontent").html('');
-    $.getJSON(opts.stepsFile,function(data){
-      $.each(data,function(k,v){
-        if(v.step == step){
-          $("#"+step+".btn-step").addClass("active");
-          $("#steptitle").html("<h3>Step "+v.step+"</h3>");
-          $("#stepscontent").append(
-            '<h3>'+v.content.title+' <span id="finish" data-step="'+step+'"></span></h3>'
-          + '<p>'+v.content.content.join("")+'</p>'
-          );
-          if(v.content.moreinfo != undefined){
-            $("#moreinfo").html(
-                '<div id="openModal" class="modalDialog">'
-              +   '<div>'
-              +     '<a href="#close" title="Close" class="close">X</a>'
-              +     v.content.moreinfo.join("")
-              +   '</div>'
-              + '</div>'
-            );
-          }
-          if(v.content.tips != ""){
-            var tips =  Array.isArray(v.content.tips) ? v.content.tips.join("") : v.content.tips
-            $("#stepscontent").append(
-              '<hr/ class="style">'
-            + "<h3>Tips</h3>"
-            + "<p>"+tips+"</p>"
-            + '<ul id="listofcommands"></ul>'
-            );
-          }
-          if(v.content.commands.length > 0){
-            $.each(v.content.commands,function(key,val){
-              $("#listofcommands").append(
-                "<li> $ "+val.command+"</li>"
-              );
-            });
-          }
-        }
-      });
-    });
-
-    // appears a check when a Step finished
-    var actualStep = localStorage.getItem('actualstep');
-    var $finish = $("#finish[data-step="+actualStep+"]");
-    var finishStep = JSON.parse(localStorage.getItem(step));
-    if(finishStep){
-      $finish.addClass("ok-b");
-      $finish.html("✓");
-    } else {
-      $finish.html("");
-    }
-
-  }
-
   $.fn.cli = function(options, handler, effect){
 
     var opts = $.extend( {}, $.fn.cli.defaults, options );
@@ -141,6 +68,80 @@
       localStorage.setItem("idinput",1);
 
       var self = $("#terminal");
+
+      function listOfSteps(opts) {
+        $.getJSON(opts.stepsFile,function(data){
+          $.each(data,function(k,v){
+            $("#listofsteps").append(
+              '<li class="step">'
+            +   '<a id="'+v.step+'" class="btn-step" href="#" data-step="'+v.step+'">'
+            +     v.step
+            +   '</a>'
+            + '</li>'
+            );
+          });
+        });
+      }
+
+      function showInfoOfEachStep(opts,step){
+        // select current step
+        localStorage.setItem('actualstep',step);
+
+        $(".btn-step").removeClass("active");
+        $("#stepscontent").html('');
+        $.getJSON(opts.stepsFile,function(data){
+          $.each(data,function(k,v){
+            if(v.step == step){
+              $("#"+step+".btn-step").addClass("active");
+              $("#steptitle").html("<h3>Step "+v.step+"</h3>");
+              $("#stepscontent").append(
+                '<h3>'+v.content.title+' <span id="finish" data-step="'+step+'"></span>' +
+                '<span id="skip" class="skip-b" data-step="'+step+'">skip</span>' +
+                '</h3>' +
+                '<p>'+v.content.content.join("")+'</p>'
+              );
+              if(v.content.moreinfo != undefined){
+                $("#moreinfo").html(
+                    '<div id="openModal" class="modalDialog">'
+                  +   '<div>'
+                  +     '<a href="#close" title="Close" class="close">X</a>'
+                  +     v.content.moreinfo.join("")
+                  +   '</div>'
+                  + '</div>'
+                );
+              }
+              if(v.content.tips != ""){
+                var tips =  Array.isArray(v.content.tips) ? v.content.tips.join("") : v.content.tips
+                $("#stepscontent").append(
+                  '<hr/ class="style">'
+                + "<h3>Tips</h3>"
+                + "<p>"+tips+"</p>"
+                + '<ul id="listofcommands"></ul>'
+                );
+              }
+              if(v.content.commands.length > 0){
+                $.each(v.content.commands,function(key,val){
+                  $("#listofcommands").append(
+                    "<li> $ "+val.command+"</li>"
+                  );
+                });
+              }
+            }
+          });
+        });
+
+        // appears a check when a Step finished
+        var actualStep = localStorage.getItem('actualstep');
+        var $finish = $("#finish[data-step="+actualStep+"]");
+        var finishStep = JSON.parse(localStorage.getItem(step));
+        if(finishStep){
+          $finish.addClass("ok-b");
+          $finish.html("✓");
+        } else {
+          $finish.html("");
+        }
+
+      }
 
       function newline(command){
 
@@ -188,7 +189,6 @@
 
         if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
-
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             $finish.addClass("ok-b");
             $finish.html("✓");
@@ -234,7 +234,9 @@
                      depend: object.depend,
                      done:true,
                      orden: object.order,
-                     max:object.count
+                     max:object.count,
+                     animation: object.animation,
+                     lastCommand: object.lastCommand
                     }));
                 if(text.indexOf("cd ") > -1){
                   newline(text);
@@ -258,7 +260,9 @@
                      depend: object.depend,
                      done:true,
                      orden: object.order,
-                     max:object.count
+                     max:object.count,
+                     animation: object.animation,
+                     lastCommand: object.lastCommand
                     }));
                 if(text.indexOf("cd ") > -1){
                   newline(text);
@@ -276,7 +280,9 @@
                    depend: object.depend,
                    done:true,
                    orden: object.order,
-                   max:object.count
+                   max:object.count,
+                   animation: object.animation,
+                   lastCommand: object.lastCommand
                   }));
               if(text.indexOf("cd ") > -1 || text.indexOf("ls") > -1){
                 newline(text);
@@ -385,6 +391,35 @@
         });
       }
 
+      function skipStep(opts,step) {
+        $.getJSON(opts.stepsFile,function(data){
+          $.each(data,function(k,v){
+            if(v.step == step){
+              if(v.content.commands.length > 0){
+                $.each(v.content.commands,function(key,val){
+                  var object  = JSON.parse(localStorage.getItem(val.command));
+                  localStorage.setItem(val.command,
+                  JSON.stringify(
+                    {step:object.step,
+                     command:object.command,
+                     depend: object.depend,
+                     done:true,
+                     orden: object.order,
+                     max:object.count,
+                     animation: object.animation,
+                     lastCommand: object.lastCommand
+                    }));
+                });
+              }
+            }
+          });
+        });
+        localStorage.setItem(step,true);
+        var $finish = $("#finish[data-step="+step+"]");
+        $finish.addClass("ok-b");
+        $finish.html("✓");
+      }
+
       function cleanSteps(jsonCommands){
         $.getJSON(jsonCommands,function(data){
           $.each(data,function(ks,steps){
@@ -436,6 +471,9 @@
         localStorage.setItem("commands",listCommands);
       }
 
+      listOfSteps(opts);
+      showInfoOfEachStep(opts, 1);
+
       newline("");
       autocompleteCommands(opts.commandStepsFile);
       // load commands steps from json
@@ -445,6 +483,17 @@
 
       // preload all files from json
       preLoadFile(opts.preloadfile);
+
+      $(document).on('click','.btn-step',function(){
+        showInfoOfEachStep(opts,$(this).data('step'));
+      }).on('mouseup','.btn-step',function(){
+        $("#"+opts.initStep+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
+        $(this).css({"background-color": "#8F8F8F", "color": "white"});
+      });
+
+      $(document).on('click','#skip',function(){
+        skipStep(opts,$(this).data('step'));
+      });
 
       var id = 0;
 
@@ -861,7 +910,8 @@
 
   $.fn.cli.defaults = {
     commandStepsFile: "src/listofcommandsteps.json",
-    preloadfile: "src/preloadfile.json"
+    preloadfile: "src/preloadfile.json",
+    stepsFile : "src/listofsteps.json"
   };
 
   Plugin.prototype.init = function () {
@@ -969,16 +1019,7 @@
 
     $("#editor").hide();
 
-    listOfSteps(opts);
-    showInfoOfEachStep(opts, opts.initStep);
     localStorage.setItem('actualstep',opts.initStep);
-
-    $(document).on('click','.btn-step',function(){
-      showInfoOfEachStep(opts,$(this).data('step'));
-    }).on('mouseup','.btn-step',function(){
-      $("#"+opts.initStep+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
-      $(this).css({"background-color": "#8F8F8F", "color": "white"});
-    });
 
     $("#terminal").append('<div class="line">'+insertAt(opts.welcomeMessage, 27, opts.nameOfTheProject)+'</div>');
     $("#terminal").append('<br/>');
