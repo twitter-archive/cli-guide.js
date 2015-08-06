@@ -84,8 +84,10 @@
       }
 
       function showInfoOfEachStep(opts,step){
+
         // select current step
         localStorage.setItem('actualstep',step);
+        var skipStepArray = JSON.parse("[" + opts.skipsteps + "]");
 
         $(".btn-step").removeClass("active");
         $("#stepscontent").html('');
@@ -94,9 +96,15 @@
             if(v.step == step){
               $("#"+step+".btn-step").addClass("active");
               $("#steptitle").html("<h3>Step "+v.step+"</h3>");
+              var skip = '';
+              for (var i = 0; i < skipStepArray.length; i++) {
+                if(step == skipStepArray[i]){
+                  skip = '<span id="skip" class="skip-b" data-step="'+step+'">skip</span>';
+                }
+              }
               $("#stepscontent").append(
                 '<h3>'+v.content.title+' <span id="finish" data-step="'+step+'"></span>' +
-                '<span id="skip" class="skip-b" data-step="'+step+'">skip</span>' +
+                skip +
                 '</h3>' +
                 '<p>'+v.content.content.join("")+'</p>'
               );
@@ -911,7 +919,8 @@
   $.fn.cli.defaults = {
     commandStepsFile: "src/listofcommandsteps.json",
     preloadfile: "src/preloadfile.json",
-    stepsFile : "src/listofsteps.json"
+    stepsFile : "src/listofsteps.json",
+    skipsteps: ""
   };
 
   Plugin.prototype.init = function () {
