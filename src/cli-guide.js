@@ -144,7 +144,7 @@
         var finishStep = JSON.parse(localStorage.getItem(step));
         if(finishStep){
           $finish.addClass("ok-b");
-          $finish.html("✓");
+          $finish.html("Next ✓");
         } else {
           $finish.html("");
         }
@@ -199,7 +199,7 @@
           var object  = JSON.parse(localStorage.getItem(text));
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             $finish.addClass("ok-b");
-            $finish.html("✓");
+            $finish.html("Next ✓");
             localStorage.setItem(actualStep,true);
           } else {
             $finish.html("");
@@ -425,7 +425,9 @@
         localStorage.setItem(step,true);
         var $finish = $("#finish[data-step="+step+"]");
         $finish.addClass("ok-b");
-        $finish.html("✓");
+        $finish.html("Next ✓");
+        // switch to next step
+        showInfoOfEachStep(opts,step+1);
       }
 
       function cleanSteps(jsonCommands){
