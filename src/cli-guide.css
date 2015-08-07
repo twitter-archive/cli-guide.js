@@ -63,6 +63,10 @@ hr.style {
   list-style-type: none;
 }
 
+#skip {
+  float: right;
+}
+
 div.stepcontent {
 	background-color: white;
 }
@@ -97,6 +101,14 @@ a.btn-step:active {
 .active {
   background-color: #4D4D4D !important;
   color: white !important;
+}
+
+.skip-b {
+  border: 1px solid #696969;
+  border-radius: 3px;
+  background: #A9A9A9;
+  padding: 3px;
+  color: white;
 }
 
 .ok-b {
