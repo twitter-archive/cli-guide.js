@@ -96,6 +96,7 @@
             if(v.step == step){
               $("#"+step+".btn-step").addClass("active");
               $("#steptitle").html("<h3>Step "+v.step+"</h3>");
+              var nextstep = ( (step + 1) > getLastStep() ) ? getLastStep() : step + 1;
               var skip = '';
               for (var i = 0; i < skipStepArray.length; i++) {
                 if(step == skipStepArray[i]){
@@ -103,7 +104,7 @@
                 }
               }
               $("#stepscontent").append(
-                '<h3>'+v.content.title+' <span id="finish" data-step="'+step+'"></span>' +
+                '<h3>'+v.content.title+' <span id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></span>' +
                 skip +
                 '</h3>' +
                 '<p>'+v.content.content.join("")+'</p>'
@@ -143,8 +144,13 @@
         var $finish = $("#finish[data-step="+actualStep+"]");
         var finishStep = JSON.parse(localStorage.getItem(step));
         if(finishStep){
-          $finish.addClass("ok-b");
-          $finish.html("Next ✓");
+          if(actualStep == getLastStep()){
+            $finish.addClass("ok-b");
+            $finish.html("Finish ✓");
+          } else {
+            $finish.addClass("ok-b");
+            $finish.html("Next ✓");
+          }
         } else {
           $finish.html("");
         }
@@ -198,8 +204,13 @@
         if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
-            $finish.addClass("ok-b");
-            $finish.html("Next ✓");
+            if(actualStep == getLastStep()){
+              $finish.addClass("ok-b");
+              $finish.html("Finish ✓");
+            } else {
+              $finish.addClass("ok-b");
+              $finish.html("Next ✓");
+            }
             localStorage.setItem(actualStep,true);
           } else {
             $finish.html("");
@@ -399,6 +410,21 @@
         });
       }
 
+      function getLastStep(){ // return an int
+        var step;
+        $.ajaxSetup({
+          async: false
+        });
+        $.getJSON(opts.stepsFile,function(data){
+          $.each(data,function(k,v){
+            if(v.laststep){
+              step = v.step;
+            }
+          });
+        });
+        return step;
+      }
+
       function skipStep(opts,step) {
         $.getJSON(opts.stepsFile,function(data){
           $.each(data,function(k,v){
@@ -503,6 +529,10 @@
 
       $(document).on('click','#skip',function(){
         skipStep(opts,$(this).data('step'));
+      });
+
+      $(document).on('click','#finish',function(){
+        showInfoOfEachStep(opts,$(this).data('nextstep'));
       });
 
       var id = 0;
