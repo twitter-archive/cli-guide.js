@@ -135,6 +135,8 @@
                   );
                 });
               }
+              // for image modal
+              $("#stepscontent").append('<div id="contentimgmodal"><div>');
             }
           });
         });
@@ -155,6 +157,18 @@
           $finish.html("");
         }
 
+      }
+
+      function openImgModal(img, size){
+        var sizeOfModal = (size == "s") ? "modalImgSDialog" : "modalImgBDialog";
+        $("#contentimgmodal").html(
+            '<div id="openimgmodal" class="modalDialog '+sizeOfModal+'">'
+          +   '<div>'
+          +     '<a href="#close" title="Close" class="close">X</a>'
+          +     '<img class="imginmodal" src="'+img+'" />'
+          +   '</div>'
+          + '</div>'
+        );
       }
 
       function newline(command){
@@ -533,6 +547,10 @@
 
       $(document).on('click','#finish',function(){
         showInfoOfEachStep(opts,$(this).data('nextstep'));
+      });
+
+      $(document).on('click','.modalimage',function(){
+        openImgModal($(this).data('image'),$(this).data('size'));
       });
 
       var id = 0;
