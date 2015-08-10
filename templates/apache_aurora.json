@@ -18,7 +18,8 @@
         {"command":"cd aurora"},
         {"command":"vagrant up"}
       ]
-    }
+    },
+    "laststep": false
   },
   {
     "step": "2",
@@ -51,7 +52,8 @@
       "commands": [
         {"command":"ls"}
       ]
-    }
+    },
+    "laststep": false
   },
   {
     "step": "3",
@@ -67,7 +69,7 @@
         " different from its counterpart in the other key, then the two job keys identify ",
         " two separate jobs. If all four values are identical, the job keys identify the same job. <br/> ",
         " <code>/etc/aurora/clusters.json</code> within the Aurora scheduler has the available cluster names. ",
-        " For Vagrant, from the top-level of your Aurora repository clone, do: "
+        " For Vagrant, from the top-level of your Aurora repository clone. "
       ],
       "tips": "Run these commands",
       "commands": [
@@ -75,43 +77,63 @@
         {"command":"cat /etc/aurora/clusters.json"},
         {"command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
       ]
-    }
+    },
+    "laststep": false
   },
   {
     "step": "4",
     "content": {
       "title": "Watching the Job Run",
       "content": [
-        " Now that our job is running, let’s see what it’s doing. Access the scheduler ",
-        " web interface at <code>http://$scheduler_hostname:$scheduler_port/scheduler</code> ",
-        " Or when using <code>vagrant</code> <code>http://192.168.33.7:8081/scheduler</code> ",
-        " First we see what Jobs are scheduled. <br/><br/> ",
-        " Oops, looks like our first job didn’t quite work! The task failed, so we have to figure ",
-        " out what went wrong. Access the page for our Task by clicking on its host. ",
+        " Now that our job is running, let’s see what it’s doing. Access the scheduler web interface at  ",
+        " http://$scheduler_hostname:$scheduler_port/scheduler Or when using vagrant, ",
+        " http://192.168.33.7:8081/scheduler First we see what Jobs are scheduled: <br/> ",
+        " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/scjobssummary.png\">scheduled jobs summary</a> ",
+        " <br/><br/> ",
+        " Which in this case was www-data, and we see the Jobs associated with that role: <br/> ",
+        " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/wwwdata.png\">www-data</a> ",
+        " <br/><br/> ",
+        " If you click on your hello_world Job, you’ll see: <br/>",
+        " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/jobhw.png\">job:hello_world</a> ",
+        " <br/><br/> ",
+        " Oops, looks like our first job didn’t quite work! The task failed, so we have to figure out what went wrong. ",
+        " <br/> Access the page for our Task by clicking on its host. <br/> ",
+        " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/failjob.png\">aurora job fail</a> ",
         " <br/><br/> ",
         " Once there, we see that the hello_world process failed. The Task page captures the standard ",
         " error and standard output streams and makes them available. Clicking through to stderr on ",
-        " the failed hello_world process, we see what happened. "
+        " the failed hello_world process, we see what happened. <br/> ",
+        " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"s\" data-image=\"./templates/aurora_images/stderr_hwpy.png\">log stderr</a> "
       ],
-      "tips": [" It looks like we made a typo in our Python script. We wanted xrange, not xrang.",
-              " Edit the hello_world.py script to use the correct function and we will try again."],
+      "tips":
+        [
+          " It looks like we made a typo in our Python script. We wanted xrange, not xrang. ",
+          " Edit the hello_world.py script to use the correct function and we will try again. ",
+          " For show the result you can see in these images : <br/> ",
+          " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/updatejob.png\">aurora job update</a> ",
+          " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/log_stdout.png\">output of log</a> "
+        ],
       "commands": [
         {"command":"nano hello_world.py"},
         {"command":"aurora job update devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
       ]
-    }
+    },
+    "laststep": false
   },
   {
     "step": "5",
     "content": {
       "title": "Cleanup",
       "content": [
-        " Now that we’re done, we kill the job using the Aurora client "
+        " Now that we’re done, we kill the job using the Aurora client. <br/> ",
+        " The job page now shows the hello_world tasks as completed. ",
+        " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/killjob.png\">aurora job killall</a> "
       ],
       "tips": "Run this command",
       "commands": [
         {"command":"aurora job killall devcluster/www-data/devel/hello_world"}
       ]
-    }
+    },
+    "laststep": true
   }
 ]
