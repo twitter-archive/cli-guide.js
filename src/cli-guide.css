@@ -31,7 +31,7 @@ hr.style {
 
 /* steps */
 #steps_section {
-  font-family: 'SegoeUISymbol';
+  font-family: 'SegoeUISymbol', Helvetica, sans-serif;
   right: -10px;
   overflow: auto;
   height: 500px;
@@ -49,7 +49,7 @@ hr.style {
 #listofcommands {
   background: black;
   color: white;
-  font-family: 'Code New Roman';
+  font-family: 'Code New Roman', 'Lucida Console';
   border-radius: 3px;
   padding: 10px;
   list-style-type: none;

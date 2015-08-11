@@ -1,20 +1,30 @@
 # CLI Guide JQuery Plugin
 
-GSOC 2015 Project
+[GSoC 2015 Project](http://www.google-melange.com/gsoc/project/details/google/gsoc2015/marti1125/5757334940811264)
 
 A javascript library for creating interactive command line tutorials that run in your web browser
+
+Necessaries Files
+-----------------
+
+### Fonts
+
+* [Segoe UI Symbol Regular](http://openfontlibrary.org/en/font/segoe-ui-symbol)
+* [Code New Roman Regular](http://openfontlibrary.org/en/font/code-new-roman)
+
+
 
 Demos
 -----
 
 * [Apache Aurora](http://twitter.github.io/cli-guide.js/demo/aurora.html)
-* [Chef](http://twitter.github.io/cli-guide.js/demo/chef.html)
+<!-- * [Chef](http://twitter.github.io/cli-guide.js/demo/chef.html) -->
 
 
 Documentation
 -------------
 
-####Example
+#### Example
 
     $('#stepsdiv').cliguide(
     {
@@ -28,7 +38,7 @@ Documentation
     }, function(){
     });
 
-####Options
+#### Options
 
 | Property | Description |
 |---|---|
@@ -39,9 +49,9 @@ Documentation
 | commandStepsFile | a .json file |
 | preloadfile | a .json file |
 
-####The structure of .json files
+#### The structure of .json files
 
-####stepsFile
+#### stepsFile
 
     [
       {
@@ -59,7 +69,7 @@ Documentation
       }
     ]
 
-####commandStepsFile
+#### commandStepsFile
 
     [
       {
@@ -68,7 +78,7 @@ Documentation
       }
     ]
 
-####preloadfile
+#### preloadfile
 
     [
      {
@@ -84,11 +94,11 @@ Documentation
 Components
 -------------
 
-####Terminal
+#### Terminal
 
 ![terminal](https://raw.github.com/twitter/cli-guide.js/master/terminal.gif)
 
-####Nano Editor
+#### Nano Editor
 
 ![nano editor](https://raw.github.com/twitter/cli-guide.js/master/nano.gif)
 
