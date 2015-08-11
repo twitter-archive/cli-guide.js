@@ -1,14 +1,6 @@
 @font-face {
   font-family: 'SegoeUISymbol';
-  src:
-  url('SegoeUISymbol.eot?#iefix')
-    format('embedded-opentype'),
-  url('SegoeUISymbol.woff')
-    format('woff'),
-  url('SegoeUISymbol.ttf')
-    format('truetype'),
-  url('SegoeUISymbol.svg#SegoeUISymbol')
-    format('svg');
+  src: url('SegoeUISymbol.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
