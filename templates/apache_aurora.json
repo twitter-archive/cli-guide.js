@@ -110,7 +110,7 @@
           " It looks like we made a typo in our Python script. We wanted xrange, not xrang. ",
           " Edit the hello_world.py script to use the correct function and we will try again. ",
           " For show the result you can see in these images : <br/> ",
-          " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/updatejob.png\">aurora job update</a> ",
+          " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"g\" data-image=\"./templates/aurora_images/updatejob.png\">aurora job update</a> ",
           " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/log_stdout.png\">output of log</a> "
         ],
       "commands": [

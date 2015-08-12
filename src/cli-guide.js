@@ -160,7 +160,14 @@
       }
 
       function openImgModal(img, size){
-        var sizeOfModal = (size == "s") ? "modalImgSDialog" : "modalImgBDialog";
+        var sizeOfModal = "";
+        if(size == "g"){
+          sizeOfModal = "modalImgGDialog";
+        } else if(size == "b"){
+          sizeOfModal = "modalImgBDialog";
+        } else {
+          sizeOfModal = "modalImgSDialog";
+        }
         $("#contentimgmodal").html(
             '<div id="openimgmodal" class="modalDialog '+sizeOfModal+'">'
           +   '<div>'

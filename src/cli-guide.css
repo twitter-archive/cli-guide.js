@@ -328,6 +328,16 @@ span.textinline br {
   background: #fff;
 }
 
+.modalImgSDialog > div {
+	width: 450px;
+	position: relative;
+  margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+  background: #fff;
+}
+
+
 .modalImgBDialog > div {
 	width: 650px;
 	position: relative;
@@ -337,8 +347,8 @@ span.textinline br {
   background: #fff;
 }
 
-.modalImgSDialog > div {
-	width: 450px;
+.modalImgGDialog > div {
+	width: 840px;
 	position: relative;
   margin: 10% auto;
 	padding: 5px 20px 13px 20px;
