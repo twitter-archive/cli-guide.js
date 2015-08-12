@@ -100,11 +100,11 @@
               var skip = '';
               for (var i = 0; i < skipStepArray.length; i++) {
                 if(step == skipStepArray[i]){
-                  skip = '<span id="skip" class="skip-b" data-step="'+step+'">skip</span>';
+                  skip = '<a href="#" id="skip" class="skip-b" data-step="'+step+'">skip</a>';
                 }
               }
               $("#stepscontent").append(
-                '<h3>'+v.content.title+' <span id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></span>' +
+                '<h3>'+v.content.title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></a>' +
                 skip +
                 '</h3>' +
                 '<p>'+v.content.content.join("")+'</p>'

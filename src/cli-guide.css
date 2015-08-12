@@ -134,6 +134,14 @@ a.btn-step:active {
   color: black;
 }
 
+a.ok-b {
+  text-decoration: none;
+}
+
+a.ok-b:hover, a.ok-b:visited, a.ok-b:active {
+  color: white;
+}
+
 a.link-b {
   text-decoration: none;
 }
@@ -149,6 +157,15 @@ a.img-b {
 a.img-b:hover, a.img-b:visited, a.img-b:active {
   color: black;
 }
+
+a.skip-b {
+  text-decoration: none;
+}
+
+a.skip-b:hover, a.skip-b:visited, a.skip-b:active {
+  color: white;
+}
+
 
 #terminal_section {
 }
