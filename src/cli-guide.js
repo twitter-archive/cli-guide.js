@@ -100,11 +100,11 @@
               var skip = '';
               for (var i = 0; i < skipStepArray.length; i++) {
                 if(step == skipStepArray[i]){
-                  skip = '<span id="skip" class="skip-b" data-step="'+step+'">skip</span>';
+                  skip = '<a href="#" id="skip" class="skip-b" data-step="'+step+'">skip</a>';
                 }
               }
               $("#stepscontent").append(
-                '<h3>'+v.content.title+' <span id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></span>' +
+                '<h3>'+v.content.title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></a>' +
                 skip +
                 '</h3>' +
                 '<p>'+v.content.content.join("")+'</p>'
@@ -160,7 +160,14 @@
       }
 
       function openImgModal(img, size){
-        var sizeOfModal = (size == "s") ? "modalImgSDialog" : "modalImgBDialog";
+        var sizeOfModal = "";
+        if(size == "g"){
+          sizeOfModal = "modalImgGDialog";
+        } else if(size == "b"){
+          sizeOfModal = "modalImgBDialog";
+        } else {
+          sizeOfModal = "modalImgSDialog";
+        }
         $("#contentimgmodal").html(
             '<div id="openimgmodal" class="modalDialog '+sizeOfModal+'">'
           +   '<div>'
@@ -195,7 +202,7 @@
           '<p class="input">'
         +   '<span class="prompt">you@tutorial:~'+dir+'$ </span>'
         +   '<span id="'+idinput+'" class="parent-textinline">'
-        +     '<span id="'+idinput+'" class="textinline" style="outline-color:black" contenteditable="true">'
+        +     '<span id="'+idinput+'" spellcheck="false" class="textinline" style="outline-color:black" contenteditable="true">'
         +     '</span>'
         +   '</span>'
         + '</p>'
@@ -215,7 +222,9 @@
         var actualStep = localStorage.getItem('actualstep');
         var $finish = $("#finish[data-step="+actualStep+"]");
 
-        if(localStorage.getItem(text) != null){
+        if(text == "") {
+          newline("");
+        } else if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             if(actualStep == getLastStep()){
@@ -274,7 +283,7 @@
                 if(text.indexOf("cd ") > -1){
                   newline(text);
                 } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
-                  newline("");
+                  newline(text);
                 }
                 return result = restCommand(opts,text,id);
               }
@@ -300,7 +309,7 @@
                 if(text.indexOf("cd ") > -1){
                   newline(text);
                 } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
-                  newline("");
+                  newline(text);
                 }
                 return result = restCommand(opts,text,id);
               }
@@ -320,7 +329,7 @@
               if(text.indexOf("cd ") > -1 || text.indexOf("ls") > -1){
                 newline(text);
               } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
-                newline("");
+                newline(text);
               }
               return result = restCommand(opts,text,id);
             }
@@ -575,16 +584,16 @@
             $("#command-x").hide();
             $("#editor").show();
             $('#editor-content').focus();
-            //newline("");
           }
 
-          if( $(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop() ){
+          if($(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop()){
+            var input = "nano " + $(this).text().split(" ").pop();
             $("#terminal").hide();
             $('#editor-content').html('');
             $('#editor-header-filename').html("File: ");
             $('#namefile-x').html('');
             $("#editor").show();
-            newline("");
+            newline(input);
 
             if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
               var file = JSON.parse(localStorage.getItem($(this).text().split(" ").pop()));
@@ -652,7 +661,7 @@
 
           // git clone
           if($(this).text().replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
-
+            var input = "git clone " + $(this).text().split(" ").pop();
             $("#"+id+".response").html("");
             $("#"+id+".response .objects").stop();
 
@@ -707,13 +716,13 @@
                 $("#"+id+".response").append(
                   '<span id="down_c" class="down_class">Receiving objects: <span id="down_m" class="down">100</span>%'
                 + ' (<span id="down_p" class="down">4643</span>/4643) '
-                + ' <span id="down_m" class="down">28</span> MiB | <span id="down_k" class="down">167</span> '
+                + ' <span id="down_mb" class="down">28</span> MiB | <span id="down_k" class="down">167</span> '
                 + ' Kib/s, done. </span><br/> '
                 );
 
                 $("#"+id+".response #down_m").html(100);
                 $("#"+id+".response #down_p").html(4643);
-                $("#"+id+".response #down_m").html(28);
+                $("#"+id+".response #down_mb").html(28);
                 $("#"+id+".response #down_k").html(167);
 
                 $("#"+id+".response .down").each(function () {
@@ -775,7 +784,8 @@
                     });
 
                     $("#"+id+".response .files").promise().done(function(){
-                      newline("");
+                      // save this command in the history
+                      newline(input);
                     });
 
                   });
@@ -796,7 +806,7 @@
             $.each($("#"+id+".cline"), function(i, el){
               $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              newline("");
+              newline(inputUser);
             });
           }
 
@@ -1012,7 +1022,7 @@
 
     +           '<div class="row">'
     +             '<div id="editor-content-parent">'
-    +               '<div id="editor-content" class="col-xs-12" contenteditable="true"></div>'
+    +               '<div id="editor-content" class="col-xs-12" contenteditable="true" spellcheck="false"></div>'
     +             '</div>'
     +           '</div>'
 
