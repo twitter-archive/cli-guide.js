@@ -98,7 +98,7 @@
         " <br/><br/> ",
         " Oops, looks like our first job didn’t quite work! The task failed, so we have to figure out what went wrong. ",
         " <br/> Access the page for our Task by clicking on its host. <br/> ",
-        " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/failjob.png\">aurora job fail</a> ",
+        " <a href=\"#openimgmodal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/failjob.png\">aurora job failed</a> ",
         " <br/><br/> ",
         " Once there, we see that the hello_world process failed. The Task page captures the standard ",
         " error and standard output streams and makes them available. Clicking through to stderr on ",
