@@ -195,7 +195,7 @@
           '<p class="input">'
         +   '<span class="prompt">you@tutorial:~'+dir+'$ </span>'
         +   '<span id="'+idinput+'" class="parent-textinline">'
-        +     '<span id="'+idinput+'" class="textinline" style="outline-color:black" contenteditable="true">'
+        +     '<span id="'+idinput+'" spellcheck="false" class="textinline" style="outline-color:black" contenteditable="true">'
         +     '</span>'
         +   '</span>'
         + '</p>'
@@ -1013,7 +1013,7 @@
 
     +           '<div class="row">'
     +             '<div id="editor-content-parent">'
-    +               '<div id="editor-content" class="col-xs-12" contenteditable="true"></div>'
+    +               '<div id="editor-content" class="col-xs-12" contenteditable="true" spellcheck="false"></div>'
     +             '</div>'
     +           '</div>'
 
