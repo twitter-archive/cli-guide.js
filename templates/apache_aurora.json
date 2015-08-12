@@ -115,7 +115,7 @@
         ],
       "commands": [
         {"command":"nano hello_world.py"},
-        {"command":"aurora job update devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
+        {"command":"aurora update start devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
       ]
     },
     "laststep": false
