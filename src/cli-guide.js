@@ -222,7 +222,9 @@
         var actualStep = localStorage.getItem('actualstep');
         var $finish = $("#finish[data-step="+actualStep+"]");
 
-        if(localStorage.getItem(text) != null){
+        if(text == "") {
+          newline("");
+        } else if(localStorage.getItem(text) != null){
           var object  = JSON.parse(localStorage.getItem(text));
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             if(actualStep == getLastStep()){
