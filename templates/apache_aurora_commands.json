@@ -118,7 +118,7 @@
        "result": [
          " &nbsp;&nbsp; INFO] Creating job hello_world <br/> ",
          " &nbsp;&nbsp; INFO] Checking status of devcluster/www-data/devel/hello_world <br/> ",
-         " Job create succeeded: job url=http://192.168.33.7:8081/scheduler/www-data/devel/hello_world "
+         " Job create succeeded: job url=http://aurora.local:8081/scheduler/www-data/devel/hello_world "
        ],
        "depend": ["vagrant ssh", "cat /etc/aurora/clusters.json"],
        "lastCommand": true
@@ -137,22 +137,12 @@
        },
        {
         "order" : 2,
-        "command":"aurora job update devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
+        "command":"aurora update start devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
         "animation": true,
         "result": [
-          " &nbsp;&nbsp; INFO] Updating job: hello_world <br/> ",
-          " &nbsp;&nbsp; INFO] Instances to update: [0] <br/> ",
-          " &nbsp;&nbsp; INFO] Processing in parallel with 1 worker thread(s) <br/> ",
-          " &nbsp;&nbsp; INFO] Examining instance: 0 <br/> ",
-          " &nbsp;&nbsp; INFO] Killing instance: 0 <br/> ",
-          " &nbsp;&nbsp; INFO] Killed: 0 <br/> ",
-          " &nbsp;&nbsp; INFO] Adding instance: 0 <br/> ",
-          " &nbsp;&nbsp; INFO] Added: 0 <br/> ",
-          " &nbsp;&nbsp; INFO] Watching instances: [0] <br/> ",
-          " &nbsp;&nbsp; INFO] Detected RUNNING instance 0 <br/> ",
-          " &nbsp;&nbsp; INFO] Instance 0 has been up and healthy for at least 45 seconds <br/> ",
-          " &nbsp;&nbsp; INFO] Update successful <br/> ",
-          " Update completed successfully <br/> "
+          " &nbsp;&nbsp; INFO] Starting update for: hello_world <br/> ",
+          " Job update has started. <br/> ",
+          " View your update progress at http://aurora.local:8081/scheduler/www-data/devel/hello_world/5d99e663-8d90-4f7a-9faf-d31f07ee931c "
         ],
         "depend": "nano hello_world.py",
         "lastCommand": true
