@@ -274,7 +274,7 @@
                 if(text.indexOf("cd ") > -1){
                   newline(text);
                 } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
-                  newline("");
+                  newline(text);
                 }
                 return result = restCommand(opts,text,id);
               }
@@ -300,7 +300,7 @@
                 if(text.indexOf("cd ") > -1){
                   newline(text);
                 } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
-                  newline("");
+                  newline(text);
                 }
                 return result = restCommand(opts,text,id);
               }
@@ -320,7 +320,7 @@
               if(text.indexOf("cd ") > -1 || text.indexOf("ls") > -1){
                 newline(text);
               } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
-                newline("");
+                newline(text);
               }
               return result = restCommand(opts,text,id);
             }
@@ -575,16 +575,16 @@
             $("#command-x").hide();
             $("#editor").show();
             $('#editor-content').focus();
-            //newline("");
           }
 
-          if( $(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop() ){
+          if($(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop()){
+            var input = "nano " + $(this).text().split(" ").pop();
             $("#terminal").hide();
             $('#editor-content').html('');
             $('#editor-header-filename').html("File: ");
             $('#namefile-x').html('');
             $("#editor").show();
-            newline("");
+            newline(input);
 
             if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
               var file = JSON.parse(localStorage.getItem($(this).text().split(" ").pop()));
@@ -652,7 +652,7 @@
 
           // git clone
           if($(this).text().replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
-
+            var input = "git clone " + $(this).text().split(" ").pop();
             $("#"+id+".response").html("");
             $("#"+id+".response .objects").stop();
 
@@ -707,13 +707,13 @@
                 $("#"+id+".response").append(
                   '<span id="down_c" class="down_class">Receiving objects: <span id="down_m" class="down">100</span>%'
                 + ' (<span id="down_p" class="down">4643</span>/4643) '
-                + ' <span id="down_m" class="down">28</span> MiB | <span id="down_k" class="down">167</span> '
+                + ' <span id="down_mb" class="down">28</span> MiB | <span id="down_k" class="down">167</span> '
                 + ' Kib/s, done. </span><br/> '
                 );
 
                 $("#"+id+".response #down_m").html(100);
                 $("#"+id+".response #down_p").html(4643);
-                $("#"+id+".response #down_m").html(28);
+                $("#"+id+".response #down_mb").html(28);
                 $("#"+id+".response #down_k").html(167);
 
                 $("#"+id+".response .down").each(function () {
@@ -775,7 +775,8 @@
                     });
 
                     $("#"+id+".response .files").promise().done(function(){
-                      newline("");
+                      // save this command in the history
+                      newline(input);
                     });
 
                   });
@@ -796,7 +797,7 @@
             $.each($("#"+id+".cline"), function(i, el){
               $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              newline("");
+              newline(inputUser);
             });
           }
 
