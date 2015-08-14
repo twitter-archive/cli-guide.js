@@ -546,14 +546,22 @@
           async: false
         });
         $.getJSON(commands,function(data){
-          $.each(data,function(k,v){
-            // when more than one command have the same result
-            if(Array.isArray(v.command)){
-              for(var c = 0; c < v.command.length; c++){
-                listCommands.push(v.command[c]);
+          $.each(data,function(key,steps){
+            $.each(steps,function(k,commands){
+              for (var i = 0; i < commands.length; i++) {
+                if(Array.isArray(commands[i].command)){
+                  for(var c = 0; c < commands[i].command.length; c++){
+                    if(commands[i].command != undefined){
+                      listCommands.push(commands[i].command[c]);
+                    }
+                  }
+                } else {
+                  if(commands[i].command != undefined){
+                    listCommands.push(commands[i].command);
+                  }
+                }
               }
-            }
-            listCommands.push(v.command);
+            });
           });
         });
         listCommands.push("test"); // is only for testing....
@@ -876,7 +884,9 @@
         // autocomplete of commands
         var arrayCommands = new Array();
         arrayCommands = localStorage.getItem("commands").split(',');
+        console.log(arrayCommands);
         if(event.which == 9){
+          console.log("here...");
           for(var c = 0; c < arrayCommands.length; c++){
             var regex = new RegExp("\^"+arrayCommands[c].substring(0,3));
             if(regex.test($(this).text())){
