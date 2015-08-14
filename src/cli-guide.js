@@ -564,7 +564,6 @@
             });
           });
         });
-        listCommands.push("test"); // is only for testing....
         localStorage.setItem("commands",listCommands);
       }
 
@@ -884,15 +883,14 @@
         // autocomplete of commands
         var arrayCommands = new Array();
         arrayCommands = localStorage.getItem("commands").split(',');
-        console.log(arrayCommands);
         if(event.which == 9){
-          console.log("here...");
           for(var c = 0; c < arrayCommands.length; c++){
             var regex = new RegExp("\^"+arrayCommands[c].substring(0,3));
             if(regex.test($(this).text())){
               $("#"+idparent+".parent-textinline").children(".textinline").text(arrayCommands[c]);
             }
           }
+          event.preventDefault();
         }
       });
 
