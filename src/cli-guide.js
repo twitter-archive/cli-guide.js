@@ -110,14 +110,15 @@
                 '<p>'+v.content.content.join("")+'</p>'
               );
               if(v.content.moreinfo != undefined){
-                $("#moreinfo").html(
+                Modal.showInfo("moreinfo",v.content.moreinfo.join(""));
+                /*$("#moreinfo").html(
                     '<div id="modal" class="modalDialog">'
                   +   '<div>'
                   +     '<a href="#close" title="Close" class="close">X</a>'
                   +     v.content.moreinfo.join("")
                   +   '</div>'
                   + '</div>'
-                );
+                );*/
               }
               if(v.content.tips != ""){
                 var tips =  Array.isArray(v.content.tips) ? v.content.tips.join("") : v.content.tips
@@ -159,33 +160,44 @@
 
       }
 
-      function openImgModal(img, size){
-        var sizeOfModal = "";
-        if(size == "g"){
-          sizeOfModal = "modalImgGDialog";
-        } else if(size == "b"){
-          sizeOfModal = "modalImgBDialog";
-        } else {
-          sizeOfModal = "modalImgSDialog";
+      var Modal = {
+        showInfo: function(div,content){
+          $("#"+div).html(
+              '<div id="modal" class="modalDialog">'
+            +   '<div>'
+            +     '<a href="#close" title="Close" class="close">X</a>'
+            +     content
+            +   '</div>'
+            + '</div>'
+          );
+        },
+        showImg: function(img, size){
+          var sizeOfModal = "";
+          if(size === "g"){
+            sizeOfModal = "modalImgGDialog";
+          } else if(size === "b"){
+            sizeOfModal = "modalImgBDialog";
+          } else {
+            sizeOfModal = "modalImgSDialog";
+          }
+          $("#contentimgmodal").html(
+              '<div id="modal" class="modalDialog '+sizeOfModal+'">'
+            +   '<div>'
+            +     '<a href="#close" title="Close" class="close">X</a>'
+            +     '<img class="imginmodal" src="'+img+'" />'
+            +   '</div>'
+            + '</div>'
+          );
+        },
+        close: function() {
+          if (location.hash == '#modal') {
+            location.hash = '';
+          }
         }
-        $("#contentimgmodal").html(
-            '<div id="modal" class="modalDialog '+sizeOfModal+'">'
-          +   '<div>'
-          +     '<a href="#close" title="Close" class="close">X</a>'
-          +     '<img class="imginmodal" src="'+img+'" />'
-          +   '</div>'
-          + '</div>'
-        );
-      }
-
-      function modalClose() {
-        if (location.hash == '#modal') {
-          location.hash = '';
-        }
-      }
+      };
 
       $(document).on('click','#modal',function(){
-        modalClose();
+        Modal.close();
       });
 
       $(document).on('click','#modal div',function(event){
@@ -585,7 +597,7 @@
       });
 
       $(document).on('click','.modalimage',function(){
-        openImgModal($(this).data('image'),$(this).data('size'));
+        Modal.showImg($(this).data('image'),$(this).data('size'));
       });
 
       var id = 0;
