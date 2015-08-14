@@ -111,7 +111,7 @@
               );
               if(v.content.moreinfo != undefined){
                 $("#moreinfo").html(
-                    '<div id="openModal" class="modalDialog">'
+                    '<div id="modal" class="modalDialog">'
                   +   '<div>'
                   +     '<a href="#close" title="Close" class="close">X</a>'
                   +     v.content.moreinfo.join("")
@@ -169,7 +169,7 @@
           sizeOfModal = "modalImgSDialog";
         }
         $("#contentimgmodal").html(
-            '<div id="openimgmodal" class="modalDialog '+sizeOfModal+'">'
+            '<div id="modal" class="modalDialog '+sizeOfModal+'">'
           +   '<div>'
           +     '<a href="#close" title="Close" class="close">X</a>'
           +     '<img class="imginmodal" src="'+img+'" />'
@@ -177,6 +177,20 @@
           + '</div>'
         );
       }
+
+      function modalClose() {
+        if (location.hash == '#modal') {
+          location.hash = '';
+        }
+      }
+
+      $(document).on('click','#modal',function(){
+        modalClose();
+      });
+
+      $(document).on('click','#modal div',function(event){
+        event.stopPropagation();
+      });
 
       function newline(command){
 
