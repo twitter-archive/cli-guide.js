@@ -111,14 +111,6 @@
               );
               if(v.content.moreinfo != undefined){
                 Modal.showInfo("moreinfo",v.content.moreinfo.join(""));
-                /*$("#moreinfo").html(
-                    '<div id="modal" class="modalDialog">'
-                  +   '<div>'
-                  +     '<a href="#close" title="Close" class="close">X</a>'
-                  +     v.content.moreinfo.join("")
-                  +   '</div>'
-                  + '</div>'
-                );*/
               }
               if(v.content.tips != ""){
                 var tips =  Array.isArray(v.content.tips) ? v.content.tips.join("") : v.content.tips
