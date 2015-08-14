@@ -28,9 +28,9 @@
   var pluginName = "cliguide",
     defaults = {
       welcomeMessage: 'Welcome to the interactive tutorial',
-      nameOfTheProject: 'Apache Aurora',
+      nameOfTheProject: 'CLI-Guide.JS',
       heightTerminal: window.innerHeight,
-      initStep: 0
+      initStep: 1
     };
 
   // The actual plugin constructor
@@ -488,24 +488,36 @@
       }
 
       function preLoadFile(data){
-        var files = []
-        $.ajaxSetup({
-          async: false
-        });
-        if(data != "") {
-          $.getJSON(data,function(data){
-            $.each(data,function(k,v){
-              // using .join method to convert array to string without commas
-              files.push(v.name);
-              // save each file
-              localStorage.setItem(v.name,
-                JSON.stringify({
-                  content: v.content.join(""),
-                  language: (v.language == undefined) ? "markup" : v.language
-                }));
-            });
+        // validation
+        // if the json file is empty
+        if(data===""){
+          localStorage.setItem("hello_world.py",
+            JSON.stringify({
+              content: "print \"Hello World!\"",
+              language: "python"
+          }));
+          // add a python file for show, how to works nano editor
+          localStorage.setItem("files","hello_world.py");
+        } else {
+          var files = []
+          $.ajaxSetup({
+            async: false
           });
-          localStorage.setItem("files",files);
+          if(data != "") {
+            $.getJSON(data,function(data){
+              $.each(data,function(k,v){
+                // using .join method to convert array to string without commas
+                files.push(v.name);
+                // save each file
+                localStorage.setItem(v.name,
+                  JSON.stringify({
+                    content: v.content.join(""),
+                    language: (v.language == undefined) ? "markup" : v.language
+                }));
+              });
+            });
+            localStorage.setItem("files",files);
+          }
         }
       }
 
@@ -571,7 +583,8 @@
           id++;
 
           $(this).removeAttr('contenteditable');
-          effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
+          $('<p id="'+id+'" class="response">').appendTo(self);
+          //effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
 
           // print the result of commands
           $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text(),id));
@@ -976,10 +989,11 @@
 
   };
 
+  // the structure of these json template must be in the documentation
   $.fn.cli.defaults = {
-    commandStepsFile: "src/listofcommandsteps.json",
-    preloadfile: "src/preloadfile.json",
-    stepsFile : "src/listofsteps.json",
+    commandStepsFile: "", //src/listofcommandsteps.json
+    preloadfile: "", // src/preloadfile.json
+    stepsFile : "", // src/listofsteps.json
     skipsteps: ""
   };
 
