@@ -293,8 +293,9 @@
 
         if(text == "") {
           newline("");
-        } else if(localStorage.getItem(text) != null){
-          var object  = JSON.parse(localStorage.getItem(text));
+        } else if(localStorage.getItem(text.trim()) != null){
+          var object  = JSON.parse(localStorage.getItem(text.trim()));
+          console.log(object);
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             if(actualStep == getLastStep()){
               $finish.addClass("ok-b");
@@ -407,7 +408,7 @@
       }
 
       function restCommand(opts,text,id){
-
+        console.log(opts);
         var result = "";
 
         $.ajaxSetup({
@@ -417,37 +418,39 @@
         $.getJSON(opts,function(data){
           $.each(data,function(key,steps){
             $.each(steps,function(k,commands){
-              for (var i = 0; i < commands.length; i++) {
-                // when more than one command have the same result
-                if(Array.isArray(commands[i].command)){
-                  for(var c = 0; c < commands[i].command.length; c++){
-                    if(text == commands[i].command[c]) {
-                      if(commands[i].type != undefined){
-                        if(commands[i].type === "animation"){
-                          var arrayMultiResult = [];
-                          for (var l = 0; l < commands[i].result.length; l++) {
-                            arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+              for(var i = 0; i < commands.length; i++) {
+                if(commands[i].command != undefined){
+                  // when more than one command have the same result
+                  if(Array.isArray(commands[i].command)){
+                    for(var c = 0; c < commands[i].command.length; c++){
+                      if(text.trim() == commands[i].command[c]) {
+                        if(commands[i].type != undefined){
+                          if(commands[i].type === "animation"){
+                            var arrayMultiResult = [];
+                            for (var l = 0; l < commands[i].result.length; l++) {
+                              arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                            }
+                            result = arrayMultiResult;
+                          } else {
+                            result = commands[i].result;
                           }
-                          result = arrayMultiResult;
                         }
-                      } else {
-                        result = commands[i].result;
                       }
                     }
                   }
-                }
-                if(text == commands[i].command) {
-                  if(commands[i].result != undefined){
-                    if(commands[i].type != undefined){
-                      if(commands[i].type === "animation"){
-                        var arrayResult = [];
-                        for (var l = 0; l < commands[i].result.length; l++) {
-                          arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                  if(commands[i].command === text.trim()) {
+                    if(commands[i].result != undefined){
+                      if(commands[i].type != undefined){
+                        if(commands[i].type === "animation"){
+                          var arrayResult = [];
+                          for(var l = 0; l < commands[i].result.length; l++) {
+                            arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                          }
+                          result = arrayResult;
+                        } else {
+                          result = commands[i].result;
                         }
-                        result = arrayResult;
                       }
-                    } else {
-                      result = commands[i].result;
                     }
                   }
                 }
@@ -654,7 +657,9 @@
 
       self.on('keydown', '[contenteditable]', function(event){
 
-        if (event.keyCode == 13){
+        if(event.keyCode == 13){
+
+          var input = $(this).text().trim();
 
           id++;
 
@@ -664,13 +669,13 @@
 
           // print the result of commands
           if(CommandValidation.command($(this).text()) != "" ){
-            $("#"+id+".response").html(CommandValidation.command($(this).text()));
-            newline($(this).text());
+            $("#"+id+".response").html(CommandValidation.command(input));
+            newline(input);
           } else {
-            $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text(),id));
+            $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
           }
 
-          if($(this).text() == "nano"){
+          if(input == "nano"){
             $("#terminal").hide();
             $('#editor-header-filename').html("File: ");
             $('#editor-content').html('');
@@ -680,8 +685,7 @@
             $('#editor-content').focus();
           }
 
-          if($(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop()){
-            var input = "nano " + $(this).text().split(" ").pop();
+          if(input.replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop()){
             $("#terminal").hide();
             $('#editor-content').html('');
             $('#editor-header-filename').html("File: ");
@@ -689,8 +693,8 @@
             $("#editor").show();
             newline(input);
 
-            if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
-              var file = JSON.parse(localStorage.getItem($(this).text().split(" ").pop()));
+            if(localStorage.getItem(input.split(" ").pop()) != null) {
+              var file = JSON.parse(localStorage.getItem(input.split(" ").pop()));
               $('#editor-content').html(
                 '<pre><code id="lang" class="language-'+file.language+'">'
                 +'</code></pre>'
@@ -698,9 +702,9 @@
               $('#lang').html(file.content);
               Prism.highlightElement($('#lang')[0]);
               // show the name of the file in header
-              $('#editor-header-filename').html("File: " + $(this).text().split(" ").pop());
+              $('#editor-header-filename').html("File: " + input.split(" ").pop());
               // show the name of the file again
-              $('#namefile-x').html($(this).text().split(" ").pop());
+              $('#namefile-x').html(input.split(" ").pop());
             } else {
               $('#editor-header-filename').html("File: ");
               $('#namefile-x').html('');
@@ -715,18 +719,18 @@
           var commandTest = ["mv"];
 
           for (i = 0; i < commandTest.length; i++) {
-            if($(this).text() == commandTest[i]) {
+            if(input == commandTest[i]) {
               $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
             }
           }
 
           // show preload files issue #62
-          if($(this).text() == "ls") {
+          if(input.toLowerCase() == "ls") {
             $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
           }
 
           // clear all content #101
-          if($(this).text().toLowerCase() == 'clear'){
+          if(input.toLowerCase() == 'clear'){
             $(".input").remove();
             $(".response").remove();
             newline("");
@@ -742,8 +746,8 @@
           }
 
           // delete file remove a key from LocalStorage issue #81
-          if($(this).text().replace(/\s\s+/g,' ') == "rm -r " + $(this).text().split(" ").pop()) {
-            var fileName = $(this).text().split(" ").pop();
+          if(input.replace(/\s\s+/g,' ') == "rm -r " + input.split(" ").pop()) {
+            var fileName = input.split(" ").pop();
             if(localStorage.getItem(fileName) != null){
               var arrayFiles = localStorage.getItem("files").split(',');
               arrayFiles = arrayFiles.filter(Boolean);
@@ -754,13 +758,12 @@
           }
 
           // git clone
-          if($(this).text().replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
+          if(input.replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
 
-            if(UtilRegExp.gitClone($(this).text().replace(/\s\s+/g,' '))){
+            if(UtilRegExp.gitClone(input.replace(/\s\s+/g,' '))){
 
               var url = $(this).text().split(" ").pop();
               var repoName= url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".git"));
-              var input = $(this).text().replace(/\s\s+/g,' ');
 
               $("#"+id+".response").append("Cloning into '"+repoName+"'... <br/>");
               $("#"+id+".response").append("remote: Counting objects: 4643, done.<br/>");
@@ -867,18 +870,18 @@
               });
 
             } else {
-              $("#"+id+".response").html("fatal: repository '"+$(this).text().replace(/\s\s+/g,' ')+"' does not exist");
+              $("#"+id+".response").html("fatal: repository '"+input.replace(/\s\s+/g,' ')+"' does not exist");
             }
 
           }
 
-          var inputUser = $(this).text();
+          // show the animation
           if($("#"+id+".cline").length > 0){
             $("#"+id+".cline").css({'display':'none'});
             $.each($("#"+id+".cline"), function(i, el){
               $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              newline(inputUser);
+              newline(input);
             });
           }
 
