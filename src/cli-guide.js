@@ -206,6 +206,47 @@
         event.stopPropagation();
       });
 
+      var CommandValidation = {
+        command: function(text){
+          if(JSON.parse(localStorage.getItem(text)) != null){
+            var commandToValid  = JSON.parse(localStorage.getItem(text));
+            if(commandToValid.regexp != undefined){
+              var regExp = new RegExp(commandToValid.regexp);
+              var message = "";
+              if(regExp.test(text)){
+                return "";
+              } else {
+                return commandToValid.regexp_message;
+              }
+            } else {
+              return "";
+            }
+          } else {
+            return "";
+          }
+        },
+        load: function(json){
+          var commandsForValidate = [];
+          $.ajaxSetup({
+            async: false
+          });
+          $.getJSON(json,function(data){
+            $.each(data,function(k,v){
+              commandsForValidate.push(v.command);
+              localStorage.setItem(v.command,
+                JSON.stringify({
+                  command: v.command,
+                  regexp: v.regexp,
+                  regexp_message: v.regexp_message
+                }));
+            });
+          });
+          localStorage.setItem("commandsforvalidate",commandsForValidate);
+        }
+      };
+
+      CommandValidation.load(opts.commandValidation);
+
       function newline(command){
 
         loghistory.push(command);
@@ -622,7 +663,12 @@
           //effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
 
           // print the result of commands
-          $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text(),id));
+          if(CommandValidation.command($(this).text()) != "" ){
+            $("#"+id+".response").html(CommandValidation.command($(this).text()));
+            newline($(this).text());
+          } else {
+            $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text(),id));
+          }
 
           if($(this).text() == "nano"){
             $("#terminal").hide();
@@ -1006,6 +1052,7 @@
   // the structure of these json template must be in the documentation
   $.fn.cli.defaults = {
     commandStepsFile: "", //src/listofcommandsteps.json
+    commandValidation: "",
     preloadfile: "", // src/preloadfile.json
     stepsFile : "", // src/listofsteps.json
     skipsteps: ""
