@@ -422,8 +422,8 @@
                 if(Array.isArray(commands[i].command)){
                   for(var c = 0; c < commands[i].command.length; c++){
                     if(text == commands[i].command[c]) {
-                      if(commands[i].animation != undefined){
-                        if(commands[i].animation){
+                      if(commands[i].type != undefined){
+                        if(commands[i].type === "animation"){
                           var arrayMultiResult = [];
                           for (var l = 0; l < commands[i].result.length; l++) {
                             arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
@@ -438,8 +438,8 @@
                 }
                 if(text == commands[i].command) {
                   if(commands[i].result != undefined){
-                    if(commands[i].animation != undefined){
-                      if(commands[i].animation){
+                    if(commands[i].type != undefined){
+                      if(commands[i].type === "animation"){
                         var arrayResult = [];
                         for (var l = 0; l < commands[i].result.length; l++) {
                           arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
