@@ -342,6 +342,7 @@
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
+                     type: object.type,
                      depend: object.depend,
                      done:true,
                      orden: object.order,
@@ -349,9 +350,7 @@
                      animation: object.animation,
                      lastCommand: object.lastCommand
                     }));
-                if(text.indexOf("cd ") > -1){
-                  newline(text);
-                } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                if(object.type === "native" || object.type === "static"){
                   newline(text);
                 }
                 return result = restCommand(opts,text,id);
@@ -368,6 +367,7 @@
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
+                     type: object.type,
                      depend: object.depend,
                      done:true,
                      orden: object.order,
@@ -375,9 +375,7 @@
                      animation: object.animation,
                      lastCommand: object.lastCommand
                     }));
-                if(text.indexOf("cd ") > -1){
-                  newline(text);
-                } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                if(object.type === "native" || object.type === "static"){
                   newline(text);
                 }
                 return result = restCommand(opts,text,id);
@@ -388,6 +386,7 @@
                 JSON.stringify(
                   {step:object.step,
                    command:object.command,
+                   type: object.type,
                    depend: object.depend,
                    done:true,
                    orden: object.order,
@@ -395,9 +394,7 @@
                    animation: object.animation,
                    lastCommand: object.lastCommand
                   }));
-              if(text.indexOf("cd ") > -1 || text.indexOf("ls") > -1){
-                newline(text);
-              } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+              if(object.type === "native" || object.type === "static"){
                 newline(text);
               }
               return result = restCommand(opts,text,id);
@@ -475,6 +472,7 @@
                       JSON.stringify(
                         {step:steps.step,
                          command:commands[i].command[c],
+                         type:commands[i].type,
                          depend: commands[i].depend,
                          done:false,
                          orden: commands[i].order,
@@ -488,6 +486,7 @@
                     JSON.stringify(
                       {step:steps.step,
                        command:commands[i].command,
+                       type:commands[i].type,
                        depend: commands[i].depend,
                        done:false,
                        orden: commands[i].order,
@@ -528,6 +527,7 @@
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
+                     type:object.type,
                      depend: object.depend,
                      done:true,
                      orden: object.order,
