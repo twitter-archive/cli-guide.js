@@ -64,68 +64,64 @@
             </div>
             <div class="col-xs-12">
               <p class="subtitle">A javascript library for creating interactive command line tutorials
-                that run in your web browser
-              </p>
+                that run in your web browser.
+              </p><br/>
+              <p class="subtitle">
+                In this following Demo you can see all feature has. It based in
+                <a href="http://aurora.apache.org/documentation/latest/tutorial/" target="_blank">
+                  Apache Aurora Tutorial.
+                </a>
+              </p><br/>
               <a href="./demo/aurora.html" class="btn btn-primary btn-lg">
-                <i class="fa fa-rocket"></i> Apache Aurora Tutorial
+                &nbsp;<i class="fa fa-rocket"></i>&nbsp; DEMO &nbsp;&nbsp;
               </a>
               <!--a href="./demo/chef.html" class="btn btn-primary btn-lg">
                 <i class="fa fa-rocket"></i> Chef Tutorial
               </a-->
-              <br/><br/>
+              <br/><br/><br/>
             </div>
 
             <div class="col-xs-12">
-              <h1 class="category">How do I use it?</h1>
+              <h1 class="category">How to it works?</h1>
               <br/>
               <p class="text">
-                Initial configurarion of the plugin, is necessary to use bootstrap.min.css is
-                required because the plugin uses a Bootstrap CSS grid
-                <a href="http://prismjs.com/" target="_blank">Prism.JS</a> for syntax highlighting 
-                in nano editor.
+                Include <a href="https://jquery.com/download/" target="_blank">jQuery 1.11+</a>
+                <br/>
+<pre><code class="language-markup">&lt;script type="text/javascript" src="./js/jquery-1.11.3.min.js">&lt;/script></code></pre>
               </p>
-              <br/>
-
+              <p class="text">
+                Include <a href="http://prismjs.com/" target="_blank">Prism.JS</a> for syntax highlighting in nano editor.
+<pre><code class="language-markup">&lt;link rel="stylesheet" type="text/css" href="./src/prism.css" />
+&lt;script type="text/javascript" src="./js/prism.js">&lt;/script></code></pre>
+              </p>
+              <p class="text">
+                Include <a href="http://getbootstrap.com/customize/" target="_blank">Bootstrap</a> (just choose Grid System)
+<pre><code class="language-markup">&lt;link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" /></code></pre>
+              </p>
+              <p class="text">
+                Include plugin's code
+<pre><code class="language-markup">&lt;link rel="stylesheet" type="text/css" href="./css/cli-guide.css" />
+&lt;script type="text/javascript" src="./js/cli-guide.js">&lt;/script></code></pre>
+              </p>
+              <p class="text">
+              Add a <code>div</code> where which will contain Guide and Terminal
+<pre><code class="language-markup">&lt;div id="stepsdiv">&lt;/div></code></pre>
+              </p>
+              <p class="text">
+              Usage
               <pre><code class="language-markup">
-&lt;!DOCTYPE html>
-&lt;html lang="en">
-&lt;head>
-  &lt;meta charset="utf-8" />
-  &lt;title>CLI Guide JS&lt;/title>
-  &lt;link rel="stylesheet" type="text/css" href="./src/bootstrap.min.css" />
-  &lt;link rel="stylesheet" type="text/css" href="./src/prism.css" />
-  &lt;link rel="stylesheet" type="text/css" href="./src/cli-guide.css" />
-&lt;/head>
-&lt;body>
-  &lt;div id="stepsdiv">&lt;/div>
-  &lt;script type="text/javascript" src="./libs/jquery-1.11.3.min.js">&lt;/script>
-  &lt;script type="text/javascript" src="./src/prism.js">&lt;/script>
-  &lt;script type="text/javascript" src="./src/cli-guide.js" >&lt;/script>
-
-  &lt;script type="text/javascript">
-    $('#stepsdiv').cliguide(
-    {
-      nameOfTheProject: 'Apache Aurora',
-      stepsFile:        'templates/apache_aurora.json',
-      initStep: 1
-    }
-    ).cli(
-    {
-      commandStepsFile: 'templates/apache_aurora_commands.json',
-      preloadfile: 'templates/apache_aurora_files.json'
-    },
-    function(){
-    });
-	&lt;/script>
-
-&lt;/body>
-&lt;/html>
-              </code></pre>
-
-
+$('#stepsdiv').cliguide({
+  nameOfTheProject: 'Apache Aurora'
+}).cli({
+  stepsFile: 'templates/apache_aurora.json',
+  commandStepsFile: 'templates/apache_aurora_commands.json',
+  skipsteps: '1,2',
+  preloadfile: 'templates/apache_aurora_files.json'
+});</code></pre>
+              </p>
             </div>
             <div class="col-xs-12">
-              <h1 class="category">How does it work?</h1>
+              
               <br/>
               <p class="text">
                 This plugin uses json template for load Steps and Commands you can run in the terminal

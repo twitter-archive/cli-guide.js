@@ -1,4 +1,9 @@
 @font-face {
+  font-family: 'SegoeUISymbol';
+  src: url('../fonts/SegoeUISymbol.ttf');
+}
+
+@font-face {
   font-family: 'Code New Roman';
   src: url('../fonts/cnr.otf');
 }
@@ -17,14 +22,14 @@ body {
 
 .subtitle {
   font-size: 22px;
-  font-family: 'Code New Roman';
+  font-family: 'SegoeUISymbol';
   text-align: left;
   color: #525252;
 }
 
 .text {
   font-size: 18px;
-  font-family: 'Code New Roman';
+  font-family: 'SegoeUISymbol';
   text-align: justify;
   color: #525252;
 }
@@ -41,14 +46,14 @@ body {
 
 .titlefeature {
   font-size: 34px;
-  font-family: 'Code New Roman';
+  font-family: 'SegoeUISymbol';
   color: #525252;
   text-shadow: none;
 }
 
 .category {
-  font-size: 24px;
-  font-family: 'Code New Roman';
+  font-size: 27px;
+  font-family: 'SegoeUISymbol';
   color: #525252;
   text-shadow: none;
 }
@@ -59,7 +64,7 @@ body {
 
 .contentoffeature {
   font-size: 15px;
-  font-family: 'Code New Roman';
+  font-family: 'SegoeUISymbol';
 }
 
 .imgb {
