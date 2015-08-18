@@ -266,15 +266,14 @@
         }
 
         dir = localStorage.getItem('actualdir');
-
+        // '<p class="input">' + '</p>'
         self.append(
-          '<p class="input">'
-        +   '<span class="prompt">you@tutorial:~'+dir+'$ </span>'
-        +   '<span id="'+idinput+'" class="parent-textinline">'
-        +     '<span id="'+idinput+'" spellcheck="false" class="textinline" style="outline-color:black" contenteditable="true">'
-        +     '</span>'
-        +   '</span>'
-        + '</p>'
+           '<div id="'+idinput+'" class="parent-textinline">'
+        +     '<div class="prompt">you@tutorial:~'+dir+'$ </div>'
+        +     '<div id="'+idinput+'" spellcheck="false" class="textinline" style="outline-color:black" contenteditable="true">'
+        +       '&nbsp;'
+        +     '</div>'
+        +  '</div>'
         );
 
         var count = parseInt(localStorage.getItem("idinput"));
@@ -731,7 +730,7 @@
 
           // clear all content #101
           if(input.toLowerCase() == 'clear'){
-            $(".input").remove();
+            $(".parent-textinline").remove();
             $(".response").remove();
             newline("");
           }

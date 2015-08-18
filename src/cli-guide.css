@@ -211,21 +211,23 @@ a.skip-b:hover, a.skip-b:visited, a.skip-b:active {
   background: #F0E68C;
 }
 
+.parent-textinline {
+  width: 98%;
+}
+
 .prompt {
-  display: inline-block;
+  float: left;
   color: #76EE00;
-  height: 15px;
   width: auto;
   padding-right: 5px;
 }
 
 .textinline {
-  display: inline-block;
-  height: 15px;
   width: auto;
+  word-break: break-all;
 }
 
-span.textinline br {
+div.textinline br {
   display:none
 }
 
