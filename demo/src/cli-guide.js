@@ -28,9 +28,9 @@
   var pluginName = "cliguide",
     defaults = {
       welcomeMessage: 'Welcome to the interactive tutorial',
-      nameOfTheProject: 'Apache Aurora',
+      nameOfTheProject: 'CLI-Guide.JS',
       heightTerminal: window.innerHeight,
-      initStep: 0
+      initStep: 1
     };
 
   // The actual plugin constructor
@@ -110,14 +110,7 @@
                 '<p>'+v.content.content.join("")+'</p>'
               );
               if(v.content.moreinfo != undefined){
-                $("#moreinfo").html(
-                    '<div id="openModal" class="modalDialog">'
-                  +   '<div>'
-                  +     '<a href="#close" title="Close" class="close">X</a>'
-                  +     v.content.moreinfo.join("")
-                  +   '</div>'
-                  + '</div>'
-                );
+                Modal.showInfo("moreinfo",v.content.moreinfo.join(""));
               }
               if(v.content.tips != ""){
                 var tips =  Array.isArray(v.content.tips) ? v.content.tips.join("") : v.content.tips
@@ -159,24 +152,100 @@
 
       }
 
-      function openImgModal(img, size){
-        var sizeOfModal = "";
-        if(size == "g"){
-          sizeOfModal = "modalImgGDialog";
-        } else if(size == "b"){
-          sizeOfModal = "modalImgBDialog";
-        } else {
-          sizeOfModal = "modalImgSDialog";
+      var UtilRegExp = {
+        // for testing this regular expression you can use
+        // https://regex101.com/
+        gitClone: function(text){
+          var gitclone = /git\sclone\s(https:\/\/|git:\/\/)([a-zA-Z-.-_--]{0,}[^\//]\/){0,}[a-zA-Z-.-_--]{0,}(\.git|\.GIT)/
+          return gitclone.test(text);
         }
-        $("#contentimgmodal").html(
-            '<div id="openimgmodal" class="modalDialog '+sizeOfModal+'">'
-          +   '<div>'
-          +     '<a href="#close" title="Close" class="close">X</a>'
-          +     '<img class="imginmodal" src="'+img+'" />'
-          +   '</div>'
-          + '</div>'
-        );
-      }
+      };
+
+      // Modal and methods
+      var Modal = {
+        showInfo: function(div,content){
+          $("#"+div).html(
+              '<div id="modal" class="modalDialog">'
+            +   '<div>'
+            +     '<a href="#close" title="Close" class="close">X</a>'
+            +     content
+            +   '</div>'
+            + '</div>'
+          );
+        },
+        showImg: function(img, size){
+          var sizeOfModal = "";
+          if(size === "g"){
+            sizeOfModal = "modalImgGDialog";
+          } else if(size === "b"){
+            sizeOfModal = "modalImgBDialog";
+          } else {
+            sizeOfModal = "modalImgSDialog";
+          }
+          $("#contentimgmodal").html(
+              '<div id="modal" class="modalDialog '+sizeOfModal+'">'
+            +   '<div>'
+            +     '<a href="#close" title="Close" class="close">X</a>'
+            +     '<img class="imginmodal" src="'+img+'" />'
+            +   '</div>'
+            + '</div>'
+          );
+        },
+        close: function() {
+          if (location.hash == '#modal') {
+            location.hash = '';
+          }
+        }
+      };
+
+      $(document).on('click','#modal',function(){
+        Modal.close();
+      });
+
+      $(document).on('click','#modal div',function(event){
+        event.stopPropagation();
+      });
+
+      var CommandValidation = {
+        command: function(text){
+          if(JSON.parse(localStorage.getItem(text)) != null){
+            var commandToValid  = JSON.parse(localStorage.getItem(text));
+            if(commandToValid.regexp != undefined){
+              var regExp = new RegExp(commandToValid.regexp);
+              var message = "";
+              if(regExp.test(text)){
+                return "";
+              } else {
+                return commandToValid.regexp_message;
+              }
+            } else {
+              return "";
+            }
+          } else {
+            return "";
+          }
+        },
+        load: function(json){
+          var commandsForValidate = [];
+          $.ajaxSetup({
+            async: false
+          });
+          $.getJSON(json,function(data){
+            $.each(data,function(k,v){
+              commandsForValidate.push(v.command);
+              localStorage.setItem(v.command,
+                JSON.stringify({
+                  command: v.command,
+                  regexp: v.regexp,
+                  regexp_message: v.regexp_message
+                }));
+            });
+          });
+          localStorage.setItem("commandsforvalidate",commandsForValidate);
+        }
+      };
+
+      CommandValidation.load(opts.commandValidation);
 
       function newline(command){
 
@@ -197,15 +266,14 @@
         }
 
         dir = localStorage.getItem('actualdir');
-
+        // '<p class="input">' + '</p>'
         self.append(
-          '<p class="input">'
-        +   '<span class="prompt">you@tutorial:~'+dir+'$ </span>'
-        +   '<span id="'+idinput+'" class="parent-textinline">'
-        +     '<span id="'+idinput+'" spellcheck="false" class="textinline" style="outline-color:black" contenteditable="true">'
-        +     '</span>'
-        +   '</span>'
-        + '</p>'
+           '<div id="'+idinput+'" class="parent-textinline">'
+        +     '<div class="prompt">you@tutorial:~'+dir+'$ </div>'
+        +     '<div id="'+idinput+'" spellcheck="false" class="textinline" style="outline-color:black" contenteditable="true">'
+        +       '&nbsp;'
+        +     '</div>'
+        +  '</div>'
         );
 
         var count = parseInt(localStorage.getItem("idinput"));
@@ -224,8 +292,9 @@
 
         if(text == "") {
           newline("");
-        } else if(localStorage.getItem(text) != null){
-          var object  = JSON.parse(localStorage.getItem(text));
+        } else if(localStorage.getItem(text.trim()) != null){
+          var object  = JSON.parse(localStorage.getItem(text.trim()));
+          console.log(object);
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             if(actualStep == getLastStep()){
               $finish.addClass("ok-b");
@@ -273,6 +342,7 @@
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
+                     type: object.type,
                      depend: object.depend,
                      done:true,
                      orden: object.order,
@@ -280,9 +350,7 @@
                      animation: object.animation,
                      lastCommand: object.lastCommand
                     }));
-                if(text.indexOf("cd ") > -1){
-                  newline(text);
-                } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                if(object.type === "native" || object.type === "static"){
                   newline(text);
                 }
                 return result = restCommand(opts,text,id);
@@ -299,6 +367,7 @@
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
+                     type: object.type,
                      depend: object.depend,
                      done:true,
                      orden: object.order,
@@ -306,9 +375,7 @@
                      animation: object.animation,
                      lastCommand: object.lastCommand
                     }));
-                if(text.indexOf("cd ") > -1){
-                  newline(text);
-                } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+                if(object.type === "native" || object.type === "static"){
                   newline(text);
                 }
                 return result = restCommand(opts,text,id);
@@ -319,6 +386,7 @@
                 JSON.stringify(
                   {step:object.step,
                    command:object.command,
+                   type: object.type,
                    depend: object.depend,
                    done:true,
                    orden: object.order,
@@ -326,9 +394,7 @@
                    animation: object.animation,
                    lastCommand: object.lastCommand
                   }));
-              if(text.indexOf("cd ") > -1 || text.indexOf("ls") > -1){
-                newline(text);
-              } else if (text == "vagrant ssh" || text == "cat /etc/aurora/clusters.json"){
+              if(object.type === "native" || object.type === "static"){
                 newline(text);
               }
               return result = restCommand(opts,text,id);
@@ -341,7 +407,7 @@
       }
 
       function restCommand(opts,text,id){
-
+        console.log(opts);
         var result = "";
 
         $.ajaxSetup({
@@ -351,37 +417,39 @@
         $.getJSON(opts,function(data){
           $.each(data,function(key,steps){
             $.each(steps,function(k,commands){
-              for (var i = 0; i < commands.length; i++) {
-                // when more than one command have the same result
-                if(Array.isArray(commands[i].command)){
-                  for(var c = 0; c < commands[i].command.length; c++){
-                    if(text == commands[i].command[c]) {
-                      if(commands[i].animation != undefined){
-                        if(commands[i].animation){
-                          var arrayMultiResult = [];
-                          for (var l = 0; l < commands[i].result.length; l++) {
-                            arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+              for(var i = 0; i < commands.length; i++) {
+                if(commands[i].command != undefined){
+                  // when more than one command have the same result
+                  if(Array.isArray(commands[i].command)){
+                    for(var c = 0; c < commands[i].command.length; c++){
+                      if(text.trim() == commands[i].command[c]) {
+                        if(commands[i].type != undefined){
+                          if(commands[i].type === "animation"){
+                            var arrayMultiResult = [];
+                            for (var l = 0; l < commands[i].result.length; l++) {
+                              arrayMultiResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                            }
+                            result = arrayMultiResult;
+                          } else {
+                            result = commands[i].result;
                           }
-                          result = arrayMultiResult;
                         }
-                      } else {
-                        result = commands[i].result;
                       }
                     }
                   }
-                }
-                if(text == commands[i].command) {
-                  if(commands[i].result != undefined){
-                    if(commands[i].animation != undefined){
-                      if(commands[i].animation){
-                        var arrayResult = [];
-                        for (var l = 0; l < commands[i].result.length; l++) {
-                          arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                  if(commands[i].command === text.trim()) {
+                    if(commands[i].result != undefined){
+                      if(commands[i].type != undefined){
+                        if(commands[i].type === "animation"){
+                          var arrayResult = [];
+                          for(var l = 0; l < commands[i].result.length; l++) {
+                            arrayResult.push('<div id='+id+' class="cline">'+commands[i].result[l]+'</div>');
+                          }
+                          result = arrayResult;
+                        } else {
+                          result = commands[i].result;
                         }
-                        result = arrayResult;
                       }
-                    } else {
-                      result = commands[i].result;
                     }
                   }
                 }
@@ -406,6 +474,7 @@
                       JSON.stringify(
                         {step:steps.step,
                          command:commands[i].command[c],
+                         type:commands[i].type,
                          depend: commands[i].depend,
                          done:false,
                          orden: commands[i].order,
@@ -419,6 +488,7 @@
                     JSON.stringify(
                       {step:steps.step,
                        command:commands[i].command,
+                       type:commands[i].type,
                        depend: commands[i].depend,
                        done:false,
                        orden: commands[i].order,
@@ -459,6 +529,7 @@
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
+                     type:object.type,
                      depend: object.depend,
                      done:true,
                      orden: object.order,
@@ -488,24 +559,36 @@
       }
 
       function preLoadFile(data){
-        var files = []
-        $.ajaxSetup({
-          async: false
-        });
-        if(data != "") {
-          $.getJSON(data,function(data){
-            $.each(data,function(k,v){
-              // using .join method to convert array to string without commas
-              files.push(v.name);
-              // save each file
-              localStorage.setItem(v.name,
-                JSON.stringify({
-                  content: v.content.join(""),
-                  language: (v.language == undefined) ? "markup" : v.language
-                }));
-            });
+        // validation
+        // if the json file is empty
+        if(data===""){
+          localStorage.setItem("hello_world.py",
+            JSON.stringify({
+              content: "print \"Hello World!\"",
+              language: "python"
+          }));
+          // add a python file for show, how to works nano editor
+          localStorage.setItem("files","hello_world.py");
+        } else {
+          var files = []
+          $.ajaxSetup({
+            async: false
           });
-          localStorage.setItem("files",files);
+          if(data != "") {
+            $.getJSON(data,function(data){
+              $.each(data,function(k,v){
+                // using .join method to convert array to string without commas
+                files.push(v.name);
+                // save each file
+                localStorage.setItem(v.name,
+                  JSON.stringify({
+                    content: v.content.join(""),
+                    language: (v.language == undefined) ? "markup" : v.language
+                }));
+              });
+            });
+            localStorage.setItem("files",files);
+          }
         }
       }
 
@@ -516,17 +599,24 @@
           async: false
         });
         $.getJSON(commands,function(data){
-          $.each(data,function(k,v){
-            // when more than one command have the same result
-            if(Array.isArray(v.command)){
-              for(var c = 0; c < v.command.length; c++){
-                listCommands.push(v.command[c]);
+          $.each(data,function(key,steps){
+            $.each(steps,function(k,commands){
+              for (var i = 0; i < commands.length; i++) {
+                if(Array.isArray(commands[i].command)){
+                  for(var c = 0; c < commands[i].command.length; c++){
+                    if(commands[i].command != undefined){
+                      listCommands.push(commands[i].command[c]);
+                    }
+                  }
+                } else {
+                  if(commands[i].command != undefined){
+                    listCommands.push(commands[i].command);
+                  }
+                }
               }
-            }
-            listCommands.push(v.command);
+            });
           });
         });
-        listCommands.push("test"); // is only for testing....
         localStorage.setItem("commands",listCommands);
       }
 
@@ -559,24 +649,32 @@
       });
 
       $(document).on('click','.modalimage',function(){
-        openImgModal($(this).data('image'),$(this).data('size'));
+        Modal.showImg($(this).data('image'),$(this).data('size'));
       });
 
       var id = 0;
 
       self.on('keydown', '[contenteditable]', function(event){
 
-        if (event.keyCode == 13){
+        if(event.keyCode == 13){
+
+          var input = $(this).text().trim();
 
           id++;
 
           $(this).removeAttr('contenteditable');
-          effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
+          $('<p id="'+id+'" class="response">').appendTo(self);
+          //effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
 
           // print the result of commands
-          $("#"+id+".response").html(commands(opts.commandStepsFile,$(this).text(),id));
+          if(CommandValidation.command($(this).text()) != "" ){
+            $("#"+id+".response").html(CommandValidation.command(input));
+            newline(input);
+          } else {
+            $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+          }
 
-          if($(this).text() == "nano"){
+          if(input == "nano"){
             $("#terminal").hide();
             $('#editor-header-filename').html("File: ");
             $('#editor-content').html('');
@@ -586,8 +684,7 @@
             $('#editor-content').focus();
           }
 
-          if($(this).text().replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop()){
-            var input = "nano " + $(this).text().split(" ").pop();
+          if(input.replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop()){
             $("#terminal").hide();
             $('#editor-content').html('');
             $('#editor-header-filename').html("File: ");
@@ -595,8 +692,8 @@
             $("#editor").show();
             newline(input);
 
-            if(localStorage.getItem($(this).text().split(" ").pop()) != null) {
-              var file = JSON.parse(localStorage.getItem($(this).text().split(" ").pop()));
+            if(localStorage.getItem(input.split(" ").pop()) != null) {
+              var file = JSON.parse(localStorage.getItem(input.split(" ").pop()));
               $('#editor-content').html(
                 '<pre><code id="lang" class="language-'+file.language+'">'
                 +'</code></pre>'
@@ -604,9 +701,9 @@
               $('#lang').html(file.content);
               Prism.highlightElement($('#lang')[0]);
               // show the name of the file in header
-              $('#editor-header-filename').html("File: " + $(this).text().split(" ").pop());
+              $('#editor-header-filename').html("File: " + input.split(" ").pop());
               // show the name of the file again
-              $('#namefile-x').html($(this).text().split(" ").pop());
+              $('#namefile-x').html(input.split(" ").pop());
             } else {
               $('#editor-header-filename').html("File: ");
               $('#namefile-x').html('');
@@ -621,19 +718,19 @@
           var commandTest = ["mv"];
 
           for (i = 0; i < commandTest.length; i++) {
-            if($(this).text() == commandTest[i]) {
+            if(input == commandTest[i]) {
               $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
             }
           }
 
           // show preload files issue #62
-          if($(this).text() == "ls") {
+          if(input.toLowerCase() == "ls") {
             $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
           }
 
           // clear all content #101
-          if($(this).text().toLowerCase() == 'clear'){
-            $(".input").remove();
+          if(input.toLowerCase() == 'clear'){
+            $(".parent-textinline").remove();
             $(".response").remove();
             newline("");
           }
@@ -648,8 +745,8 @@
           }
 
           // delete file remove a key from LocalStorage issue #81
-          if($(this).text().replace(/\s\s+/g,' ') == "rm -r " + $(this).text().split(" ").pop()) {
-            var fileName = $(this).text().split(" ").pop();
+          if(input.replace(/\s\s+/g,' ') == "rm -r " + input.split(" ").pop()) {
+            var fileName = input.split(" ").pop();
             if(localStorage.getItem(fileName) != null){
               var arrayFiles = localStorage.getItem("files").split(',');
               arrayFiles = arrayFiles.filter(Boolean);
@@ -660,35 +757,12 @@
           }
 
           // git clone
-          if($(this).text().replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
-            var input = "git clone " + $(this).text().split(" ").pop();
-            $("#"+id+".response").html("");
-            $("#"+id+".response .objects").stop();
+          if(input.replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
 
-            var url = $(this).text().split(" ").pop();
-            var gitURL = "git://";
-            var httpURL = "https://";
-            var git = ".git";
-            var valError = ".gitgit://";
-            var urlBoolean = false;
-            var gitBoolean = false;
-            var valErrorBooler = false;
+            if(UtilRegExp.gitClone(input.replace(/\s\s+/g,' '))){
 
-            if(url.indexOf(valError) > -1){
-              valErrorBooler = true;
-            }
-
-            if ( url.indexOf(gitURL) > -1 || url.indexOf(httpURL) > -1 ) {
-              urlBoolean = true
-            }
-
-            if( url.indexOf(git) > -1 ){
-              gitBoolean = true
-            }
-
-            var repoName= url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".git"));
-
-            if(urlBoolean && gitBoolean && !valErrorBooler){
+              var url = $(this).text().split(" ").pop();
+              var repoName= url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".git"));
 
               $("#"+id+".response").append("Cloning into '"+repoName+"'... <br/>");
               $("#"+id+".response").append("remote: Counting objects: 4643, done.<br/>");
@@ -795,18 +869,18 @@
               });
 
             } else {
-              $("#"+id+".response").html("fatal: repository '"+url+"' does not exist");
+              $("#"+id+".response").html("fatal: repository '"+input.replace(/\s\s+/g,' ')+"' does not exist");
             }
 
           }
 
-          var inputUser = $(this).text();
+          // show the animation
           if($("#"+id+".cline").length > 0){
             $("#"+id+".cline").css({'display':'none'});
             $.each($("#"+id+".cline"), function(i, el){
               $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              newline(inputUser);
+              newline(input);
             });
           }
 
@@ -852,6 +926,7 @@
               $("#"+idparent+".parent-textinline").children(".textinline").text(arrayCommands[c]);
             }
           }
+          event.preventDefault();
         }
       });
 
@@ -976,10 +1051,12 @@
 
   };
 
+  // the structure of these json template must be in the documentation
   $.fn.cli.defaults = {
-    commandStepsFile: "src/listofcommandsteps.json",
-    preloadfile: "src/preloadfile.json",
-    stepsFile : "src/listofsteps.json",
+    commandStepsFile: "", //src/listofcommandsteps.json
+    commandValidation: "",
+    preloadfile: "", // src/preloadfile.json
+    stepsFile : "", // src/listofsteps.json
     skipsteps: ""
   };
 
