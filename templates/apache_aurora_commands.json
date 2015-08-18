@@ -6,16 +6,19 @@
       {
         "order" : 1,
         "command":"git clone git://git.apache.org/aurora.git",
+        "type": "nonewline",
         "depend": ""
       },
       {
         "order" : 2,
         "command":"cd aurora",
+        "type": "static",
         "depend": "git clone git://git.apache.org/aurora.git"
       },
       {
         "order" : 3,
         "command":"vagrant up",
+        "type": "animation",
         "animation": true,
         "result": [
           " Bringing machine 'devcluster' up with 'virtualbox' provider... <br/> ",
@@ -64,6 +67,7 @@
       {
         "order" : 0,
         "command":"ls",
+        "type": "native",
         "depend": "",
         "lastCommand": true
       }
@@ -76,6 +80,7 @@
       {
         "order" : 1,
         "command":"vagrant ssh",
+        "type": "static",
         "result": [
           " Welcome to Ubuntu 14.04.2 LTS (GNU/Linux 3.13.0-55-generic x86_64) <br/> ",
           " <br/> ",
@@ -101,6 +106,7 @@
       {
         "order" : 2,
         "command":"cat /etc/aurora/clusters.json",
+        "type": "static",
         "result": [
           " [{ <br/> ",
           " &nbsp;&nbsp; \"name\": \"devcluster\", <br/> ",
@@ -114,6 +120,7 @@
       {
        "order" : 3,
        "command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
+       "type": "animation",
        "animation": true,
        "result": [
          " &nbsp;&nbsp; INFO] Creating job hello_world <br/> ",
@@ -132,12 +139,14 @@
        {
          "order" : 2,
          "command":"nano hello_world.py",
+         "type": "nonewline",
          "result": [""],
          "depend": ""
        },
        {
         "order" : 2,
         "command":"aurora update start devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
+        "type": "animation",
         "animation": true,
         "result": [
           " &nbsp;&nbsp; INFO] Starting update for: hello_world <br/> ",
@@ -156,6 +165,7 @@
       {
         "order" : 1,
         "command":"aurora job killall devcluster/www-data/devel/hello_world",
+        "type": "animation",
         "animation": true,
         "result": [
           " &nbsp; INFO] Killing tasks for job: devcluster/www-data/devel/hello_world <br/> ",
@@ -184,6 +194,7 @@
       {
         "order" : 0,
         "command":"aurora",
+        "type": "static",
         "result": [
           " usage: aurora [-h] [--version] {task,quota,update,cron,job,config,sla} ... <br/> ",
           " <br/> ",
@@ -205,6 +216,7 @@
       {
         "order" : 0,
         "command":["vagrant", "vagrant list-commands"],
+        "type": "static",
         "result": [
           " Usage: vagrant [options] <command> [<args>] <br/> ",
           " -v, --version   Print the version and exit. <br/> ",

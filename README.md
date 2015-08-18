@@ -18,7 +18,6 @@ Demos
 -----
 
 * [Apache Aurora](http://twitter.github.io/cli-guide.js/demo/aurora.html)
-<!-- * [Chef](http://twitter.github.io/cli-guide.js/demo/chef.html) -->
 
 
 Documentation
