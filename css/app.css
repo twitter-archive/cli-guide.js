@@ -12,6 +12,16 @@ body {
   background: #bababa url('grain.png');
 }
 
+footer {
+  border-top: 1px solid #5B5B5B;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: auto;
+  background: #F5F5F5 url('grain.png');
+  text-align: center;
+}
+
 .title {
   font-size: 58px;
   font-family: 'Code New Roman';
@@ -69,6 +79,10 @@ body {
 
 .imgb {
   border: 2px solid #FFFFFF;
+}
+
+.link, .link:hover, .link:link, .link:active, .link:visited {
+  color: black;
 }
 
 /* Code */
