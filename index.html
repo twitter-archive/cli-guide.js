@@ -46,7 +46,8 @@
             <div id="navbar" class="collapse navbar-collapse">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="./features.html">Features</a></li>
+                <li><a href="./components.html">Components</a></li>
+                <li><a href="#">Contribute</a></li>
               </ul>
             </div><!--/.nav-collapse -->
           </div>
@@ -90,7 +91,7 @@
 <pre><code class="language-markup">&lt;script type="text/javascript" src="./js/jquery-1.11.3.min.js">&lt;/script></code></pre>
               </p>
               <p class="text">
-                Include <a href="http://prismjs.com/" target="_blank">Prism.JS</a> for syntax highlighting in nano editor.
+                Include <a href="http://prismjs.com/" target="_blank">Prism.JS</a> for syntax highlighting in <code>nano editor</code>.
 <pre><code class="language-markup">&lt;link rel="stylesheet" type="text/css" href="./src/prism.css" />
 &lt;script type="text/javascript" src="./js/prism.js">&lt;/script></code></pre>
               </p>
@@ -108,7 +109,7 @@
 <pre><code class="language-markup">&lt;div id="stepsdiv">&lt;/div></code></pre>
               </p>
               <p class="text">
-              Usage
+              Usage (the plugin needs json file as template)
               <pre><code class="language-markup">
 $('#stepsdiv').cliguide({
   nameOfTheProject: 'Apache Aurora'
@@ -121,16 +122,16 @@ $('#stepsdiv').cliguide({
               </p>
             </div>
             <div class="col-xs-12">
-              
+              <br/><br/>
+              <h1 class="category">How to it works the templates?</h1>
               <br/>
               <p class="text">
-                This plugin uses json template for load Steps and Commands you can run in the terminal
-                <br/><br/>
-                A json template of steps
+                <code>stepsFile</code> is a template json where you can add
                 <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora.json"
                   target="_blank">
-                  apache_aurora.json
+                  steps and commands
                 </a>
+                that user can run
               </p>
               <br/>
               <pre><code class="language-markup">
@@ -142,7 +143,7 @@ $('#stepsdiv').cliguide({
       "content": [
         " You use the Aurora client and web UI to interact with Aurora jobs. ",
         " To install it locally, see ",
-        " <a href='http://aurora.apache.org/documentation/latest/vagrant/'>vagrant.md</a> ",
+        " &lt;a class=\"link-b\" href=\"http://aurora.apache.org/documentation/latest/vagrant/\" target=\"_blank\">vagrant.md&lt;/a> ",
         " The remainder of this Tutorial assumes you are running ",
         " Aurora using Vagrant. Unless otherwise stated, ",
         " all commands are to be run from the root ",
@@ -154,13 +155,39 @@ $('#stepsdiv').cliguide({
         {"command":"cd aurora"},
         {"command":"vagrant up"}
       ]
-    }
+    },
+    "laststep": false
   }
+]</code></pre><br/>
+              <p class="text">
+                In this template can support other features like Modals with content or with image
+              </p>
+              <pre><code class="language-markup">
+"content": [
+  " &lt;a href=\"#modal\" class=\"link-b\">More Info</a>"
+],
+"moreinfo": [
+  " &lt;h3>Aurora Configuration&lt;/h3> ",
+  " &lt;p>To run a job on Aurora, you must specify a configuration file that tells Aurora what it needs ",
+  " to know to schedule the job, what Mesos needs to run the tasks the job is made up of, ",
+  " and what Thermos needs to run the processes that make up the tasks. This file must have a.aurora suffix. &lt;/p> ",
+  " &lt;p>configuration file defines a collection of objects, along with parameter values for their attributes. ",
+  " An Aurora configuration file contains the following three types of objects: &lt;/p>",
+  " &lt;ul> ",
+  " &lt;li>Job&lt;/li> ",
+  " &lt;li>Task&lt;/li> ",
+  " &lt;li>Process&lt;/li> ",
+  " &lt;/ul> "
 ]</code></pre>
-
+<pre><code class="language-markup">
+"content": [
+  " &lt;a href=\"#modal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/wwwdata.png\">www-data&lt;/a> ",
+]
+</code></pre>
+              <hr/>
               <br/>
               <p class="text">
-                A json template of commands
+                <code>commandStepsFile</code> A json template of commands
                 <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora_commands.json"
                   target="_blank">
                   apache_aurora_commands.json
@@ -170,67 +197,33 @@ $('#stepsdiv').cliguide({
               <pre><code class="language-markup">
 [
   {
-    "step": "1",
-    "count": "3",
+    "step": "4",
+    "count": "1",
     "commands": [
-      {
-        "order" : 1,
-        "command":"git clone git://git.apache.org/aurora.git",
-        "depend": ""
-      },
-      {
+       {
+         "order" : 2,
+         "command":"nano hello_world.py",
+         "type": "nonewline",
+         "result": [""],
+         "depend": ""
+       },
+       {
         "order" : 2,
-        "command":"cd aurora",
-        "depend": "git clone git://git.apache.org/aurora.git"
-      },
-      {
-        "order" : 3,
-        "command":"vagrant up",
+        "command":"aurora update start devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
+        "type": "animation",
         "animation": true,
         "result": [
-          " Bringing machine 'devcluster' up with 'virtualbox' provider... <br/> ",
-          " ==> devcluster: Checking if box 'ubuntu/trusty64' is up to date... <br/> ",
-          " ==> devcluster: Clearing any previously set forwarded ports... <br/> ",
-          " ==> devcluster: Clearing any previously set network interfaces... <br/> ",
-          " ==> devcluster: Preparing network interfaces based on configuration... <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: Adapter 1: nat <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: Adapter 2: hostonly <br/> ",
-          " ==> devcluster: Forwarding ports... <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: 22 => 2222 (adapter 1) <br/> ",
-          " ==> devcluster: Running 'pre-boot' VM customizations... <br/> ",
-          " ==> devcluster: Booting VM... <br/> ",
-          " ==> devcluster: Waiting for machine to boot. This may take a few minutes... <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: SSH address: 127.0.0.1:2222 <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: SSH username: vagrant <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: SSH auth method: private key <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: Warning: Connection timeout. Retrying... <br/> ",
-          " ==> devcluster: Machine booted and ready! <br/> ",
-          " ==> devcluster: Checking for guest additions in VM... <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: The guest additions on this VM do not match the installed version of <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: VirtualBox! In most cases this is fine, but in rare cases it can <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: prevent things such as shared folders from working properly. If you see <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: shared folder errors, please make sure the guest additions within the <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: virtual machine match the version of VirtualBox you have installed on <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: your host and reload your VM. <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: Guest Additions Version: 4.3.10 <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: VirtualBox Version: 5.0 <br/> ",
-          " ==> devcluster: Setting hostname... <br/> ",
-          " ==> devcluster: Configuring and enabling network interfaces... <br/> ",
-          " ==> devcluster: Mounting shared folders... <br/> ",
-          " &nbsp;&nbsp;&nbsp;&nbsp;devcluster: /vagrant => /Users/Tutorial/Application/aurora <br/> ",
-          " ==> devcluster: Machine already provisioned. Run `vagrant provision` or use the `--provision` <br/> ",
-          " ==> devcluster: flag to force provisioning. Provisioners marked to run always will still run. "
+          " &nbsp;&nbsp; INFO] Starting update for: hello_world <br/> ",
+          " Job update has started. <br/> ",
+          " View your update progress at http://aurora.local:8081/scheduler/www-data/devel/hello_world/5d99e663-8d90-4f7a-9faf-d31f07ee931c "
         ],
-        "depend": ["git clone git://git.apache.org/aurora.git","cd aurora"]
+        "depend": "nano hello_world.py",
+        "lastCommand": true
       }
     ]
   }
 ]</code></pre>
-
               <br/>
-              <img class="imgb" src="./img/aurora.gif"/>
-              <br/><br/>
               <!--p class="text">
                 You can style the result
               </p>
@@ -249,25 +242,19 @@ $('#stepsdiv').cliguide({
                   </code>
                 </pre>
               </div-->
-              <br/>
               <p class="text">
                 For example if multiple commands return the same result. You can do this
               </p>
               <br/>
               <pre><code class="language-markup">
 "command":["vagrant", "vagrant list-commands"]</code></pre>
-
-
               <br/>
+              <hr/>
               <p class="text">
-                You can simulate the preloaded of files. It using local storage
-              </p>
-              <p class="text">
-                A json template of files
+                <code>preloadfile</code> It simulates the
                 <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora_files.json"
                   target="_blank">
-                  apache_aurora_files.json
-                </a>
+                preloaded of files</a>. It using Local Storage
               </p>
               <br/>
 
@@ -304,7 +291,7 @@ $('#stepsdiv').cliguide({
               <img  class="imgb" src="./img/preload.png"/>
               <br/><br/><br/>
               <p class="text">
-                Finally you can see the file in nano editor $ nano hello_world.py
+                Finally you can see the file in nano editor <code>$ nano hello_world.py</code>
               </p>
               <br/>
               <img class="imgb" src="./img/nano.png"/>
