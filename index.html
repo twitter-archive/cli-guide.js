@@ -162,6 +162,7 @@ $('#stepsdiv').cliguide({
               <p class="text">
                 In this template can support other features like Modals with content or with image
               </p>
+              <br/>
               <pre><code class="language-markup">
 "content": [
   " &lt;a href=\"#modal\" class=\"link-b\">More Info</a>"
@@ -224,24 +225,6 @@ $('#stepsdiv').cliguide({
   }
 ]</code></pre>
               <br/>
-              <!--p class="text">
-                You can style the result
-              </p>
-              <div class="highlight">
-                <pre>
-                  <code class="language-js" data-lang="js">
-<span class="w">&lt;<span class="t">div</span> <span class="a">class</span>=<span class="v">'codeofcommand'</span>&gt;task&lt;/<span class="t">div</span>&gt;
-
-/* style for templates */
-<span class="a">.codeofcommand</span> {
-  padding-left: <span class="a">20px;</span>
-  width: <span class="a">100px;</span>
-  height: auto;
-  float: left;
-}</span>
-                  </code>
-                </pre>
-              </div-->
               <p class="text">
                 For example if multiple commands return the same result. You can do this
               </p>
@@ -249,6 +232,21 @@ $('#stepsdiv').cliguide({
               <pre><code class="language-markup">
 "command":["vagrant", "vagrant list-commands"]</code></pre>
               <br/>
+              <p class="text">
+                Type of command is important because it help to show the result. There are these types
+                <code>animation</code> (like checklist), <code>static</code> (defualt commands) and
+                <code>nonewline</code> (it using in git clone after finis show the prompt).
+              </p>
+              <br/>
+              <pre><code class="language-markup">"type": "nonewline",</code></pre>
+              <br/>
+              <p class="text">
+                Depend of a Command
+              </p>
+              <br/>
+<pre><code class="language-markup">"depend": "git clone git://git.apache.org/aurora.git"</code></pre>
+              <br/>
+              <img class="imgb" src="./img/dependcommand.png"/>
               <hr/>
               <p class="text">
                 <code>preloadfile</code> It simulates the
@@ -257,7 +255,6 @@ $('#stepsdiv').cliguide({
                 preloaded of files</a>. It using Local Storage
               </p>
               <br/>
-
                 <pre>
 <code class="language-markup">
 [
