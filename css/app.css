@@ -79,6 +79,7 @@ footer {
 
 .imgb {
   border: 2px solid #FFFFFF;
+  width: 100%;
 }
 
 .link, .link:hover, .link:link, .link:active, .link:visited {
