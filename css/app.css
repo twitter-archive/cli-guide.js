@@ -77,9 +77,13 @@ footer {
   font-family: 'SegoeUISymbol';
 }
 
-.imgb {
+.imgbw {
   border: 2px solid #FFFFFF;
   width: 100%;
+}
+
+.imgb {
+  border: 2px solid #FFFFFF;
 }
 
 .link, .link:hover, .link:link, .link:active, .link:visited {
