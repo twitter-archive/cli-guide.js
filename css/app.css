@@ -86,6 +86,13 @@ footer {
   border: 2px solid #FFFFFF;
 }
 
+.imgbpng {
+  -webkit-filter: drop-shadow(3px 1px 0 white)
+                  drop-shadow(-2px -2px 0 white);
+  filter:drop-shadow(3px 1px 0 white)
+         drop-shadow(-2px -2px 0 white);
+}
+
 .link, .link:hover, .link:link, .link:active, .link:visited {
   color: black;
 }
