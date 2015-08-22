@@ -2,9 +2,9 @@
 
 [GSoC 2015 Project](http://www.google-melange.com/gsoc/project/details/google/gsoc2015/marti1125/5757334940811264)
 
-A javascript library for creating interactive command line tutorials that run in your web browser
+A Javascript library for creating interactive command line tutorials that run in your web browser.
 
-Necessaries Files
+Necessary Files
 -----------------
 
 ### Fonts
@@ -25,16 +25,15 @@ Documentation
 
 #### Example
 
-    $('#stepsdiv').cliguide(
-    {
-     nameOfTheProject: 'Apache Aurora',
-     stepsFile:        'templates/apache_aurora.json',
-     initStep: 1
-    }).cli(
-    {
-     commandStepsFile: 'templates/apache_aurora_commands.json',
-     preloadfile: 'templates/apache_aurora_files.json'
+    $('#stepsdiv').cliguide({
+        nameOfTheProject: 'Apache Aurora',
+        stepsFile: 'templates/apache_aurora.json',
+        initStep: 1
+    }).cli({
+        commandStepsFile: 'templates/apache_aurora_commands.json',
+        preloadfile: 'templates/apache_aurora_files.json'
     }, function(){
+        //Codes in here will be runned after CLI functions run
     });
 
 #### Options
