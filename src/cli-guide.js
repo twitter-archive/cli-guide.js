@@ -292,7 +292,7 @@
         if(text == "") {
           newline("");
         } else if(localStorage.getItem(text.trim()) != null){
-          
+
           var object  = JSON.parse(localStorage.getItem(text.trim()));
 
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
@@ -470,6 +470,7 @@
                 // when more than one command have the same result
                 if(Array.isArray(commands[i].command)){
                   for(var c = 0; c < commands[i].command.length; c++){
+                    localStorage.removeItem(commands[i].command[c]);
                     localStorage.setItem(commands[i].command[c],
                       JSON.stringify(
                         {step:steps.step,
@@ -484,6 +485,7 @@
                         }));
                   }
                 } else {
+                  localStorage.removeItem(commands[i].command);
                   localStorage.setItem(commands[i].command,
                     JSON.stringify(
                       {step:steps.step,
@@ -570,6 +572,7 @@
       function cleanSteps(jsonCommands){
         $.getJSON(jsonCommands,function(data){
           $.each(data,function(ks,steps){
+            localStorage.removeItem(steps.step);
             localStorage.setItem(steps.step,false);
           });
         });
@@ -637,18 +640,21 @@
         localStorage.setItem("commands",listCommands);
       }
 
-      listOfSteps(opts);
-      showInfoOfEachStep(opts, 1);
-
-      newline("");
-      autocompleteCommands(opts.commandStepsFile);
-      // load commands steps from json
-      loadStepToLocalStorage(opts.commandStepsFile);
       // clean each steps
       cleanSteps(opts.commandStepsFile);
 
+      newline("");
+
+      autocompleteCommands(opts.commandStepsFile);
+
+      // load commands steps from json
+      loadStepToLocalStorage(opts.commandStepsFile);
+
       // preload all files from json
       preLoadFile(opts.preloadfile);
+
+      listOfSteps(opts);
+      showInfoOfEachStep(opts, 1);
 
       $(document).on('click','.btn-step',function(){
         showInfoOfEachStep(opts,$(this).data('step'));
