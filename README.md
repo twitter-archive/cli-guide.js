@@ -1,4 +1,4 @@
-# CLI Guide JQuery Plugin
+# CLI Guide jQuery Plugin
 
 [GSoC 2015 Project](http://www.google-melange.com/gsoc/project/details/google/gsoc2015/marti1125/5757334940811264)
 
