@@ -244,7 +244,7 @@
         }
       };
 
-      CommandValidation.load(opts.commandValidation);
+      //CommandValidation.load(opts.commandValidation);
 
       function newline(command){
 
@@ -284,16 +284,16 @@
       }
 
       function commands(opts,text,id){
-
+        var input = text.trim();
         var result = "";
         var actualStep = localStorage.getItem('actualstep');
         var $finish = $("#finish[data-step="+actualStep+"]");
 
-        if(text == "") {
+        if(input == "") {
           newline("");
-        } else if(localStorage.getItem(text.trim()) != null){
+        } else if(localStorage.getItem(input.replace(/\s\s+/g,' ')) != null){
 
-          var object  = JSON.parse(localStorage.getItem(text.trim()));
+          var object  = JSON.parse(localStorage.getItem(input.replace(/\s\s+/g,' ')));
 
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             if(actualStep == Step.getLast()){
@@ -314,9 +314,9 @@
           // verify the command if it is for the correct step
           if(object.step == "general"){
             if(text.indexOf("cd ") > -1){
-              newline(text);
+              newline(input.replace(/\s\s+/g,' '));
             } else if(!object.animation){
-              newline(text);
+              newline(input.replace(/\s\s+/g,' '));
             }
             return result = restCommand(opts,text,id);
           } else {
@@ -338,7 +338,7 @@
                 return result = "You have to run this command before: "+missingCommands.join(' | ');
               } else {
                 // update
-                localStorage.setItem(text,
+                localStorage.setItem(input.replace(/\s\s+/g,' '),
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
@@ -351,9 +351,9 @@
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  newline(text);
+                  newline(input.replace(/\s\s+/g,' '));
                 }
-                return result = restCommand(opts,text,id);
+                return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
             } else if(object.depend != ""){
               // check which command or commands depends
@@ -363,7 +363,7 @@
                 return result = "You have to run this command before: "+dependCommand.command;
               } else {
                 // update
-                localStorage.setItem(text,
+                localStorage.setItem(input.replace(/\s\s+/g,' '),
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
@@ -376,13 +376,13 @@
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  newline(text);
+                  newline(input.replace(/\s\s+/g,' '));
                 }
-                return result = restCommand(opts,text,id);
+                return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
             } else {
               // update
-              localStorage.setItem(text,
+              localStorage.setItem(input.replace(/\s\s+/g,' '),
                 JSON.stringify(
                   {step:object.step,
                    command:object.command,
@@ -395,13 +395,13 @@
                    lastCommand: object.lastCommand
                   }));
               if(object.type === "native" || object.type === "static"){
-                newline(text);
+                newline(input.replace(/\s\s+/g,' '));
               }
-              return result = restCommand(opts,text,id);
+              return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
             }
           }
         } else {
-          newline(text);
+          newline(input);
         }
 
       }
