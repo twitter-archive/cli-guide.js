@@ -42,7 +42,7 @@ Documentation
 #### Options
 
 | Property | Description | Required |
-|---|---|
+|---|---|---|
 | nameOfTheProject | name of the project | X |
 | stepsFile        | a .json file | X |
 | commandStepsFile | a .json file | X |
