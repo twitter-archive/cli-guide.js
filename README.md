@@ -7,11 +7,15 @@ A Javascript library for creating interactive command line tutorials that run in
 Necessary Files
 -----------------
 
+### Libs
+
+* [jQuery](https://jquery.com/download/)
+* [Prism](http://prismjs.com/download.html)
+
 ### Fonts
 
 * [Segoe UI Symbol Regular](http://openfontlibrary.org/en/font/segoe-ui-symbol)
 * [Code New Roman Regular](http://openfontlibrary.org/en/font/code-new-roman)
-
 
 
 Demos
@@ -26,10 +30,9 @@ Documentation
 #### Example
 
     $('#stepsdiv').cliguide({
-        nameOfTheProject: 'Apache Aurora',
-        stepsFile: 'templates/apache_aurora.json',
-        initStep: 1
+        nameOfTheProject: 'Apache Aurora'
     }).cli({
+        stepsFile: 'templates/apache_aurora.json',
         commandStepsFile: 'templates/apache_aurora_commands.json',
         preloadfile: 'templates/apache_aurora_files.json'
     }, function(){
@@ -38,14 +41,12 @@ Documentation
 
 #### Options
 
-| Property | Description |
+| Property | Description | Required |
 |---|---|
-| welcomeMessage   | Message of welcome to the tutorial |
-| nameOfTheProject | name of the project  |
-| heightTerminal   | by default is the height of the window |
-| stepsFile        | a .json file |
-| commandStepsFile | a .json file |
-| preloadfile | a .json file |
+| nameOfTheProject | name of the project | X |
+| stepsFile        | a .json file | X |
+| commandStepsFile | a .json file | X |
+| preloadfile | a .json file | optional |
 
 #### The structure of .json files
 
