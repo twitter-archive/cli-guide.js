@@ -45,6 +45,7 @@ Documentation
 |---|---|---|
 | nameOfTheProject | name of the project | X |
 | stepsFile        | a .json file | X |
+| skipsteps | number of the step separated by comma | optional |
 | commandStepsFile | a .json file | X |
 | preloadfile | a .json file | optional |
 
