@@ -291,9 +291,9 @@
 
         if(input == "") {
           newline("");
-        } else if(localStorage.getItem(input.replace(/\s\s+/g,' ')) != null){
+        } else if(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')) != null){
 
-          var object  = JSON.parse(localStorage.getItem(input.replace(/\s\s+/g,' ')));
+          var object  = JSON.parse(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')));
 
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             if(actualStep == Step.getLast()){
@@ -345,8 +345,6 @@
                      type: object.type,
                      depend: object.depend,
                      done:true,
-                     orden: object.order,
-                     max:object.count,
                      animation: object.animation,
                      lastCommand: object.lastCommand
                     }));
@@ -370,8 +368,6 @@
                      type: object.type,
                      depend: object.depend,
                      done:true,
-                     orden: object.order,
-                     max:object.count,
                      animation: object.animation,
                      lastCommand: object.lastCommand
                     }));
@@ -389,8 +385,6 @@
                    type: object.type,
                    depend: object.depend,
                    done:true,
-                   orden: object.order,
-                   max:object.count,
                    animation: object.animation,
                    lastCommand: object.lastCommand
                   }));
@@ -470,31 +464,27 @@
                 // when more than one command have the same result
                 if(Array.isArray(commands[i].command)){
                   for(var c = 0; c < commands[i].command.length; c++){
-                    localStorage.removeItem(commands[i].command[c]);
-                    localStorage.setItem(commands[i].command[c],
+                    localStorage.removeItem("step-"+commands[i].command[c]);
+                    localStorage.setItem("step-"+commands[i].command[c],
                       JSON.stringify(
                         {step:steps.step,
                          command:commands[i].command[c],
                          type:commands[i].type,
                          depend: commands[i].depend,
                          done:false,
-                         orden: commands[i].order,
-                         max:steps.count,
                          animation: (commands[i].animation == undefined) ? false : commands[i].animation,
                          lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
                         }));
                   }
                 } else {
-                  localStorage.removeItem(commands[i].command);
-                  localStorage.setItem(commands[i].command,
+                  localStorage.removeItem("step-"+commands[i].command);
+                  localStorage.setItem("step-"+commands[i].command,
                     JSON.stringify(
                       {step:steps.step,
                        command:commands[i].command,
                        type:commands[i].type,
                        depend: commands[i].depend,
                        done:false,
-                       orden: commands[i].order,
-                       max:steps.count,
                        animation: (commands[i].animation == undefined) ? false : commands[i].animation,
                        lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
                       }));
@@ -534,16 +524,14 @@
               if(v.step == step){
                 if(v.content.commands.length > 0){
                   $.each(v.content.commands,function(key,val){
-                    var object  = JSON.parse(localStorage.getItem(val.command));
-                    localStorage.setItem(val.command,
+                    var object  = JSON.parse(localStorage.getItem("step-"+val.command));
+                    localStorage.setItem("step-"+val.command,
                     JSON.stringify(
                       {step:object.step,
                        command:object.command,
                        type:object.type,
                        depend: object.depend,
                        done:true,
-                       orden: object.order,
-                       max:object.count,
                        animation: object.animation,
                        lastCommand: object.lastCommand
                       }));
