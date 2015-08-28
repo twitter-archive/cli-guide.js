@@ -69,20 +69,6 @@
 
       var self = $("#terminal");
 
-      function listOfSteps(opts) {
-        $.getJSON(opts.stepsFile,function(data){
-          $.each(data,function(k,v){
-            $("#listofsteps").append(
-              '<li class="step">'
-            +   '<a id="'+v.step+'" class="btn-step" href="#" data-step="'+v.step+'">'
-            +     v.step
-            +   '</a>'
-            + '</li>'
-            );
-          });
-        });
-      }
-
       function showInfoOfEachStep(opts,step){
 
         // select current step
@@ -496,6 +482,17 @@
       }
 
       var Step = {
+        list: function(opts){
+          if(opts.stepsFile != ""){
+            $.getJSON(opts.stepsFile,function(data){
+              $.each(data,function(k,v){
+                Step.listTemplate(v.step);
+              });
+            });
+          } else {
+            Step.listTemplate(1);
+          }
+        },
         getLast: function() { // return an int
           var step;
           $.ajaxSetup({
@@ -546,6 +543,15 @@
           $finish.html("Next ✓");
           // switch to next step
           showInfoOfEachStep(opts,step+1);
+        },
+        listTemplate: function(step){
+          $("#listofsteps").append(
+            '<li class="step">'
+          +   '<a id="'+step+'" class="btn-step" href="#" data-step="'+step+'">'
+          +     step
+          +   '</a>'
+          + '</li>'
+          );
         }
       };
 
@@ -626,7 +632,8 @@
       // preload all files from json
       File.preLoad(opts.preloadfile);
 
-      listOfSteps(opts);
+      //listOfSteps(opts);
+      Step.list(opts);
       showInfoOfEachStep(opts, 1);
 
       $(document).on('click','.btn-step',function(){
