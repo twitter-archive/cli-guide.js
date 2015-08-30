@@ -69,73 +69,149 @@
 
       var self = $("#terminal");
 
-      function showInfoOfEachStep(opts,step){
+      var Step = {
+        list: function(opts){
+          if(opts.stepsFile != ""){
+            $.getJSON(opts.stepsFile,function(data){
+              $.each(data,function(k,v){
+                Step.listTemplate(v.step);
+              });
+            });
+          } else {
+            Step.listTemplate(1);
+          }
+        },
+        showInfo: function(opts,step){
+          // select current step
+          localStorage.setItem('actualstep',step);
+          var skipStepArray = JSON.parse("[" + opts.skipsteps + "]");
 
-        // select current step
-        localStorage.setItem('actualstep',step);
-        var skipStepArray = JSON.parse("[" + opts.skipsteps + "]");
+          $(".btn-step").removeClass("active");
+          $("#stepscontent").html('');
+          $.getJSON(opts.stepsFile,function(data){
+            $.each(data,function(k,v){
+              if(v.step == step){
+                Step.showInfoTemplate(v.step,skipStepArray,v.content.title,v.content.content,
+                                      v.content.tips,v.content.commands,v.content.moreinfo);
+              }
+            });
+          });
 
-        $(".btn-step").removeClass("active");
-        $("#stepscontent").html('');
-        $.getJSON(opts.stepsFile,function(data){
-          $.each(data,function(k,v){
-            if(v.step == step){
-              $("#"+step+".btn-step").addClass("active");
-              $("#steptitle").html("<h3>Step "+v.step+"</h3>");
-              var nextstep = ( (step + 1) > Step.getLast() ) ? Step.getLast() : step + 1;
-              var skip = '';
-              for (var i = 0; i < skipStepArray.length; i++) {
-                if(step == skipStepArray[i]){
-                  skip = '<a href="#" id="skip" class="skip-b" data-step="'+step+'">skip</a>';
+          // appears a check when a Step finished
+          var actualStep = localStorage.getItem('actualstep');
+          var $finish = $("#finish[data-step="+actualStep+"]");
+          var finishedStep = JSON.parse(localStorage.getItem(step));
+
+          if(step == Step.getLast() && finishedStep){
+            $finish.addClass("ok-b");
+            $finish.html("Finish ✓");
+          } else if(finishedStep){
+            $finish.addClass("ok-b");
+            $finish.html("Next ✓");
+          } else {
+            $finish.html("");
+          }
+
+        },
+        getLast: function() { // return an int
+          var step;
+          $.ajaxSetup({
+            async: false
+          });
+          $.getJSON(opts.stepsFile,function(data){
+            $.each(data,function(k,v){
+              if(v.laststep){
+                step = v.step;
+              }
+            });
+          });
+          return step;
+        },
+        clean: function(opts){
+          $.getJSON(opts,function(data){
+            $.each(data,function(ks,steps){
+              localStorage.removeItem(steps.step);
+              localStorage.setItem(steps.step,false);
+            });
+          });
+        },
+        skip: function(opts,step){
+          $.getJSON(opts.stepsFile,function(data){
+            $.each(data,function(k,v){
+              if(v.step == step){
+                if(v.content.commands.length > 0){
+                  $.each(v.content.commands,function(key,val){
+                    var object  = JSON.parse(localStorage.getItem("step-"+val.command));
+                    localStorage.setItem("step-"+val.command,
+                    JSON.stringify(
+                      {step:object.step,
+                       command:object.command,
+                       type:object.type,
+                       depend: object.depend,
+                       done:true,
+                       animation: object.animation,
+                       lastCommand: object.lastCommand
+                      }));
+                  });
                 }
               }
-              $("#stepscontent").append(
-                '<h3>'+v.content.title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></a>' +
-                skip +
-                '</h3>' +
-                '<p>'+v.content.content.join("")+'</p>'
-              );
-              if(v.content.moreinfo != undefined){
-                Modal.showInfo("moreinfo",v.content.moreinfo.join(""));
-              }
-              if(v.content.tips != ""){
-                var tips =  Array.isArray(v.content.tips) ? v.content.tips.join("") : v.content.tips
-                $("#stepscontent").append(
-                  '<hr/ class="style">'
-                + "<h3>Tips</h3>"
-                + "<p>"+tips+"</p>"
-                + '<ul id="listofcommands"></ul>'
-                );
-              }
-              if(v.content.commands.length > 0){
-                $.each(v.content.commands,function(key,val){
-                  $("#listofcommands").append(
-                    "<li> $ "+val.command+"</li>"
-                  );
-                });
-              }
-              // for image modal
-              $("#stepscontent").append('<div id="contentimgmodal"><div>');
-            }
+            });
           });
-        });
-
-        // appears a check when a Step finished
-        var actualStep = localStorage.getItem('actualstep');
-        var $finish = $("#finish[data-step="+actualStep+"]");
-        var finishedStep = JSON.parse(localStorage.getItem(step));
-
-        if(step == Step.getLast() && finishedStep){
-          $finish.addClass("ok-b");
-          $finish.html("Finish ✓");
-        } else if(finishedStep){
+          localStorage.setItem(step,true);
+          var $finish = $("#finish[data-step="+step+"]");
           $finish.addClass("ok-b");
           $finish.html("Next ✓");
-        } else {
-          $finish.html("");
+          // switch to next step
+          Step.showInfo(opts,step+1);
+        },
+        listTemplate: function(step){
+          $("#listofsteps").append(
+            '<li class="step">'
+          +   '<a id="'+step+'" class="btn-step" href="#" data-step="'+step+'">'
+          +     step
+          +   '</a>'
+          + '</li>'
+          );
+        },
+        showInfoTemplate: function(step,skipStepArray,title,content,tips,commands,moreinfo){
+          $("#"+step+".btn-step").addClass("active");
+          $("#steptitle").html("<h3>Step "+step+"</h3>");
+          var nextstep = ( (step + 1) > Step.getLast() ) ? Step.getLast() : step + 1;
+          var skip = '';
+          for (var i = 0; i < skipStepArray.length; i++) {
+            if(step == skipStepArray[i]){
+              skip = '<a href="#" id="skip" class="skip-b" data-step="'+step+'">skip</a>';
+            }
+          }
+          $("#stepscontent").append(
+            '<h3>'+title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></a>' +
+            skip +
+            '</h3>' +
+            '<p>'+content.join("")+'</p>'
+          );
+          if(moreinfo != undefined){
+            Modal.showInfo("moreinfo",moreinfo.join(""));
+          }
+          if(tips != ""){
+            var tip =  Array.isArray(tips) ? tips.join("") : tips
+            $("#stepscontent").append(
+              '<hr/ class="style">'
+            + "<h3>Tips</h3>"
+            + "<p>"+tip+"</p>"
+            + '<ul id="listofcommands"></ul>'
+            );
+          }
+          if(commands.length > 0){
+            $.each(commands,function(key,val){
+              $("#listofcommands").append(
+                "<li> $ "+val.command+"</li>"
+              );
+            });
+          }
+          // for image modal
+          $("#stepscontent").append('<div id="contentimgmodal"><div>');
         }
-
-      }
+      };
 
       var UtilRegExp = {
         // for testing this regular expression you can use
@@ -481,80 +557,6 @@
         });
       }
 
-      var Step = {
-        list: function(opts){
-          if(opts.stepsFile != ""){
-            $.getJSON(opts.stepsFile,function(data){
-              $.each(data,function(k,v){
-                Step.listTemplate(v.step);
-              });
-            });
-          } else {
-            Step.listTemplate(1);
-          }
-        },
-        getLast: function() { // return an int
-          var step;
-          $.ajaxSetup({
-            async: false
-          });
-          $.getJSON(opts.stepsFile,function(data){
-            $.each(data,function(k,v){
-              if(v.laststep){
-                step = v.step;
-              }
-            });
-          });
-          return step;
-        },
-        clean: function(opts){
-          $.getJSON(opts,function(data){
-            $.each(data,function(ks,steps){
-              localStorage.removeItem(steps.step);
-              localStorage.setItem(steps.step,false);
-            });
-          });
-        },
-        skip: function(opts,step){
-          $.getJSON(opts.stepsFile,function(data){
-            $.each(data,function(k,v){
-              if(v.step == step){
-                if(v.content.commands.length > 0){
-                  $.each(v.content.commands,function(key,val){
-                    var object  = JSON.parse(localStorage.getItem("step-"+val.command));
-                    localStorage.setItem("step-"+val.command,
-                    JSON.stringify(
-                      {step:object.step,
-                       command:object.command,
-                       type:object.type,
-                       depend: object.depend,
-                       done:true,
-                       animation: object.animation,
-                       lastCommand: object.lastCommand
-                      }));
-                  });
-                }
-              }
-            });
-          });
-          localStorage.setItem(step,true);
-          var $finish = $("#finish[data-step="+step+"]");
-          $finish.addClass("ok-b");
-          $finish.html("Next ✓");
-          // switch to next step
-          showInfoOfEachStep(opts,step+1);
-        },
-        listTemplate: function(step){
-          $("#listofsteps").append(
-            '<li class="step">'
-          +   '<a id="'+step+'" class="btn-step" href="#" data-step="'+step+'">'
-          +     step
-          +   '</a>'
-          + '</li>'
-          );
-        }
-      };
-
       var File = {
         preLoad: function(opts){
           // validation
@@ -634,10 +636,10 @@
 
       //listOfSteps(opts);
       Step.list(opts);
-      showInfoOfEachStep(opts, 1);
+      Step.showInfo(opts, 1);
 
       $(document).on('click','.btn-step',function(){
-        showInfoOfEachStep(opts,$(this).data('step'));
+        Step.showInfo(opts,$(this).data('step'));
       }).on('mouseup','.btn-step',function(){
         $("#"+opts.initStep+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
         $(this).css({"background-color": "#8F8F8F", "color": "white"});
@@ -648,7 +650,7 @@
       });
 
       $(document).on('click','#finish',function(){
-        showInfoOfEachStep(opts,$(this).data('nextstep'));
+        Step.showInfo(opts,$(this).data('nextstep'));
       });
 
       $(document).on('click','.modalimage',function(){
