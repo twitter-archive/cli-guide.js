@@ -70,9 +70,9 @@
       var self = $("#terminal");
 
       var Step = {
-        list: function(opts){
-          if(opts.stepsFile != ""){
-            $.getJSON(opts.stepsFile,function(data){
+        list: function(stepsFile){
+          if(stepsFile != ""){
+            $.getJSON(stepsFile,function(data){
               $.each(data,function(k,v){
                 Step.listTemplate(v.step);
               });
@@ -81,35 +81,43 @@
             Step.listTemplate(1);
           }
         },
-        showInfo: function(opts,step){
+        showInfo: function(stepsFile, skipsteps, step){
           // select current step
-          localStorage.setItem('actualstep',step);
-          var skipStepArray = JSON.parse("[" + opts.skipsteps + "]");
+          if(stepsFile != ""){
+            localStorage.setItem('actualstep',step);
+            var skipStepArray = JSON.parse("[" + skipsteps + "]");
 
-          $(".btn-step").removeClass("active");
-          $("#stepscontent").html('');
-          $.getJSON(opts.stepsFile,function(data){
-            $.each(data,function(k,v){
-              if(v.step == step){
-                Step.showInfoTemplate(v.step,skipStepArray,v.content.title,v.content.content,
-                                      v.content.tips,v.content.commands,v.content.moreinfo);
-              }
+            $(".btn-step").removeClass("active");
+            $("#stepscontent").html('');
+            $.getJSON(stepsFile,function(data){
+              $.each(data,function(k,v){
+                if(v.step == step){
+                  Step.showInfoTemplate(step,v.step,skipStepArray,v.content.title,v.content.content,
+                                        v.content.tips,v.content.commands,v.content.moreinfo);
+                }
+              });
             });
-          });
 
-          // appears a check when a Step finished
-          var actualStep = localStorage.getItem('actualstep');
-          var $finish = $("#finish[data-step="+actualStep+"]");
-          var finishedStep = JSON.parse(localStorage.getItem(step));
+            // appears a check when a Step finished
+            var actualStep = localStorage.getItem('actualstep');
+            var $finish = $("#finish[data-step="+actualStep+"]");
+            var finishedStep = JSON.parse(localStorage.getItem(step));
 
-          if(step == Step.getLast() && finishedStep){
-            $finish.addClass("ok-b");
-            $finish.html("Finish ✓");
-          } else if(finishedStep){
-            $finish.addClass("ok-b");
-            $finish.html("Next ✓");
+            if(step == Step.getLast() && finishedStep){
+              $finish.addClass("ok-b");
+              $finish.html("Finish ✓");
+            } else if(finishedStep){
+              $finish.addClass("ok-b");
+              $finish.html("Next ✓");
+            } else {
+              $finish.html("");
+            }
+
           } else {
-            $finish.html("");
+            var command = [{"command":"git clone https://github.com/twitter/cli-guide.js.git"}]
+            Step.showInfoTemplate(1,"","CLI-Guide.js","A javascript library for creating interactive "+
+            "command line tutorials that run in your web browser. ",
+                                  "tips here!",command,"");
           }
 
         },
@@ -162,7 +170,7 @@
           $finish.addClass("ok-b");
           $finish.html("Next ✓");
           // switch to next step
-          Step.showInfo(opts,step+1);
+          Step.showInfo(opts.stepsFile, opts.skipsteps, step+1);
         },
         listTemplate: function(step){
           $("#listofsteps").append(
@@ -173,24 +181,27 @@
           + '</li>'
           );
         },
-        showInfoTemplate: function(step,skipStepArray,title,content,tips,commands,moreinfo){
+        showInfoTemplate: function(ustep,step,skipStepArray,title,content,tips,commands,moreinfo) {
+          $("#stepscontent").html('');
+          content = Array.isArray(content) ? content.join("") : content;
           $("#"+step+".btn-step").addClass("active");
           $("#steptitle").html("<h3>Step "+step+"</h3>");
-          var nextstep = ( (step + 1) > Step.getLast() ) ? Step.getLast() : step + 1;
+          var nextstep = ( (ustep + 1) > Step.getLast() ) ? Step.getLast() : ustep + 1;
           var skip = '';
           for (var i = 0; i < skipStepArray.length; i++) {
-            if(step == skipStepArray[i]){
-              skip = '<a href="#" id="skip" class="skip-b" data-step="'+step+'">skip</a>';
+            if(ustep == skipStepArray[i]){
+              skip = '<a href="#" id="skip" class="skip-b" data-step="'+ustep+'">skip</a>';
             }
           }
           $("#stepscontent").append(
-            '<h3>'+title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></a>' +
+            '<h3>'+title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+ustep+'"></a>' +
             skip +
             '</h3>' +
-            '<p>'+content.join("")+'</p>'
+            '<p>'+content+'</p>'
           );
           if(moreinfo != undefined){
-            Modal.showInfo("moreinfo",moreinfo.join(""));
+            moreinfo = Array.isArray(moreinfo) ? moreinfo.join("") : moreinfo;
+            Modal.showInfo("moreinfo",moreinfo);
           }
           if(tips != ""){
             var tip =  Array.isArray(tips) ? tips.join("") : tips
@@ -201,7 +212,7 @@
             + '<ul id="listofcommands"></ul>'
             );
           }
-          if(commands.length > 0){
+          if(commands.length > 0 && Array.isArray(commands)){
             $.each(commands,function(key,val){
               $("#listofcommands").append(
                 "<li> $ "+val.command+"</li>"
@@ -635,11 +646,11 @@
       File.preLoad(opts.preloadfile);
 
       //listOfSteps(opts);
-      Step.list(opts);
-      Step.showInfo(opts, 1);
+      Step.list(opts.stepsFile);
+      Step.showInfo(opts.stepsFile, opts.skipsteps, 1);
 
       $(document).on('click','.btn-step',function(){
-        Step.showInfo(opts,$(this).data('step'));
+        Step.showInfo(opts.stepsFile, opts.skipsteps,$(this).data('step'));
       }).on('mouseup','.btn-step',function(){
         $("#"+opts.initStep+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
         $(this).css({"background-color": "#8F8F8F", "color": "white"});
@@ -650,7 +661,7 @@
       });
 
       $(document).on('click','#finish',function(){
-        Step.showInfo(opts,$(this).data('nextstep'));
+        Step.showInfo(opts.stepsFile, opts.skipsteps,$(this).data('nextstep'));
       });
 
       $(document).on('click','.modalimage',function(){
