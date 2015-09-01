@@ -115,7 +115,7 @@
 
           } else {
             var command = [{"command":"git clone https://github.com/twitter/cli-guide.js.git"}]
-            Step.showInfoTemplate(1,"","CLI-Guide.js","A javascript library for creating interactive "+
+            Step.showInfoTemplate(1,1,"","CLI-Guide.js","A javascript library for creating interactive "+
             "command line tutorials that run in your web browser. ",
                                   "tips here!",command,"");
           }
