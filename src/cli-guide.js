@@ -69,87 +69,160 @@
 
       var self = $("#terminal");
 
-      function listOfSteps(opts) {
-        $.getJSON(opts.stepsFile,function(data){
-          $.each(data,function(k,v){
-            $("#listofsteps").append(
-              '<li class="step">'
-            +   '<a id="'+v.step+'" class="btn-step" href="#" data-step="'+v.step+'">'
-            +     v.step
-            +   '</a>'
-            + '</li>'
-            );
+      var Step = {
+        list: function(stepsFile){
+          if(stepsFile != ""){
+            $.getJSON(stepsFile,function(data){
+              $.each(data,function(k,v){
+                Step.listTemplate(v.step);
+              });
+            });
+          } else {
+            Step.listTemplate(1);
+          }
+        },
+        showInfo: function(stepsFile, skipsteps, step){
+          // select current step
+          if(stepsFile != ""){
+            localStorage.setItem('actualstep',step);
+            var skipStepArray = JSON.parse("[" + skipsteps + "]");
+
+            $(".btn-step").removeClass("active");
+            $("#stepscontent").html('');
+            $.getJSON(stepsFile,function(data){
+              $.each(data,function(k,v){
+                if(v.step == step){
+                  Step.showInfoTemplate(step,v.step,skipStepArray,v.content.title,v.content.content,
+                                        v.content.tips,v.content.commands,v.content.moreinfo);
+                }
+              });
+            });
+
+            // appears a check when a Step finished
+            var actualStep = localStorage.getItem('actualstep');
+            var $finish = $("#finish[data-step="+actualStep+"]");
+            var finishedStep = JSON.parse(localStorage.getItem(step));
+
+            if(step == Step.getLast() && finishedStep){
+              $finish.addClass("ok-b");
+              $finish.html("Finish ✓");
+            } else if(finishedStep){
+              $finish.addClass("ok-b");
+              $finish.html("Next ✓");
+            } else {
+              $finish.html("");
+            }
+
+          } else {
+            var command = [{"command":"git clone https://github.com/twitter/cli-guide.js.git"}]
+            Step.showInfoTemplate(1,"","CLI-Guide.js","A javascript library for creating interactive "+
+            "command line tutorials that run in your web browser. ",
+                                  "tips here!",command,"");
+          }
+
+        },
+        getLast: function() { // return an int
+          var step;
+          $.ajaxSetup({
+            async: false
           });
-        });
-      }
-
-      function showInfoOfEachStep(opts,step){
-
-        // select current step
-        localStorage.setItem('actualstep',step);
-        var skipStepArray = JSON.parse("[" + opts.skipsteps + "]");
-
-        $(".btn-step").removeClass("active");
-        $("#stepscontent").html('');
-        $.getJSON(opts.stepsFile,function(data){
-          $.each(data,function(k,v){
-            if(v.step == step){
-              $("#"+step+".btn-step").addClass("active");
-              $("#steptitle").html("<h3>Step "+v.step+"</h3>");
-              var nextstep = ( (step + 1) > Step.getLast() ) ? Step.getLast() : step + 1;
-              var skip = '';
-              for (var i = 0; i < skipStepArray.length; i++) {
-                if(step == skipStepArray[i]){
-                  skip = '<a href="#" id="skip" class="skip-b" data-step="'+step+'">skip</a>';
+          $.getJSON(opts.stepsFile,function(data){
+            $.each(data,function(k,v){
+              if(v.laststep){
+                step = v.step;
+              }
+            });
+          });
+          return step;
+        },
+        clean: function(opts){
+          $.getJSON(opts,function(data){
+            $.each(data,function(ks,steps){
+              localStorage.removeItem(steps.step);
+              localStorage.setItem(steps.step,false);
+            });
+          });
+        },
+        skip: function(opts,step){
+          $.getJSON(opts.stepsFile,function(data){
+            $.each(data,function(k,v){
+              if(v.step == step){
+                if(v.content.commands.length > 0){
+                  $.each(v.content.commands,function(key,val){
+                    var object  = JSON.parse(localStorage.getItem("step-"+val.command));
+                    localStorage.setItem("step-"+val.command,
+                    JSON.stringify(
+                      {step:object.step,
+                       command:object.command,
+                       type:object.type,
+                       depend: object.depend,
+                       done:true,
+                       animation: object.animation,
+                       lastCommand: object.lastCommand
+                      }));
+                  });
                 }
               }
-              $("#stepscontent").append(
-                '<h3>'+v.content.title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+step+'"></a>' +
-                skip +
-                '</h3>' +
-                '<p>'+v.content.content.join("")+'</p>'
-              );
-              if(v.content.moreinfo != undefined){
-                Modal.showInfo("moreinfo",v.content.moreinfo.join(""));
-              }
-              if(v.content.tips != ""){
-                var tips =  Array.isArray(v.content.tips) ? v.content.tips.join("") : v.content.tips
-                $("#stepscontent").append(
-                  '<hr/ class="style">'
-                + "<h3>Tips</h3>"
-                + "<p>"+tips+"</p>"
-                + '<ul id="listofcommands"></ul>'
-                );
-              }
-              if(v.content.commands.length > 0){
-                $.each(v.content.commands,function(key,val){
-                  $("#listofcommands").append(
-                    "<li> $ "+val.command+"</li>"
-                  );
-                });
-              }
-              // for image modal
-              $("#stepscontent").append('<div id="contentimgmodal"><div>');
-            }
+            });
           });
-        });
-
-        // appears a check when a Step finished
-        var actualStep = localStorage.getItem('actualstep');
-        var $finish = $("#finish[data-step="+actualStep+"]");
-        var finishedStep = JSON.parse(localStorage.getItem(step));
-
-        if(step == Step.getLast() && finishedStep){
-          $finish.addClass("ok-b");
-          $finish.html("Finish ✓");
-        } else if(finishedStep){
+          localStorage.setItem(step,true);
+          var $finish = $("#finish[data-step="+step+"]");
           $finish.addClass("ok-b");
           $finish.html("Next ✓");
-        } else {
-          $finish.html("");
+          // switch to next step
+          Step.showInfo(opts.stepsFile, opts.skipsteps, step+1);
+        },
+        listTemplate: function(step){
+          $("#listofsteps").append(
+            '<li class="step">'
+          +   '<a id="'+step+'" class="btn-step" href="#" data-step="'+step+'">'
+          +     step
+          +   '</a>'
+          + '</li>'
+          );
+        },
+        showInfoTemplate: function(ustep,step,skipStepArray,title,content,tips,commands,moreinfo) {
+          $("#stepscontent").html('');
+          content = Array.isArray(content) ? content.join("") : content;
+          $("#"+step+".btn-step").addClass("active");
+          $("#steptitle").html("<h3>Step "+step+"</h3>");
+          var nextstep = ( (ustep + 1) > Step.getLast() ) ? Step.getLast() : ustep + 1;
+          var skip = '';
+          for (var i = 0; i < skipStepArray.length; i++) {
+            if(ustep == skipStepArray[i]){
+              skip = '<a href="#" id="skip" class="skip-b" data-step="'+ustep+'">skip</a>';
+            }
+          }
+          $("#stepscontent").append(
+            '<h3>'+title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+ustep+'"></a>' +
+            skip +
+            '</h3>' +
+            '<p>'+content+'</p>'
+          );
+          if(moreinfo != undefined){
+            moreinfo = Array.isArray(moreinfo) ? moreinfo.join("") : moreinfo;
+            Modal.showInfo("moreinfo",moreinfo);
+          }
+          if(tips != ""){
+            var tip =  Array.isArray(tips) ? tips.join("") : tips
+            $("#stepscontent").append(
+              '<hr/ class="style">'
+            + "<h3>Tips</h3>"
+            + "<p>"+tip+"</p>"
+            + '<ul id="listofcommands"></ul>'
+            );
+          }
+          if(commands.length > 0 && Array.isArray(commands)){
+            $.each(commands,function(key,val){
+              $("#listofcommands").append(
+                "<li> $ "+val.command+"</li>"
+              );
+            });
+          }
+          // for image modal
+          $("#stepscontent").append('<div id="contentimgmodal"><div>');
         }
-
-      }
+      };
 
       var UtilRegExp = {
         // for testing this regular expression you can use
@@ -244,7 +317,7 @@
         }
       };
 
-      CommandValidation.load(opts.commandValidation);
+      //CommandValidation.load(opts.commandValidation);
 
       function newline(command){
 
@@ -284,16 +357,16 @@
       }
 
       function commands(opts,text,id){
-
+        var input = text.trim();
         var result = "";
         var actualStep = localStorage.getItem('actualstep');
         var $finish = $("#finish[data-step="+actualStep+"]");
 
-        if(text == "") {
+        if(input == "") {
           newline("");
-        } else if(localStorage.getItem(text.trim()) != null){
+        } else if(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')) != null){
 
-          var object  = JSON.parse(localStorage.getItem(text.trim()));
+          var object  = JSON.parse(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')));
 
           if(object.lastCommand || JSON.parse(localStorage.getItem(actualStep))){
             if(actualStep == Step.getLast()){
@@ -314,9 +387,9 @@
           // verify the command if it is for the correct step
           if(object.step == "general"){
             if(text.indexOf("cd ") > -1){
-              newline(text);
+              newline(input.replace(/\s\s+/g,' '));
             } else if(!object.animation){
-              newline(text);
+              newline(input.replace(/\s\s+/g,' '));
             }
             return result = restCommand(opts,text,id);
           } else {
@@ -338,22 +411,20 @@
                 return result = "You have to run this command before: "+missingCommands.join(' | ');
               } else {
                 // update
-                localStorage.setItem(text,
+                localStorage.setItem(input.replace(/\s\s+/g,' '),
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
                      type: object.type,
                      depend: object.depend,
                      done:true,
-                     orden: object.order,
-                     max:object.count,
                      animation: object.animation,
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  newline(text);
+                  newline(input.replace(/\s\s+/g,' '));
                 }
-                return result = restCommand(opts,text,id);
+                return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
             } else if(object.depend != ""){
               // check which command or commands depends
@@ -363,45 +434,41 @@
                 return result = "You have to run this command before: "+dependCommand.command;
               } else {
                 // update
-                localStorage.setItem(text,
+                localStorage.setItem(input.replace(/\s\s+/g,' '),
                   JSON.stringify(
                     {step:object.step,
                      command:object.command,
                      type: object.type,
                      depend: object.depend,
                      done:true,
-                     orden: object.order,
-                     max:object.count,
                      animation: object.animation,
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  newline(text);
+                  newline(input.replace(/\s\s+/g,' '));
                 }
-                return result = restCommand(opts,text,id);
+                return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
             } else {
               // update
-              localStorage.setItem(text,
+              localStorage.setItem(input.replace(/\s\s+/g,' '),
                 JSON.stringify(
                   {step:object.step,
                    command:object.command,
                    type: object.type,
                    depend: object.depend,
                    done:true,
-                   orden: object.order,
-                   max:object.count,
                    animation: object.animation,
                    lastCommand: object.lastCommand
                   }));
               if(object.type === "native" || object.type === "static"){
-                newline(text);
+                newline(input.replace(/\s\s+/g,' '));
               }
-              return result = restCommand(opts,text,id);
+              return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
             }
           }
         } else {
-          newline(text);
+          newline(input);
         }
 
       }
@@ -470,31 +537,27 @@
                 // when more than one command have the same result
                 if(Array.isArray(commands[i].command)){
                   for(var c = 0; c < commands[i].command.length; c++){
-                    localStorage.removeItem(commands[i].command[c]);
-                    localStorage.setItem(commands[i].command[c],
+                    localStorage.removeItem("step-"+commands[i].command[c]);
+                    localStorage.setItem("step-"+commands[i].command[c],
                       JSON.stringify(
                         {step:steps.step,
                          command:commands[i].command[c],
                          type:commands[i].type,
                          depend: commands[i].depend,
                          done:false,
-                         orden: commands[i].order,
-                         max:steps.count,
                          animation: (commands[i].animation == undefined) ? false : commands[i].animation,
                          lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
                         }));
                   }
                 } else {
-                  localStorage.removeItem(commands[i].command);
-                  localStorage.setItem(commands[i].command,
+                  localStorage.removeItem("step-"+commands[i].command);
+                  localStorage.setItem("step-"+commands[i].command,
                     JSON.stringify(
                       {step:steps.step,
                        command:commands[i].command,
                        type:commands[i].type,
                        depend: commands[i].depend,
                        done:false,
-                       orden: commands[i].order,
-                       max:steps.count,
                        animation: (commands[i].animation == undefined) ? false : commands[i].animation,
                        lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
                       }));
@@ -505,112 +568,41 @@
         });
       }
 
-      var Step = {
-        getLast: function(){ // return an int
-          var step;
-          $.ajaxSetup({
-            async: false
-          });
-          $.getJSON(opts.stepsFile,function(data){
-            $.each(data,function(k,v){
-              if(v.laststep){
-                step = v.step;
-              }
+      var File = {
+        preLoad: function(opts){
+          // validation
+          // if the json file is empty
+          if(opts===""){
+            localStorage.setItem("hello_world.py",
+              JSON.stringify({
+                content: "print \"Hello World!\"",
+                language: "python"
+            }));
+            // add a python file for show, how to works nano editor
+            localStorage.setItem("files","hello_world.py");
+          } else {
+            var files = []
+            $.ajaxSetup({
+              async: false
             });
-          });
-          return step;
-        }
-      };
-
-      function getLastStep(){ // return an int
-        var step;
-        $.ajaxSetup({
-          async: false
-        });
-        $.getJSON(opts.stepsFile,function(data){
-          $.each(data,function(k,v){
-            if(v.laststep){
-              step = v.step;
-            }
-          });
-        });
-        return step;
-      }
-
-      function skipStep(opts,step) {
-        $.getJSON(opts.stepsFile,function(data){
-          $.each(data,function(k,v){
-            if(v.step == step){
-              if(v.content.commands.length > 0){
-                $.each(v.content.commands,function(key,val){
-                  var object  = JSON.parse(localStorage.getItem(val.command));
-                  localStorage.setItem(val.command,
-                  JSON.stringify(
-                    {step:object.step,
-                     command:object.command,
-                     type:object.type,
-                     depend: object.depend,
-                     done:true,
-                     orden: object.order,
-                     max:object.count,
-                     animation: object.animation,
-                     lastCommand: object.lastCommand
-                    }));
+            if(opts != "") {
+              $.getJSON(opts,function(data){
+                $.each(data,function(k,v){
+                  // using .join method to convert array to string without commas
+                  files.push(v.name);
+                  // save each file
+                  localStorage.setItem(v.name,
+                    JSON.stringify({
+                      content: v.content.join(""),
+                      language: (v.language == undefined) ? "markup" : v.language
+                  }));
                 });
-              }
-            }
-          });
-        });
-        localStorage.setItem(step,true);
-        var $finish = $("#finish[data-step="+step+"]");
-        $finish.addClass("ok-b");
-        $finish.html("Next ✓");
-        // switch to next step
-        showInfoOfEachStep(opts,step+1);
-      }
-
-      function cleanSteps(jsonCommands){
-        $.getJSON(jsonCommands,function(data){
-          $.each(data,function(ks,steps){
-            localStorage.removeItem(steps.step);
-            localStorage.setItem(steps.step,false);
-          });
-        });
-      }
-
-      function preLoadFile(data){
-        // validation
-        // if the json file is empty
-        if(data===""){
-          localStorage.setItem("hello_world.py",
-            JSON.stringify({
-              content: "print \"Hello World!\"",
-              language: "python"
-          }));
-          // add a python file for show, how to works nano editor
-          localStorage.setItem("files","hello_world.py");
-        } else {
-          var files = []
-          $.ajaxSetup({
-            async: false
-          });
-          if(data != "") {
-            $.getJSON(data,function(data){
-              $.each(data,function(k,v){
-                // using .join method to convert array to string without commas
-                files.push(v.name);
-                // save each file
-                localStorage.setItem(v.name,
-                  JSON.stringify({
-                    content: v.content.join(""),
-                    language: (v.language == undefined) ? "markup" : v.language
-                }));
               });
-            });
-            localStorage.setItem("files",files);
+              localStorage.setItem("files",files);
+            }
           }
         }
-      }
+      };
 
       //  autocomplete (tab) commands, issue #42
       function autocompleteCommands(commands){
@@ -641,7 +633,7 @@
       }
 
       // clean each steps
-      cleanSteps(opts.commandStepsFile);
+      Step.clean(opts.commandStepsFile);
 
       newline("");
 
@@ -651,24 +643,25 @@
       loadStepToLocalStorage(opts.commandStepsFile);
 
       // preload all files from json
-      preLoadFile(opts.preloadfile);
+      File.preLoad(opts.preloadfile);
 
-      listOfSteps(opts);
-      showInfoOfEachStep(opts, 1);
+      //listOfSteps(opts);
+      Step.list(opts.stepsFile);
+      Step.showInfo(opts.stepsFile, opts.skipsteps, 1);
 
       $(document).on('click','.btn-step',function(){
-        showInfoOfEachStep(opts,$(this).data('step'));
+        Step.showInfo(opts.stepsFile, opts.skipsteps,$(this).data('step'));
       }).on('mouseup','.btn-step',function(){
         $("#"+opts.initStep+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
         $(this).css({"background-color": "#8F8F8F", "color": "white"});
       });
 
       $(document).on('click','#skip',function(){
-        skipStep(opts,$(this).data('step'));
+        Step.skip(opts,$(this).data('step'));
       });
 
       $(document).on('click','#finish',function(){
-        showInfoOfEachStep(opts,$(this).data('nextstep'));
+        Step.showInfo(opts.stepsFile, opts.skipsteps,$(this).data('nextstep'));
       });
 
       $(document).on('click','.modalimage',function(){
