@@ -1069,10 +1069,10 @@
 
   // the structure of these json template must be in the documentation
   $.fn.cli.defaults = {
-    commandStepsFile: "", //src/listofcommandsteps.json
+    commandStepsFile: "",
     commandValidation: "",
-    preloadfile: "", // src/preloadfile.json
-    stepsFile : "", // src/listofsteps.json
+    preloadfile: "",
+    stepsFile : "",
     skipsteps: ""
   };
 
