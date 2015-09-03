@@ -205,22 +205,22 @@
           }
           if(tips != ""){
             var tip =  Array.isArray(tips) ? tips.join("") : tips
-            $("#stepscontent").append(
+            $('#stepscontent').append(
               '<hr/ class="style">'
-            + "<h3>Tips</h3>"
-            + "<p>"+tip+"</p>"
+            + '<h3>Tips</h3>'
+            + '<p>'+tip+'</p>'
             + '<ul id="listofcommands"></ul>'
             );
           }
           if(commands.length > 0 && Array.isArray(commands)){
             $.each(commands,function(key,val){
               $("#listofcommands").append(
-                "<li> $ "+val.command+"</li>"
+                '<li> <span class="promptlabel">$ </span>'+val.command+'</li>'
               );
             });
           }
           // for image modal
-          $("#stepscontent").append('<div id="contentimgmodal"><div>');
+          $('#stepscontent').append('<div id="contentimgmodal"><div>');
         }
       };
 

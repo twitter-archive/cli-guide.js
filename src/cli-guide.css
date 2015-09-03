@@ -90,6 +90,13 @@ a.btn-step:active {
   background-color: #949494;
 }
 
+span.promptlabel {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .active {
   background-color: #4D4D4D !important;
   color: white !important;
