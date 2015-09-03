@@ -604,6 +604,21 @@
         }
       };
 
+      var Nano = {
+        open: function(){
+          $("#terminal").hide();
+          $('#editor-header-filename').html("File: ");
+          $('#editor-content').html('');
+          $('#namefile-x').html('');
+          $("#command-x").hide();
+          $("#editor").show();
+          $('#editor-content').focus();
+        },
+        openFile: function(file){
+
+        }
+      };
+
       //  autocomplete (tab) commands, issue #42
       function autocompleteCommands(commands){
         var listCommands = []
@@ -683,24 +698,30 @@
           //effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
 
           // print the result of commands
-          if(CommandValidation.command($(this).text()) != "" ){
+          /*if(CommandValidation.command($(this).text()) != "" ){
             $("#"+id+".response").html(CommandValidation.command(input));
             newline(input);
           } else {
             $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+          }*/
+          if(opts.commandStepsFile != ""){
+            $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+          } else {
+            newline(input);
           }
 
           if(input == "nano"){
-            $("#terminal").hide();
+            Nano.open();
+            /*$("#terminal").hide();
             $('#editor-header-filename').html("File: ");
             $('#editor-content').html('');
             $('#namefile-x').html('');
             $("#command-x").hide();
             $("#editor").show();
-            $('#editor-content').focus();
+            $('#editor-content').focus();*/
           }
 
-          if(input.replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop()){
+          if(input.replace(/\s\s+/g,' ') == "nano " + input.split(" ").pop()){
             $("#terminal").hide();
             $('#editor-content').html('');
             $('#editor-header-filename').html("File: ");
@@ -773,7 +794,7 @@
           }
 
           // git clone
-          if(input.replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
+          if(input.replace(/\s\s+/g,' ') == "git clone " + input.split(" ").pop()) {
 
             if(UtilRegExp.gitClone(input.replace(/\s\s+/g,' '))){
 
