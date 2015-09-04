@@ -283,6 +283,15 @@
           $(".response").remove();
           Cli.newline("");
         },
+        rm: function(filename){
+          if(localStorage.getItem(filename) != null){
+            var arrayFiles = localStorage.getItem("files").split(',');
+            arrayFiles = arrayFiles.filter(Boolean);
+            Util.removeItemFromArray(arrayFiles, filename);
+            localStorage.setItem("files",arrayFiles);
+            localStorage.removeItem(filename);
+          }
+        },
         gitClone: function(input,id){
           if(UtilRegExp.gitClone(input.replace(/\s\s+/g,' '))){
 
@@ -395,6 +404,14 @@
 
           } else {
             $("#"+id+".response").html("fatal: repository '"+input.replace(/\s\s+/g,' ')+"' does not exist");
+          }
+        },
+        unSupportedCommand: function(input,id){
+          var commandTest = ["mv"];
+          for (i = 0; i < commandTest.length; i++) {
+            if(input == commandTest[i]) {
+              $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
+            }
           }
         }
       };
@@ -859,7 +876,6 @@
 
           $(this).removeAttr('contenteditable');
           $('<p id="'+id+'" class="response">').appendTo(self);
-          //effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
 
           // print the result of commands
           /*if(CommandValidation.command($(this).text()) != "" ){
@@ -892,24 +908,11 @@
           }
 
           // list of commands we can't use....
-          var commandTest = ["mv"];
-
-          for (i = 0; i < commandTest.length; i++) {
-            if(input == commandTest[i]) {
-              $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
-            }
-          }
+          Cli.unSupportedCommand(input,id)
 
           // delete file remove a key from LocalStorage issue #81
           if(input.replace(/\s\s+/g,' ') == "rm -r " + input.split(" ").pop()) {
-            var fileName = input.split(" ").pop();
-            if(localStorage.getItem(fileName) != null){
-              var arrayFiles = localStorage.getItem("files").split(',');
-              arrayFiles = arrayFiles.filter(Boolean);
-              Util.removeItemFromArray(arrayFiles, fileName);
-              localStorage.setItem("files",arrayFiles);
-              localStorage.removeItem(fileName);
-            }
+            Cli.rm(input.split(" ").pop());
           }
 
           // git clone
