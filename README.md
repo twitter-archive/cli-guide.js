@@ -1,6 +1,6 @@
 # CLI Guide jQuery Plugin
 
-[![npm version](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/cli-guide.js)
+[![npm version](https://raw.githubusercontent.com/twitter/cli-guide.js/gh-pages/npm.svg)](https://www.npmjs.com/package/cli-guide.js)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/twitter/cli-guide.js/master/LICENSE)
 
 > [GSoC 2015 Project](http://www.google-melange.com/gsoc/project/details/google/gsoc2015/marti1125/5757334940811264)
