@@ -1,8 +1,11 @@
 # CLI Guide jQuery Plugin
 
-[GSoC 2015 Project](http://www.google-melange.com/gsoc/project/details/google/gsoc2015/marti1125/5757334940811264)
+[![npm version](https://img.shields.io/npm/v/npm.svg)](https://www.npmjs.com/package/cli-guide.js)
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/twitter/cli-guide.js/master/LICENSE)
 
-A Javascript library for creating interactive command line tutorials that run in your web browser.
+> [GSoC 2015 Project](http://www.google-melange.com/gsoc/project/details/google/gsoc2015/marti1125/5757334940811264)
+
+> A Javascript library for creating interactive command line tutorials that run in your web browser.
 
 Necessary Files
 -----------------
