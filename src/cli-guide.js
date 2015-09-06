@@ -887,7 +887,11 @@
           if(opts.commandStepsFile != ""){
             $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
           } else {
-            Cli.newline(input);
+            // git clone return a new line after finish
+            // only run commands different from git clone
+            if(input.replace(/\s\s+/g,' ') != "git clone " + input.split(" ").pop()) {
+              Cli.newline(input);
+            }
           }
 
           if(input == "nano"){
