@@ -3,7 +3,12 @@
     "command": "aurora job create",
     "regexp": "aurora\\sjob\\screate\\s[a-z-.-_--]+\/[a-z-.-_--]+\/[a-z-.-_--]+\/[a-z-.-_--]+\\s[a-zA-Z-.-_--]{0,}(\\.aurora)",
     "regexp_message": [
-      "error in commands...."
+      "usage: aurora job create [-h] [--bind var=value] [--read-json] <br/>",
+      "<span class='largespace'></span>[--wait-until {PENDING,RUNNING,FINISHED}] <br/>",
+      "<div class='largespace'></div>[--open-browser] [--verbose] <br/>",
+      "<div class='largespace'></div>[--skip-hooks hook,hook,...] <br/>",
+      "<div class='largespace'></div>CLUSTER/ROLE/ENV/NAME pathname <br/>",
+      "aurora job create: error: too few arguments"
     ]
   }
 ]
