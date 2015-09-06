@@ -35,9 +35,11 @@ Documentation
     $('#stepsdiv').cliguide({
         nameOfTheProject: 'Apache Aurora'
     }).cli({
-        stepsFile: 'templates/apache_aurora.json',
-        commandStepsFile: 'templates/apache_aurora_commands.json',
-        preloadfile: 'templates/apache_aurora_files.json'
+      stepsFile: 'templates/apache_aurora.json',
+      skipsteps: '1,2',
+      commandStepsFile: 'templates/apache_aurora_commands.json',
+      commandValidation: 'templates/apache_aurora_commands_validations.json',
+      preloadfile: 'templates/apache_aurora_files.json'
     }, function(){
         //Codes in here will be runned after CLI functions run
     });
