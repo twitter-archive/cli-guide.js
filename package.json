@@ -1,7 +1,7 @@
 {
   "name": "cli-guide.js",
-  "version": "0.1.0",
-  "description": "interactive terminal",
+  "version": "0.1.1",
+  "description": "A Javascript library for creating interactive command line tutorials that run in your web browser.",
   "directories": {
     "test": "test"
   },
@@ -18,7 +18,8 @@
     "plugin",
     "terminal",
     "steps",
-    "guide"
+    "guide",
+    "apache aurora"
   ],
   "author": "Willy Aguirre",
   "license": "MIT",
