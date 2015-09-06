@@ -471,45 +471,26 @@
       });
 
       var CommandValidation = {
-        command: function(text){
-          if(JSON.parse(localStorage.getItem(text)) != null){
-            var commandToValid  = JSON.parse(localStorage.getItem(text));
-            if(commandToValid.regexp != undefined){
-              var regExp = new RegExp(commandToValid.regexp);
-              var message = "";
-              if(regExp.test(text)){
-                return "";
-              } else {
-                return commandToValid.regexp_message;
-              }
-            } else {
-              return "";
-            }
-          } else {
-            return "";
-          }
-        },
-        load: function(json){
-          var commandsForValidate = [];
+        command: function(commands,text){
+          var message = "";
           $.ajaxSetup({
             async: false
           });
-          $.getJSON(json,function(data){
+          $.getJSON(commands,function(data){
             $.each(data,function(k,v){
-              commandsForValidate.push(v.command);
-              localStorage.setItem(v.command,
-                JSON.stringify({
-                  command: v.command,
-                  regexp: v.regexp,
-                  regexp_message: v.regexp_message
-                }));
+              if((new RegExp(v.command)).test(text)){
+                var regExp = new RegExp(v.regexp);
+                if(!regExp.test(text)){
+                  message = v.regexp_message;
+                } else {
+                  message = "";
+                }
+              }
             });
           });
-          localStorage.setItem("commandsforvalidate",commandsForValidate);
+          return message;
         }
       };
-
-      //CommandValidation.load(opts.commandValidation);
 
       function commands(opts,text,id){
         var input = text.trim();
@@ -878,13 +859,14 @@
           $('<p id="'+id+'" class="response">').appendTo(self);
 
           // print the result of commands
-          /*if(CommandValidation.command($(this).text()) != "" ){
-            $("#"+id+".response").html(CommandValidation.command(input));
-            newline(input);
-          } else {
-            $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
-          }*/
-          if(opts.commandStepsFile != ""){
+          if(opts.commandStepsFile != "" && opts.commandValidation != "") {
+            if(CommandValidation.command(opts.commandValidation,input) != "" ) {
+              $("#"+id+".response").html(CommandValidation.command(opts.commandValidation,input));
+              Cli.newline(input);
+            } else {
+              $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+            }
+          } else if(opts.commandStepsFile != "") {
             $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
           } else {
             // git clone return a new line after finish
