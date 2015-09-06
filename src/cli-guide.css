@@ -90,6 +90,13 @@ a.btn-step:active {
   background-color: #949494;
 }
 
+span.promptlabel {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 .active {
   background-color: #4D4D4D !important;
   color: white !important;
@@ -287,6 +294,12 @@ div.textinline br {
   padding-left: 20px;
   width: 100px;
   height: auto;
+  float: left;
+}
+
+.largespace {
+  width: 24%;
+  height: 17px;
   float: left;
 }
 

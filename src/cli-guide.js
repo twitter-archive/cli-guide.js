@@ -33,6 +33,21 @@
       initStep: 1
     };
 
+  // Util
+  var Util = {
+    insertAt: function(src, index, str){
+      return src.substr(0, index) + str + " " + src.substr(index);
+    },
+    removeItemFromArray: function(array, item){
+      for(var i in array){
+        if(array[i]==item){
+          array.splice(i,1);
+          break;
+        }
+      }
+    }
+  };
+
   // The actual plugin constructor
   function Plugin( element, options ) {
     this.element = element;
@@ -205,22 +220,199 @@
           }
           if(tips != ""){
             var tip =  Array.isArray(tips) ? tips.join("") : tips
-            $("#stepscontent").append(
+            $('#stepscontent').append(
               '<hr/ class="style">'
-            + "<h3>Tips</h3>"
-            + "<p>"+tip+"</p>"
+            + '<h3>Tips</h3>'
+            + '<p>'+tip+'</p>'
             + '<ul id="listofcommands"></ul>'
             );
           }
           if(commands.length > 0 && Array.isArray(commands)){
             $.each(commands,function(key,val){
               $("#listofcommands").append(
-                "<li> $ "+val.command+"</li>"
+                '<li> <span class="promptlabel">$ </span>'+val.command+'</li>'
               );
             });
           }
           // for image modal
-          $("#stepscontent").append('<div id="contentimgmodal"><div>');
+          $('#stepscontent').append('<div id="contentimgmodal"><div>');
+        }
+      };
+
+      var Cli = {
+        newline: function(command){
+          loghistory.push(command);
+
+          localStorage.setItem("loghistory",loghistory);
+
+          var idinput = parseInt(localStorage.getItem("idinput"));
+
+          var dir = "";
+
+          if(command.substring(0, 3) == "cd " && command.substring(3, command.length) != ""){
+            localStorage.setItem('actualdir', "/"+command.substring(3, command.length));
+          }
+
+          if(command == "cd ..") {
+            localStorage.setItem('actualdir', "");
+          }
+
+          dir = localStorage.getItem('actualdir');
+
+          self.append(
+             '<div id="'+idinput+'" class="parent-textinline">'
+          +     '<div class="prompt">you@tutorial:~'+dir+'$ </div>'
+          +     '<div id="'+idinput+'" spellcheck="false" class="textinline" style="outline-color:black" contenteditable="true">'
+          +       '&nbsp;'
+          +     '</div>'
+          +  '</div>'
+          );
+
+          var count = parseInt(localStorage.getItem("idinput"));
+          var total = count + 1;
+          localStorage.setItem("idinput",total)
+
+          $('[contenteditable]', self)[0].focus();
+
+        },
+        ls: function(id){
+          $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
+        },
+        clear: function(){
+          $(".parent-textinline").remove();
+          $(".response").remove();
+          Cli.newline("");
+        },
+        rm: function(filename){
+          if(localStorage.getItem(filename) != null){
+            var arrayFiles = localStorage.getItem("files").split(',');
+            arrayFiles = arrayFiles.filter(Boolean);
+            Util.removeItemFromArray(arrayFiles, filename);
+            localStorage.setItem("files",arrayFiles);
+            localStorage.removeItem(filename);
+          }
+        },
+        gitClone: function(input,id){
+          if(UtilRegExp.gitClone(input.replace(/\s\s+/g,' '))){
+
+            var url = input.split(" ").pop();
+            var repoName= url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".git"));
+
+            $("#"+id+".response").append("Cloning into '"+repoName+"'... <br/>");
+            $("#"+id+".response").append("remote: Counting objects: 4643, done.<br/>");
+            $("#"+id+".response").append('remote: Compressing objects: '
+            + '<span id="objects" class="objects">100</span>'
+            + '% (<span id="objects_p" class="objects">12</span>/12), done.<br/>');
+
+            $("#"+id+".response #objects").html(100);
+            $("#"+id+".response #objects_p").html(12);
+
+            // animation
+            $("#"+id+".response .objects").each(function () {
+              $(this).prop('Counter',0).animate({
+                Counter: $(this).text()
+              }, {
+                duration: 900,
+                easing: 'swing',
+                step: function (now) {
+                  $(this).text(Math.ceil(now));
+                }
+              });
+            });
+
+            $("#"+id+".response .objects").promise().done(function(){
+              $("#"+id+".response").append(
+                '<span id="down_c" class="down_class">Receiving objects: <span id="down_m" class="down">100</span>%'
+              + ' (<span id="down_p" class="down">4643</span>/4643) '
+              + ' <span id="down_mb" class="down">28</span> MiB | <span id="down_k" class="down">167</span> '
+              + ' Kib/s, done. </span><br/> '
+              );
+
+              $("#"+id+".response #down_m").html(100);
+              $("#"+id+".response #down_p").html(4643);
+              $("#"+id+".response #down_mb").html(28);
+              $("#"+id+".response #down_k").html(167);
+
+              $("#"+id+".response .down").each(function () {
+                $(this).prop('Counter',0).animate({
+                  Counter: $(this).text()
+                }, {
+                  duration: 3000,
+                  easing: 'swing',
+                  step: function (now) {
+                    $(this).text(Math.ceil(now));
+                  }
+                });
+              });
+
+              $("#"+id+".response .down").promise().done(function(){
+
+                $("<span>remote: Total 4643 (delta 2), reused 0 (delta 0), pack-reused 4631</span><br/>").insertBefore("#"+id+".response #down_c.down_class");
+
+                $("#"+id+".response").append('Resolving deltas: '
+                + '<span id="delta" class="delta">100</span>'
+                + '% (<span id="delta_p"class="delta">2961</span>/2961), done.<br/>');
+
+                $("#"+id+".response #delta").html(100);
+                $("#"+id+".response #delta_p").html(2961);
+
+                $("#"+id+".response .delta").each(function () {
+                  $(this).prop('Counter',0).animate({
+                    Counter: $(this).text()
+                  }, {
+                    duration: 2000,
+                    easing: 'swing',
+                    step: function (now) {
+                      $(this).text(Math.ceil(now));
+                    }
+                  });
+                });
+
+                $("#"+id+".response .delta").promise().done(function(){
+
+                  $("#"+id+".response").append("Checking connectivity... done. <br/>");
+
+                  $("#"+id+".response").append('Checking out files: '
+                  + '<span id="files" class="files">100</span>'
+                  + '% (<span id="files_p"class="files">975</span>/975), done.<br/>');
+
+                  $("#"+id+".response #files").html(100);
+                  $("#"+id+".response #files_p").html(975);
+
+                  $("#"+id+".response .files").each(function () {
+                    $(this).prop('Counter',0).animate({
+                      Counter: $(this).text()
+                    }, {
+                      duration: 2000,
+                      easing: 'swing',
+                      step: function (now) {
+                        $(this).text(Math.ceil(now));
+                      }
+                    });
+                  });
+
+                  $("#"+id+".response .files").promise().done(function(){
+                    // save this command in the history
+                    Cli.newline(input);
+                  });
+
+                });
+
+              });
+
+            });
+
+          } else {
+            $("#"+id+".response").html("fatal: repository '"+input.replace(/\s\s+/g,' ')+"' does not exist");
+          }
+        },
+        unSupportedCommand: function(input,id){
+          var commandTest = ["mv"];
+          for (i = 0; i < commandTest.length; i++) {
+            if(input == commandTest[i]) {
+              $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
+            }
+          }
         }
       };
 
@@ -279,82 +471,26 @@
       });
 
       var CommandValidation = {
-        command: function(text){
-          if(JSON.parse(localStorage.getItem(text)) != null){
-            var commandToValid  = JSON.parse(localStorage.getItem(text));
-            if(commandToValid.regexp != undefined){
-              var regExp = new RegExp(commandToValid.regexp);
-              var message = "";
-              if(regExp.test(text)){
-                return "";
-              } else {
-                return commandToValid.regexp_message;
-              }
-            } else {
-              return "";
-            }
-          } else {
-            return "";
-          }
-        },
-        load: function(json){
-          var commandsForValidate = [];
+        command: function(commands,text){
+          var message = "";
           $.ajaxSetup({
             async: false
           });
-          $.getJSON(json,function(data){
+          $.getJSON(commands,function(data){
             $.each(data,function(k,v){
-              commandsForValidate.push(v.command);
-              localStorage.setItem(v.command,
-                JSON.stringify({
-                  command: v.command,
-                  regexp: v.regexp,
-                  regexp_message: v.regexp_message
-                }));
+              if((new RegExp(v.command)).test(text)){
+                var regExp = new RegExp(v.regexp);
+                if(!regExp.test(text)){
+                  message = v.regexp_message;
+                } else {
+                  message = "";
+                }
+              }
             });
           });
-          localStorage.setItem("commandsforvalidate",commandsForValidate);
+          return message;
         }
       };
-
-      //CommandValidation.load(opts.commandValidation);
-
-      function newline(command){
-
-        loghistory.push(command);
-
-        localStorage.setItem("loghistory",loghistory);
-
-        var idinput = parseInt(localStorage.getItem("idinput"));
-
-        var dir = "";
-
-        if(command.substring(0, 3) == "cd " && command.substring(3, command.length) != ""){
-          localStorage.setItem('actualdir', "/"+command.substring(3, command.length));
-        }
-
-        if(command == "cd ..") {
-          localStorage.setItem('actualdir', "");
-        }
-
-        dir = localStorage.getItem('actualdir');
-        // '<p class="input">' + '</p>'
-        self.append(
-           '<div id="'+idinput+'" class="parent-textinline">'
-        +     '<div class="prompt">you@tutorial:~'+dir+'$ </div>'
-        +     '<div id="'+idinput+'" spellcheck="false" class="textinline" style="outline-color:black" contenteditable="true">'
-        +       '&nbsp;'
-        +     '</div>'
-        +  '</div>'
-        );
-
-        var count = parseInt(localStorage.getItem("idinput"));
-        var total = count + 1;
-        localStorage.setItem("idinput",total)
-
-        $('[contenteditable]', self)[0].focus();
-
-      }
 
       function commands(opts,text,id){
         var input = text.trim();
@@ -363,7 +499,7 @@
         var $finish = $("#finish[data-step="+actualStep+"]");
 
         if(input == "") {
-          newline("");
+          Cli.newline("");
         } else if(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')) != null){
 
           var object  = JSON.parse(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')));
@@ -387,9 +523,9 @@
           // verify the command if it is for the correct step
           if(object.step == "general"){
             if(text.indexOf("cd ") > -1){
-              newline(input.replace(/\s\s+/g,' '));
+              Cli.newline(input.replace(/\s\s+/g,' '));
             } else if(!object.animation){
-              newline(input.replace(/\s\s+/g,' '));
+              Cli.newline(input.replace(/\s\s+/g,' '));
             }
             return result = restCommand(opts,text,id);
           } else {
@@ -404,10 +540,10 @@
                 }
               }
               if(missingCommands.length > 1){
-                newline("");
+                Cli.newline("");
                 return result = "You have to run these commands before: "+missingCommands.join(' | ');
               } else if(missingCommands.length == 1){
-                newline("");
+                Cli.newline("");
                 return result = "You have to run this command before: "+missingCommands.join(' | ');
               } else {
                 // update
@@ -422,7 +558,7 @@
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  newline(input.replace(/\s\s+/g,' '));
+                  Cli.newline(input.replace(/\s\s+/g,' '));
                 }
                 return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
@@ -430,7 +566,7 @@
               // check which command or commands depends
               var dependCommand  = JSON.parse(localStorage.getItem(object.depend));
               if(!dependCommand.done){
-                newline("");
+                Cli.newline("");
                 return result = "You have to run this command before: "+dependCommand.command;
               } else {
                 // update
@@ -445,7 +581,7 @@
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  newline(input.replace(/\s\s+/g,' '));
+                  Cli.newline(input.replace(/\s\s+/g,' '));
                 }
                 return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
@@ -462,13 +598,13 @@
                    lastCommand: object.lastCommand
                   }));
               if(object.type === "native" || object.type === "static"){
-                newline(input.replace(/\s\s+/g,' '));
+                Cli.newline(input.replace(/\s\s+/g,' '));
               }
               return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
             }
           }
         } else {
-          newline(input);
+          Cli.newline(input);
         }
 
       }
@@ -604,6 +740,47 @@
         }
       };
 
+      var Nano = {
+        open: function(){
+          $("#terminal").hide();
+          $('#editor-header-filename').html("File: ");
+          $('#editor-content').html('');
+          $('#namefile-x').html('');
+          $("#command-x").hide();
+          $("#editor").show();
+          $('#editor-content').focus();
+        },
+        openFile: function(filename){
+          $("#terminal").hide();
+          $('#editor-content').html('');
+          $('#editor-header-filename').html("File: ");
+          $('#namefile-x').html('');
+          $("#editor").show();
+          // add a new line after open nano editor
+          Cli.newline(filename);
+
+          if(localStorage.getItem(filename) != null) {
+            var file = JSON.parse(localStorage.getItem(filename));
+            $('#editor-content').html(
+              '<pre><code id="lang" class="language-'+file.language+'">'
+              +'</code></pre>'
+            );
+            $('#lang').html(file.content);
+            Prism.highlightElement($('#lang')[0]);
+            // show the name of the file in header
+            $('#editor-header-filename').html("File: " + filename);
+            // show the name of the file again
+            $('#namefile-x').html(filename);
+          } else {
+            $('#editor-header-filename').html("File: ");
+            $('#namefile-x').html('');
+          }
+
+          $('#editor-content').focus();
+          $("#command-x").hide();
+        }
+      };
+
       //  autocomplete (tab) commands, issue #42
       function autocompleteCommands(commands){
         var listCommands = []
@@ -635,7 +812,7 @@
       // clean each steps
       Step.clean(opts.commandStepsFile);
 
-      newline("");
+      Cli.newline("");
 
       autocompleteCommands(opts.commandStepsFile);
 
@@ -680,214 +857,53 @@
 
           $(this).removeAttr('contenteditable');
           $('<p id="'+id+'" class="response">').appendTo(self);
-          //effect.call($('<p id="'+id+'" class="response">').appendTo(self),handler(this.textContent || this.innerText));
 
           // print the result of commands
-          if(CommandValidation.command($(this).text()) != "" ){
-            $("#"+id+".response").html(CommandValidation.command(input));
-            newline(input);
-          } else {
+          if(opts.commandStepsFile != "" && opts.commandValidation != "") {
+            if(CommandValidation.command(opts.commandValidation,input) != "" ) {
+              $("#"+id+".response").html(CommandValidation.command(opts.commandValidation,input));
+              Cli.newline(input);
+            } else {
+              $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+            }
+          } else if(opts.commandStepsFile != "") {
             $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+          } else {
+            // git clone return a new line after finish
+            // only run commands different from git clone
+            if(input.replace(/\s\s+/g,' ') != "git clone " + input.split(" ").pop()) {
+              Cli.newline(input);
+            }
           }
 
           if(input == "nano"){
-            $("#terminal").hide();
-            $('#editor-header-filename').html("File: ");
-            $('#editor-content').html('');
-            $('#namefile-x').html('');
-            $("#command-x").hide();
-            $("#editor").show();
-            $('#editor-content').focus();
+            Nano.open();
           }
 
-          if(input.replace(/\s\s+/g,' ') == "nano " + $(this).text().split(" ").pop()){
-            $("#terminal").hide();
-            $('#editor-content').html('');
-            $('#editor-header-filename').html("File: ");
-            $('#namefile-x').html('');
-            $("#editor").show();
-            newline(input);
+          if(input.replace(/\s\s+/g,' ') == "nano " + input.split(" ").pop()){
+            var filename = input.split(" ").pop();
+            Nano.openFile(filename);
+          }
 
-            if(localStorage.getItem(input.split(" ").pop()) != null) {
-              var file = JSON.parse(localStorage.getItem(input.split(" ").pop()));
-              $('#editor-content').html(
-                '<pre><code id="lang" class="language-'+file.language+'">'
-                +'</code></pre>'
-              );
-              $('#lang').html(file.content);
-              Prism.highlightElement($('#lang')[0]);
-              // show the name of the file in header
-              $('#editor-header-filename').html("File: " + input.split(" ").pop());
-              // show the name of the file again
-              $('#namefile-x').html(input.split(" ").pop());
-            } else {
-              $('#editor-header-filename').html("File: ");
-              $('#namefile-x').html('');
-            }
+          if(input.toLowerCase() == "ls") {
+            Cli.ls(id);
+          }
 
-            $('#editor-content').focus();
-            $("#command-x").hide();
-
+          if(input.toLowerCase() == 'clear'){
+            Cli.clear();
           }
 
           // list of commands we can't use....
-          var commandTest = ["mv"];
-
-          for (i = 0; i < commandTest.length; i++) {
-            if(input == commandTest[i]) {
-              $("#"+id+".response").html("This is an emulator, not a shell. Try following the instructions.");
-            }
-          }
-
-          // show preload files issue #62
-          if(input.toLowerCase() == "ls") {
-            $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
-          }
-
-          // clear all content #101
-          if(input.toLowerCase() == 'clear'){
-            $(".parent-textinline").remove();
-            $(".response").remove();
-            newline("");
-          }
-
-          function removeItemFromArray(array, item){
-            for(var i in array){
-              if(array[i]==item){
-                array.splice(i,1);
-                break;
-              }
-            }
-          }
+          Cli.unSupportedCommand(input,id)
 
           // delete file remove a key from LocalStorage issue #81
           if(input.replace(/\s\s+/g,' ') == "rm -r " + input.split(" ").pop()) {
-            var fileName = input.split(" ").pop();
-            if(localStorage.getItem(fileName) != null){
-              var arrayFiles = localStorage.getItem("files").split(',');
-              arrayFiles = arrayFiles.filter(Boolean);
-              removeItemFromArray(arrayFiles, fileName);
-              localStorage.setItem("files",arrayFiles);
-              localStorage.removeItem(fileName);
-            }
+            Cli.rm(input.split(" ").pop());
           }
 
           // git clone
-          if(input.replace(/\s\s+/g,' ') == "git clone " + $(this).text().split(" ").pop()) {
-
-            if(UtilRegExp.gitClone(input.replace(/\s\s+/g,' '))){
-
-              var url = $(this).text().split(" ").pop();
-              var repoName= url.substring(url.lastIndexOf("/")+1,url.lastIndexOf(".git"));
-
-              $("#"+id+".response").append("Cloning into '"+repoName+"'... <br/>");
-              $("#"+id+".response").append("remote: Counting objects: 4643, done.<br/>");
-              $("#"+id+".response").append('remote: Compressing objects: '
-              + '<span id="objects" class="objects">100</span>'
-              + '% (<span id="objects_p" class="objects">12</span>/12), done.<br/>');
-
-              $("#"+id+".response #objects").html(100);
-              $("#"+id+".response #objects_p").html(12);
-
-              // animation
-              $("#"+id+".response .objects").each(function () {
-                $(this).prop('Counter',0).animate({
-                  Counter: $(this).text()
-                }, {
-                  duration: 900,
-                  easing: 'swing',
-                  step: function (now) {
-                    $(this).text(Math.ceil(now));
-                  }
-                });
-              });
-
-              $("#"+id+".response .objects").promise().done(function(){
-                $("#"+id+".response").append(
-                  '<span id="down_c" class="down_class">Receiving objects: <span id="down_m" class="down">100</span>%'
-                + ' (<span id="down_p" class="down">4643</span>/4643) '
-                + ' <span id="down_mb" class="down">28</span> MiB | <span id="down_k" class="down">167</span> '
-                + ' Kib/s, done. </span><br/> '
-                );
-
-                $("#"+id+".response #down_m").html(100);
-                $("#"+id+".response #down_p").html(4643);
-                $("#"+id+".response #down_mb").html(28);
-                $("#"+id+".response #down_k").html(167);
-
-                $("#"+id+".response .down").each(function () {
-                  $(this).prop('Counter',0).animate({
-                    Counter: $(this).text()
-                  }, {
-                    duration: 3000,
-                    easing: 'swing',
-                    step: function (now) {
-                      $(this).text(Math.ceil(now));
-                    }
-                  });
-                });
-
-                $("#"+id+".response .down").promise().done(function(){
-
-                  $("<span>remote: Total 4643 (delta 2), reused 0 (delta 0), pack-reused 4631</span><br/>").insertBefore("#"+id+".response #down_c.down_class");
-
-                  $("#"+id+".response").append('Resolving deltas: '
-                  + '<span id="delta" class="delta">100</span>'
-                  + '% (<span id="delta_p"class="delta">2961</span>/2961), done.<br/>');
-
-                  $("#"+id+".response #delta").html(100);
-                  $("#"+id+".response #delta_p").html(2961);
-
-                  $("#"+id+".response .delta").each(function () {
-                    $(this).prop('Counter',0).animate({
-                      Counter: $(this).text()
-                    }, {
-                      duration: 2000,
-                      easing: 'swing',
-                      step: function (now) {
-                        $(this).text(Math.ceil(now));
-                      }
-                    });
-                  });
-
-                  $("#"+id+".response .delta").promise().done(function(){
-
-                    $("#"+id+".response").append("Checking connectivity... done. <br/>");
-
-                    $("#"+id+".response").append('Checking out files: '
-                    + '<span id="files" class="files">100</span>'
-                    + '% (<span id="files_p"class="files">975</span>/975), done.<br/>');
-
-                    $("#"+id+".response #files").html(100);
-                    $("#"+id+".response #files_p").html(975);
-
-                    $("#"+id+".response .files").each(function () {
-                      $(this).prop('Counter',0).animate({
-                        Counter: $(this).text()
-                      }, {
-                        duration: 2000,
-                        easing: 'swing',
-                        step: function (now) {
-                          $(this).text(Math.ceil(now));
-                        }
-                      });
-                    });
-
-                    $("#"+id+".response .files").promise().done(function(){
-                      // save this command in the history
-                      newline(input);
-                    });
-
-                  });
-
-                });
-
-              });
-
-            } else {
-              $("#"+id+".response").html("fatal: repository '"+input.replace(/\s\s+/g,' ')+"' does not exist");
-            }
-
+          if(input.replace(/\s\s+/g,' ') == "git clone " + input.split(" ").pop()) {
+            Cli.gitClone(input,id);
           }
 
           // show the animation
@@ -896,7 +912,7 @@
             $.each($("#"+id+".cline"), function(i, el){
               $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              newline(input);
+              Cli.newline(input);
             });
           }
 
@@ -1183,7 +1199,7 @@
 
     localStorage.setItem('actualstep',opts.initStep);
 
-    $("#terminal").append('<div class="line">'+insertAt(opts.welcomeMessage, 27, opts.nameOfTheProject)+'</div>');
+    $("#terminal").append('<div class="line">'+Util.insertAt(opts.welcomeMessage, 27, opts.nameOfTheProject)+'</div>');
     $("#terminal").append('<br/>');
 
     var heightContentParent = opts.heightTerminal - $("#editor-commands").height()
@@ -1200,10 +1216,6 @@
     $("#command-save-x").hide();
 
   };
-
-  function insertAt(src, index, str) {
-    return src.substr(0, index) + str + " " + src.substr(index);
-  }
 
   // A really lightweight plugin wrapper around the constructor,
   // preventing against multiple instantiations
