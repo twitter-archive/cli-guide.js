@@ -293,6 +293,7 @@
           }
         },
         gitClone: function(input,id){
+          $("#"+id+".response").html(''); // remove pre and code
           if(UtilRegExp.gitClone(input.replace(/\s\s+/g,' '))){
 
             var url = input.split(" ").pop();
@@ -661,6 +662,7 @@
           });
         });
 
+        //Prism.highlightElement($('#lang-terminal')[0]);
         return result;
 
       }
@@ -856,18 +858,23 @@
           id++;
 
           $(this).removeAttr('contenteditable');
-          $('<p id="'+id+'" class="response">').appendTo(self);
+          $('<p id="'+id+'" class="response"></p>').appendTo(self);
+          $("#"+id+".response").html(
+              '<pre><code id="'+id+'_lang_terminal" class="language-bash">'
+              +'</code></pre>'
+          );
+          Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
 
           // print the result of commands
           if(opts.commandStepsFile != "" && opts.commandValidation != "") {
             if(CommandValidation.command(opts.commandValidation,input) != "" ) {
-              $("#"+id+".response").html(CommandValidation.command(opts.commandValidation,input));
+              $('#'+id+'_lang_terminal').html(CommandValidation.command(opts.commandValidation,input));
               Cli.newline(input);
             } else {
-              $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+              $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
             }
           } else if(opts.commandStepsFile != "") {
-            $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+            $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
           } else {
             // git clone return a new line after finish
             // only run commands different from git clone
@@ -877,10 +884,12 @@
           }
 
           if(input == "nano"){
+            $("#"+id+".response").html('');
             Nano.open();
           }
 
           if(input.replace(/\s\s+/g,' ') == "nano " + input.split(" ").pop()){
+            $("#"+id+".response").html('');
             var filename = input.split(" ").pop();
             Nano.openFile(filename);
           }

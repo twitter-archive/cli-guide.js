@@ -59,6 +59,11 @@ hr.style {
   float: right;
 }
 
+code[class*="language-"], pre[class*="language-"] {
+  font-size: 14px !important;
+  font-family: 'Code New Roman' !important;
+}
+
 div.stepcontent {
 	background-color: white;
 }
@@ -172,7 +177,6 @@ a.skip-b {
 a.skip-b:hover, a.skip-b:visited, a.skip-b:active {
   color: white;
 }
-
 
 #terminal_section {
 }
