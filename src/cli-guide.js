@@ -240,7 +240,7 @@
       };
 
       var Cli = {
-        newline: function(command){
+        newline: function(command,id){
           loghistory.push(command);
 
           localStorage.setItem("loghistory",loghistory);
@@ -250,10 +250,12 @@
           var dir = "";
 
           if(command.substring(0, 3) == "cd " && command.substring(3, command.length) != ""){
+            $("#"+id+".response").html(''); // remove pre and code
             localStorage.setItem('actualdir', "/"+command.substring(3, command.length));
           }
 
           if(command == "cd ..") {
+            $("#"+id+".response").html(''); // remove pre and code
             localStorage.setItem('actualdir', "");
           }
 
@@ -394,7 +396,7 @@
 
                   $("#"+id+".response .files").promise().done(function(){
                     // save this command in the history
-                    Cli.newline(input);
+                    Cli.newline(input,id);
                   });
 
                 });
@@ -524,9 +526,9 @@
           // verify the command if it is for the correct step
           if(object.step == "general"){
             if(text.indexOf("cd ") > -1){
-              Cli.newline(input.replace(/\s\s+/g,' '));
+              Cli.newline(input.replace(/\s\s+/g,' '),id);
             } else if(!object.animation){
-              Cli.newline(input.replace(/\s\s+/g,' '));
+              Cli.newline(input.replace(/\s\s+/g,' '),id);
             }
             return result = restCommand(opts,text,id);
           } else {
@@ -559,7 +561,7 @@
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  Cli.newline(input.replace(/\s\s+/g,' '));
+                  Cli.newline(input.replace(/\s\s+/g,' '),id);
                 }
                 return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
@@ -582,7 +584,7 @@
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  Cli.newline(input.replace(/\s\s+/g,' '));
+                  Cli.newline(input.replace(/\s\s+/g,' '),id);
                 }
                 return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
@@ -599,13 +601,14 @@
                    lastCommand: object.lastCommand
                   }));
               if(object.type === "native" || object.type === "static"){
-                Cli.newline(input.replace(/\s\s+/g,' '));
+                Cli.newline(input.replace(/\s\s+/g,' '),id);
               }
               return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
             }
           }
         } else {
-          Cli.newline(input);
+          $("#"+id+".response").html(''); // remove pre and code
+          Cli.newline(input,id);
         }
 
       }
@@ -869,7 +872,7 @@
           if(opts.commandStepsFile != "" && opts.commandValidation != "") {
             if(CommandValidation.command(opts.commandValidation,input) != "" ) {
               $('#'+id+'_lang_terminal').html(CommandValidation.command(opts.commandValidation,input));
-              Cli.newline(input);
+              Cli.newline(input,id);
             } else {
               $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
             }
@@ -879,7 +882,7 @@
             // git clone return a new line after finish
             // only run commands different from git clone
             if(input.replace(/\s\s+/g,' ') != "git clone " + input.split(" ").pop()) {
-              Cli.newline(input);
+              Cli.newline(input,id);
             }
           }
 
@@ -921,7 +924,7 @@
             $.each($("#"+id+".cline"), function(i, el){
               $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              Cli.newline(input);
+              Cli.newline(input,id);
             });
           }
 
