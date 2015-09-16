@@ -1018,15 +1018,9 @@
       });
 
       // shortcuts of nano editor
-      var isCtrl = false;
-
-      $(document).on('keydown','#editor-content',function(event){
-        if(event.which == 17) isCtrl=false;
-      }).keydown(function (event) {
+      $(document).on('keydown','#editor-content',function(e){
         if($("#editor-content").is(':visible')){
-          // close the nano editor
-          if(event.which == 17) isCtrl=true;
-          if(event.which == 88 && isCtrl == true) {
+          if (e.keyCode == 88 && e.ctrlKey) {
             if($("#editor-content").text() != "") {
               if(!$("#command-x").is(':visible')){
                 $("#commands").hide();
@@ -1067,15 +1061,10 @@
         }
       });
 
-      var isCtrlCancel = false;
-
-      $(document).on('keydown','#command-save-x',function(event){
-        if(event.which == 17) isCtrlCancel=false;
-      }).keydown(function (event) {
+      // cancel "Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES)"
+      $(document).on('keydown','#command-save-x',function(e){
         if($("#command-save-x").is(':visible')){
-          if(event.which == 17) isCtrlCancel=true;
-          if(event.which == 67 && isCtrlCancel == true) {
-            // cancel the modified file
+          if (e.keyCode == 67 && e.ctrlKey) {
             $("#command-save-x").hide();
             $("#commands").show();
           }
