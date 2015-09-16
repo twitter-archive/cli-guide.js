@@ -407,6 +407,7 @@
 
           } else {
             $("#"+id+".response").html("fatal: repository '"+input.replace(/\s\s+/g,' ')+"' does not exist");
+            Cli.newline("");
           }
         },
         unSupportedCommand: function(input,id){
@@ -647,7 +648,9 @@
           }
         } else {
           $("#"+id+".response").html(''); // remove pre and code
-          Cli.newline(input,id);
+          if(opts.commandStepsFile == "") {
+            Cli.newline(input,id);
+          }
         }
 
       }
@@ -921,6 +924,7 @@
             // git clone return a new line after finish
             // only run commands different from git clone
             if(input.replace(/\s\s+/g,' ') != "git clone " + input.split(" ").pop()) {
+              $("#"+id+".response").html(''); //remove space
               Cli.newline(input,id);
             }
           }
