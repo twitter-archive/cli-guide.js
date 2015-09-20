@@ -1082,7 +1082,6 @@
                 language: file.language
               }));
           } else {
-            console.log($("#editor-content").html());
             // save a new file
             localStorage.setItem($(this).text(),
               JSON.stringify({
