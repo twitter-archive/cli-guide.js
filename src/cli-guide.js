@@ -240,7 +240,7 @@
       };
 
       var Cli = {
-        newline: function(command){
+        newline: function(command,id){
           loghistory.push(command);
 
           localStorage.setItem("loghistory",loghistory);
@@ -250,10 +250,12 @@
           var dir = "";
 
           if(command.substring(0, 3) == "cd " && command.substring(3, command.length) != ""){
+            $("#"+id+".response").html(''); // remove pre and code
             localStorage.setItem('actualdir', "/"+command.substring(3, command.length));
           }
 
           if(command == "cd ..") {
+            $("#"+id+".response").html(''); // remove pre and code
             localStorage.setItem('actualdir', "");
           }
 
@@ -293,6 +295,7 @@
           }
         },
         gitClone: function(input,id){
+          $("#"+id+".response").html(''); // remove pre and code
           if(UtilRegExp.gitClone(input.replace(/\s\s+/g,' '))){
 
             var url = input.split(" ").pop();
@@ -393,7 +396,7 @@
 
                   $("#"+id+".response .files").promise().done(function(){
                     // save this command in the history
-                    Cli.newline(input);
+                    Cli.newline(input,id);
                   });
 
                 });
@@ -404,6 +407,7 @@
 
           } else {
             $("#"+id+".response").html("fatal: repository '"+input.replace(/\s\s+/g,' ')+"' does not exist");
+            Cli.newline("");
           }
         },
         unSupportedCommand: function(input,id){
@@ -420,8 +424,47 @@
         // for testing this regular expression you can use
         // https://regex101.com/
         gitClone: function(text){
-          var gitclone = /git\sclone\s(https:\/\/|git:\/\/)([a-zA-Z-.-_--]{0,}[^\//]\/){0,}[a-zA-Z-.-_--]{0,}(\.git|\.GIT)/
+          var gitclone = /git\sclone\s(https:\/\/|git:\/\/)([a-zA-Z-.-_--]{0,}[^\//]\/){0,}[a-zA-Z-.-_--]{0,}(\.git|\.GIT)/;
           return gitclone.test(text);
+        },
+        language: function(filename){
+          var css = /\.css/;
+          var js = /\.js/;
+          var py = /\.py/;
+          var go = /\.go/;
+          var java = /\.java/;
+          var scala = /\.scala/;
+          var ruby = /\.rb/;
+          var rust = /\.rs/;
+          var haml = /\.haml/;
+          if(css.test(filename)){
+            return "css";
+          }
+          if(js.test(filename)){
+            return "javascript";
+          }
+          if(py.test(filename)){
+            return "python";
+          }
+          if(go.test(filename)){
+            return "go";
+          }
+          if(java.test(filename)){
+            return "java";
+          }
+          if(scala.test(filename)){
+            return "scala";
+          }
+          if(ruby.test(filename)){
+            return "ruby";
+          }
+          if(rust.test(filename)){
+            return "rust";
+          }
+          if(haml.test(filename)){
+            return "haml";
+          }
+          return "markup";
         }
       };
 
@@ -523,9 +566,9 @@
           // verify the command if it is for the correct step
           if(object.step == "general"){
             if(text.indexOf("cd ") > -1){
-              Cli.newline(input.replace(/\s\s+/g,' '));
+              Cli.newline(input.replace(/\s\s+/g,' '),id);
             } else if(!object.animation){
-              Cli.newline(input.replace(/\s\s+/g,' '));
+              Cli.newline(input.replace(/\s\s+/g,' '),id);
             }
             return result = restCommand(opts,text,id);
           } else {
@@ -558,7 +601,7 @@
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  Cli.newline(input.replace(/\s\s+/g,' '));
+                  Cli.newline(input.replace(/\s\s+/g,' '),id);
                 }
                 return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
@@ -581,7 +624,7 @@
                      lastCommand: object.lastCommand
                     }));
                 if(object.type === "native" || object.type === "static"){
-                  Cli.newline(input.replace(/\s\s+/g,' '));
+                  Cli.newline(input.replace(/\s\s+/g,' '),id);
                 }
                 return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
@@ -598,13 +641,16 @@
                    lastCommand: object.lastCommand
                   }));
               if(object.type === "native" || object.type === "static"){
-                Cli.newline(input.replace(/\s\s+/g,' '));
+                Cli.newline(input.replace(/\s\s+/g,' '),id);
               }
               return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
             }
           }
         } else {
-          Cli.newline(input);
+          $("#"+id+".response").html(''); // remove pre and code
+          if(opts.commandStepsFile == "") {
+            Cli.newline(input,id);
+          }
         }
 
       }
@@ -661,6 +707,7 @@
           });
         });
 
+        //Prism.highlightElement($('#lang-terminal')[0]);
         return result;
 
       }
@@ -765,7 +812,7 @@
               '<pre><code id="lang" class="language-'+file.language+'">'
               +'</code></pre>'
             );
-            $('#lang').html(file.content);
+            $('#lang').html(file.content.split("<br>").join("\n"));
             Prism.highlightElement($('#lang')[0]);
             // show the name of the file in header
             $('#editor-header-filename').html("File: " + filename);
@@ -856,31 +903,39 @@
           id++;
 
           $(this).removeAttr('contenteditable');
-          $('<p id="'+id+'" class="response">').appendTo(self);
+          $('<p id="'+id+'" class="response"></p>').appendTo(self);
+          $("#"+id+".response").html(
+              '<pre><code id="'+id+'_lang_terminal" class="language-bash">'
+              +'</code></pre>'
+          );
+          Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
 
           // print the result of commands
           if(opts.commandStepsFile != "" && opts.commandValidation != "") {
             if(CommandValidation.command(opts.commandValidation,input) != "" ) {
-              $("#"+id+".response").html(CommandValidation.command(opts.commandValidation,input));
-              Cli.newline(input);
+              $('#'+id+'_lang_terminal').html(CommandValidation.command(opts.commandValidation,input));
+              Cli.newline(input,id);
             } else {
-              $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+              $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
             }
           } else if(opts.commandStepsFile != "") {
-            $("#"+id+".response").html(commands(opts.commandStepsFile,input,id));
+            $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
           } else {
             // git clone return a new line after finish
             // only run commands different from git clone
             if(input.replace(/\s\s+/g,' ') != "git clone " + input.split(" ").pop()) {
-              Cli.newline(input);
+              $("#"+id+".response").html(''); //remove space
+              Cli.newline(input,id);
             }
           }
 
           if(input == "nano"){
+            $("#"+id+".response").html('');
             Nano.open();
           }
 
           if(input.replace(/\s\s+/g,' ') == "nano " + input.split(" ").pop()){
+            $("#"+id+".response").html('');
             var filename = input.split(" ").pop();
             Nano.openFile(filename);
           }
@@ -912,7 +967,7 @@
             $.each($("#"+id+".cline"), function(i, el){
               $(el).delay(400*i).fadeIn("slow");
             }).promise().done(function(){
-              Cli.newline(input);
+              Cli.newline(input,id);
             });
           }
 
@@ -963,15 +1018,9 @@
       });
 
       // shortcuts of nano editor
-      var isCtrl = false;
-
-      $(document).on('keydown','#editor-content',function(event){
-        if(event.which == 17) isCtrl=false;
-      }).keydown(function (event) {
+      $(document).on('keydown','#editor-content',function(e){
         if($("#editor-content").is(':visible')){
-          // close the nano editor
-          if(event.which == 17) isCtrl=true;
-          if(event.which == 88 && isCtrl == true) {
+          if (e.keyCode == 88 && e.ctrlKey) {
             if($("#editor-content").text() != "") {
               if(!$("#command-x").is(':visible')){
                 $("#commands").hide();
@@ -1012,15 +1061,10 @@
         }
       });
 
-      var isCtrlCancel = false;
-
-      $(document).on('keydown','#command-save-x',function(event){
-        if(event.which == 17) isCtrlCancel=false;
-      }).keydown(function (event) {
+      // cancel "Save modified buffer (ANSWERING "No" WILL DESTROY CHANGES)"
+      $(document).on('keydown','#command-save-x',function(e){
         if($("#command-save-x").is(':visible')){
-          if(event.which == 17) isCtrlCancel=true;
-          if(event.which == 67 && isCtrlCancel == true) {
-            // cancel the modified file
+          if (e.keyCode == 67 && e.ctrlKey) {
             $("#command-save-x").hide();
             $("#commands").show();
           }
@@ -1042,7 +1086,7 @@
             localStorage.setItem($(this).text(),
               JSON.stringify({
                 content: $("#editor-content").html(),
-                language: "markup"
+                language: UtilRegExp.language($(this).text())
               }));
           }
           $("#editor").hide();
