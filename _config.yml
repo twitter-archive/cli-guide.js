@@ -1,0 +1,12 @@
+# Site settings
+title: Cli-Guide.JS
+email: marti1125@gmail.com
+description: > # A javascript library for creating interactive command line tutorials
+  that run in your web browser.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://twitter.github.io/cli-guide.js/" # the base hostname & protocol for your site
+twitter_username: willrre
+github_username:  marti1125
+
+# Build settings
+markdown: kramdown

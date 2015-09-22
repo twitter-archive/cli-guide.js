@@ -1,0 +1,18 @@
+---
+layout: tutorial
+---
+
+$('#stepsdiv').cliguide(
+{
+	nameOfTheProject: 'Apache Aurora'
+}
+).cli(
+{
+	stepsFile: 'templates/apache_aurora.json',
+	skipsteps: '1,2',
+	commandStepsFile: 'templates/apache_aurora_commands.json',
+	commandValidation: 'templates/apache_aurora_commands_validations.json',
+	preloadfile: 'templates/apache_aurora_files.json'
+},
+function(){
+});

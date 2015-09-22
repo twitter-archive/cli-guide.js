@@ -1,0 +1,31 @@
+---
+layout: blog
+title:  "CLI-Guide.JS v0.1.2"
+date:   2015-09-20 00:12:24
+categories: project update demo new feature general
+---
+
+### New Feature
+
+*   **add highlighting for missing files [#165](https://github.com/twitter/cli-guide.js/issues/165)**
+
+Nano editor support other highlighting apart of python [#103](https://github.com/twitter/cli-guide.js/issues/103)
+
+    language: function(filename){
+      var css = /\.css/;
+      if(css.test(filename)){
+        return "css";
+      }
+      return "markup";
+    }
+
+The Result...
+
+<img class="imgn" src="./img/nano_editor_css.png"/>
+
+
+*  **replace <code>&nbsp</code> in template [#166](https://github.com/twitter/cli-guide.js/issues/166)**
+
+>No more <code>&lt;br/></code>, <code>&nbsp</code>, <code>&lt;div class='codeofcommand'></div></code> in JSON template
+
+<img class="imgbw" src="./img/jsontemplate.png"/>

@@ -1,0 +1,32 @@
+---
+layout: blog
+title:  "CLI-Guide.JS v0.1.1"
+date:   2015-09-07 00:12:24
+categories: project update demo bug fixed new feature
+---
+
+### New Feature
+
+*  **Unrecognized commands provide no feedback. [#146](https://github.com/twitter/cli-guide.js/issues/146)**
+
+> Entering a command that doesn’t exactly match the expected input has no response. E.g. I left the path to the aurora config file off from the aurora job create … command, and there was error message from the client telling me what I did wrong.
+
+For support this feature It was added a RegEx for validate <code>aurora job create</code>
+
+       "regexp": "aurora\\sjob\\screate\\s[a-z-.-_--]+\/[a-z-.-_--]+\/[a-z-.-_--]+\/[a-z-.-_--]+\\s[a-zA-Z-.-_--]{0,}(\\.aurora)"
+
+
+This feature was added in Apache Aurora Tutorial and here you are the example [JSON template](https://github.com/twitter/cli-guide.js/blob/master/templates/apache_aurora_commands_validations.json)
+
+
+### Demo
+
+* **add default values in terminal and step [#142](https://github.com/twitter/cli-guide.js/issues/142)**
+
+> The Idea is to show a demo without JSON templates
+
+<img class="imgbw" src="./img/demo.png"/>
+
+### Bug Fixed
+
+* **error in $ git clone [#162](https://github.com/twitter/cli-guide.js/issues/162)**

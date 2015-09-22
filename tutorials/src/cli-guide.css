@@ -1,0 +1,398 @@
+@font-face {
+  font-family: 'SegoeUISymbol';
+  src: url('SegoeUISymbol.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Code New Roman';
+  src: url('cnr.otf');
+}
+
+body {
+  margin: 0;
+}
+
+code {
+  padding: 0.2em 0px;
+  margin: 0px;
+  font-size: 95%;
+  background-color: rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+}
+
+hr.style {
+  border-top: 1px dashed #8c8b8b;
+	border-bottom: 1px dashed #fff;
+}
+
+.element { overflow: -moz-scrollbars-none; }
+
+/* steps */
+#steps_section {
+  font-family: 'SegoeUISymbol', Helvetica, sans-serif;
+  right: -10px;
+  overflow: auto;
+  height: 500px;
+}
+
+#listofsteps {
+  padding: 0;
+}
+
+#stepscontent {
+  text-align: left;
+  line-height: 25px;
+}
+
+#listofcommands {
+  background: black;
+  color: white;
+  font-family: 'Code New Roman', 'Lucida Console';
+  border-radius: 3px;
+  padding: 10px;
+  list-style-type: none;
+}
+
+#skip {
+  float: right;
+}
+
+div.stepcontent {
+	background-color: white;
+}
+
+li.step {
+  display: inline-block;
+}
+
+li.step a {
+  text-decoration: none;
+  background: #dddddd;
+	margin-left: 15px;
+  border-radius: 50%;
+  padding-left: 6px;
+  padding-right: 6px;
+  padding-top: 1px;
+  margin-bottom: 5px;
+}
+
+a.btn-step:hover {
+  background-color: #ABABAB;
+}
+
+a.btn-step:hover, a.btn-step:link, a.btn-step:visited  {
+  color: #212121;
+}
+
+a.btn-step:active {
+  background-color: #949494;
+}
+
+span.promptlabel {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.active {
+  background-color: #4D4D4D !important;
+  color: white !important;
+}
+
+.skip-b {
+  border: 1px solid #696969;
+  border-radius: 3px;
+  background: #A9A9A9;
+  padding: 3px;
+  color: white;
+}
+
+.ok-b {
+  border: 1px solid #008B00;
+  border-radius: 3px;
+  background: #00CD00;
+  padding: 3px;
+  color: white;
+}
+
+.editor-b {
+  border: 1px solid #CDAD00;
+  border-radius: 3px;
+  background: #FFD700;
+  padding: 3px;
+}
+
+.link-b {
+  border: 1px solid #3A5FCD;
+  border-radius: 3px;
+  background: #4876FF;
+  padding: 3px;
+  color: white;
+}
+
+.img-b {
+  border: 1px solid #B2DFEE;
+  border-radius: 3px;
+  background: #BFEFFF;
+  padding: 3px;
+  color: black;
+}
+
+a.ok-b {
+  text-decoration: none;
+}
+
+a.ok-b:hover, a.ok-b:visited, a.ok-b:active {
+  color: white;
+}
+
+a.link-b {
+  text-decoration: none;
+}
+
+a.link-b:hover, a.link-b:visited, a.link-b:active {
+  color: white;
+}
+
+a.img-b {
+  text-decoration: none;
+}
+
+a.img-b:hover, a.img-b:visited, a.img-b:active {
+  color: black;
+}
+
+a.skip-b {
+  text-decoration: none;
+}
+
+a.skip-b:hover, a.skip-b:visited, a.skip-b:active {
+  color: white;
+}
+
+
+#terminal_section {
+}
+
+#terminal-parent {
+  overflow: hidden;
+}
+
+#terminal {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-family: 'Code New Roman';
+  resize: none;
+  width: 100%;
+  overflow-y: scroll;
+  right: -30px;
+}
+
+#editor-parent {
+  overflow: hidden;
+}
+
+#editor {
+  background-color: black;
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-family: 'Code New Roman';
+  resize: none;
+  right: -30px;
+}
+
+#listofcommands ::-moz-selection, #terminal ::-moz-selection,
+#editor ::-moz-selection { /* Code for Firefox */
+  color: black;
+  background: #F0E68C;
+}
+
+#listofcommands ::selection, #terminal ::selection, #editor ::selection {
+  color: black;
+  background: #F0E68C;
+}
+
+.parent-textinline {
+  width: 98%;
+}
+
+.prompt {
+  float: left;
+  color: #76EE00;
+  width: auto;
+  padding-right: 5px;
+}
+
+.textinline {
+  width: auto;
+  word-break: break-all;
+}
+
+div.textinline br {
+  display:none
+}
+
+#editor-header {
+  height: 17px;
+  color: black;
+  background: #cbcbcb;
+}
+
+#editor-header-title {
+}
+
+#editor-header-filename {
+}
+
+#editor-content-parent {
+  width: 100%;
+  overflow: hidden;
+}
+
+#editor-content {
+  word-wrap: break-word;
+  overflow-y: scroll;
+}
+
+#editor-commands {
+  position:absolute;
+  bottom:0;
+}
+
+#command-x {
+  color: black;
+  background: #cbcbcb;
+}
+
+#message-x {
+}
+
+#namefile-x {
+  color: black;
+  background: #cbcbcb;
+}
+
+#message-save-x, #q-save-x {
+  color: black;
+  background: #cbcbcb;
+  height: 17px;
+}
+
+.editor-command {
+  color: black;
+  background: #cbcbcb;
+}
+
+/* style for templates */
+.codeofcommand {
+  padding-left: 20px;
+  width: 100px;
+  height: auto;
+  float: left;
+}
+
+.largespace {
+  width: 24%;
+  height: 17px;
+  float: left;
+}
+
+/* utils */
+.filenamewidth {
+  width: 19%;
+}
+
+.commandwidth {
+  width: 14%;
+}
+
+/* Modal */
+.modalDialog {
+  position: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.8);
+	z-index: 99999;
+	opacity:0;
+	-webkit-transition: opacity 400ms ease-in;
+	-moz-transition: opacity 400ms ease-in;
+	transition: opacity 400ms ease-in;
+	pointer-events: none;
+}
+
+.modalDialog:target {
+  opacity:1;
+	pointer-events: auto;
+}
+
+.modalDialog > div {
+	width: 500px;
+	position: relative;
+  margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+  background: #fff;
+}
+
+.modalImgSDialog > div {
+	width: 450px;
+	position: relative;
+  margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+  background: #fff;
+}
+
+
+.modalImgBDialog > div {
+	width: 650px;
+	position: relative;
+  margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+  background: #fff;
+}
+
+.modalImgGDialog > div {
+	width: 840px;
+	position: relative;
+  margin: 10% auto;
+	padding: 5px 20px 13px 20px;
+	border-radius: 10px;
+  background: #fff;
+}
+
+.imginmodal {
+  width: 100%;
+  height: 100%;
+}
+
+.close {
+	background: #606061;
+	color: #FFFFFF;
+	line-height: 25px;
+	position: absolute;
+	right: -12px;
+	text-align: center;
+	top: -10px;
+	width: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-moz-box-shadow: 1px 1px 3px #000;
+	-webkit-box-shadow: 1px 1px 3px #000;
+	box-shadow: 1px 1px 3px #000;
+}
+
+.close:hover { background: #BFEFFF; }

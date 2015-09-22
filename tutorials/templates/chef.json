@@ -1,0 +1,82 @@
+[
+  {
+    "step": "1",
+    "content": {
+      "title": "Create the MOTD file",
+      "content": [
+        " First, you need to create the file and set the initial MOTD. ",
+        " To keep things basic, let's configure the file in the working directory. ",
+        " From your <code>~/chef-repo</code> directory, create a file named <code>hello.rb</code>, add these ",
+        " contents, and then save the file. <br/><br/> ",
+        " The output tells us that a new file, <code>motd</code>, was created. <br/><br/> ",
+        " Now verify that the file was written. Run the more command, ",
+        " which prints to the console the file you give it. ",
+        " <h3>Run the command a second time</h3> ",
+        " Now, let's see now what happens when you run the same ",
+        " <code>chef-apply</code> command again. <br/><br/> ",
+        " This time you get a different response. This is because Chef does work only when it needs to. ",
+        " <br/><br/> Chef looks at the current configuration state and applies the action ",
+        " only if the current state doesn't match the desired state. Here, <br/> ",
+        " Chef doesn't create or modify <code>motd</code> because it ",
+        " because it already exists and its contents didn't change. "
+      ],
+      "tips": "You can run the following command:",
+      "commands": [
+        {"command":"more motd"},
+        {"command":"chef-apply hello.rb"}
+      ]
+    }
+  },
+  {
+    "step": "2",
+    "content": {
+      "title": "Update the MOTD file's contents",
+      "content": [
+        " Now you're going to change the MOTD. <br/><br/> ",
+        " Modify <code>hello.rb</code> like this ('hello world' becomes 'hello chef'.) <br/><br/> ",
+        " This time Chef does work because we've changed the desired state of the file ",
+        " and need to update the installed version to match it. "
+      ],
+      "tips": "You can run the following command:",
+      "commands": [
+        {"command":"nano hello.rb"}
+      ]
+    }
+  },
+  {
+    "step": "3",
+    "content": {
+      "title": "Ensure the MOTD file's contents are not changed by anyone else",
+      "content": [
+        " You need to make sure that no other process can change the MOTD. <br/><br/> ",
+        " Imagine that a co-worker manually changes <code>motd</code> by replacing ",
+        " 'hello chef' with 'hello robots'. Go ahead and change your copy ",
+        " <br/><br/>Chef restored the original configuration. This is actually a really good thing ",
+        " because Chef ensures that the actual state of your ",
+        " resource matches what you specify, even if it is altered by some outside process. ",
+        " Chef enables you to both apply a new configuration state ",
+        " as well as ensure that the current state stays how you want it. "
+      ],
+      "tips": "You can run the following command:",
+      "commands": [
+        {"command":"chef-apply"}
+      ]
+    }
+  },
+  {
+    "step": "4",
+    "content": {
+      "title": "Delete the MOTD file",
+      "content": [
+        " OK, you're done experimenting with the MOTD, so let's clean up. ",
+        " From your <code>~/chef-repo</code> directory, create a new file named ",
+        " <code>goodbye.rb</code> and save this content to it. "
+      ],
+      "tips": "You can run the following command:",
+      "commands": [
+        {"command":"more motd"},
+        {"command":"chef-apply goodbye.rb"}
+      ]
+    }
+  }
+]
