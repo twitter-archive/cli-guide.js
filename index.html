@@ -1,349 +1,346 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+---
+layout: default
+---
 
-    <title>Cli-Guide.JS</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="./css/bootstrap.min.css" rel="stylesheet" />
-
-    <link href="./css/prism.css" rel="stylesheet" />
-
-    <!-- Font Awesome -->
-    <link href="./css/font-awesome.min.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="./css/app.css" rel="stylesheet">
-
-  </head>
-
-  <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-    <a href="https://github.com/twitter/cli-guide.js/tree/master">
-      <img style="position: absolute; top: 0; right: 0; border: 0;"
-        src="https://camo.githubusercontent.com/652c5b9acfaddf3a9c326fa6bde407b87f7be0f4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6f72616e67655f6666373630302e706e67"
-        alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png">
-    </a>
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-8 col-md-offset-2">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">CLI-Guide.JS</a>
-            </div>
-            <div id="navbar" class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li><a href="./components.html">Components</a></li>
-                <li><a href="./contribute.html">Contribute</a></li>
-              </ul>
-            </div><!--/.nav-collapse -->
-          </div>
-        </div>
-      </div>
-    </nav>
-
-    <div class="container">
-      <br/><br/><br/>
+<div class="container">
+  <br/><br/><br/>
+  <div class="row">
+    <div class="col-xs-8 col-md-offset-2">
       <div class="row">
-        <div class="col-xs-8 col-md-offset-2">
-          <div class="row">
-            <div class="col-xs-12">
-              <h1 class="title">CLI-Guide.JS</h1>
-            </div>
-            <div class="col-xs-12">
-              <p class="subtitle">A javascript library for creating interactive command line tutorials
-                that run in your web browser.
-              </p><br/>
-              <p class="subtitle">
-                In this following Demo you can see all feature has. It based in
-                <a href="http://aurora.apache.org/documentation/latest/tutorial/" target="_blank">
-                  Apache Aurora Tutorial.
-                </a>
-              </p><br/>
-              <a href="./demo/aurora.html" class="btn btn-primary btn-lg">
-                &nbsp;<i class="fa fa-rocket"></i>&nbsp; DEMO &nbsp;&nbsp;
-              </a>
-              <!--a href="./demo/chef.html" class="btn btn-primary btn-lg">
-                <i class="fa fa-rocket"></i> Chef Tutorial
-              </a-->
-              <br/><br/><br/>
-            </div>
+        <div class="col-xs-12">
+          <h1 class="title">CLI-Guide.JS</h1>
+        </div>
+        <div class="col-xs-12">
+          <p class="subtitle">A javascript library for creating interactive command line tutorials
+            that run in your web browser.
+          </p><br/>
+          <p class="subtitle">
+            In this following Demo you can see all feature has. It based in
+            <a href="http://aurora.apache.org/documentation/latest/tutorial/" target="_blank">
+              Apache Aurora Tutorial.
+            </a>
+          </p><br/>
+          <a href="./tutorials/aurora.html" class="btn btn-primary btn-lg">
+            &nbsp;<i class="fa fa-rocket"></i>&nbsp; DEMO &nbsp;&nbsp;
+          </a>
+          <!--a href="./demo/chef.html" class="btn btn-primary btn-lg">
+            <i class="fa fa-rocket"></i> Chef Tutorial
+          </a-->
+          <br/><br/><br/>
+        </div>
 
-            <div class="col-xs-12">
-              <h1 class="category">How to it works?</h1>
-              <br/>
-              <p class="text">
-                Include <a href="https://jquery.com/download/" target="_blank">jQuery 1.11+</a>
-                <br/>
+        <div class="col-xs-12">
+          <h1 class="category">How to it works?</h1>
+          <br/>
+          <p class="text">
+            Include <a href="https://jquery.com/download/" target="_blank">jQuery 1.11+</a>
+            <br/>
 <pre><code class="language-markup">&lt;script type="text/javascript" src="./js/jquery-1.11.3.min.js">&lt;/script></code></pre>
-              </p>
-              <p class="text">
-                Include <a href="http://prismjs.com/" target="_blank">Prism.JS</a> for syntax highlighting in <code>nano editor</code>.
+          </p>
+          <p class="text">
+            Include <a href="http://prismjs.com/" target="_blank">Prism.JS</a> for syntax highlighting in <code>nano editor</code>.
 <pre><code class="language-markup">&lt;link rel="stylesheet" type="text/css" href="./src/prism.css" />
 &lt;script type="text/javascript" src="./js/prism.js">&lt;/script></code></pre>
-              </p>
-              <p class="text">
-                Include <a href="http://getbootstrap.com/customize/" target="_blank">Bootstrap</a> (just choose Grid System)
+          </p>
+          <p class="text">
+            Include <a href="http://getbootstrap.com/customize/" target="_blank">Bootstrap</a> (just choose Grid System)
 <pre><code class="language-markup">&lt;link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css" /></code></pre>
-              </p>
-              <p class="text">
-                Include plugin's code
+          </p>
+          <p class="text">
+            Include plugin's code
 <pre><code class="language-markup">&lt;link rel="stylesheet" type="text/css" href="./css/cli-guide.css" />
 &lt;script type="text/javascript" src="./js/cli-guide.js">&lt;/script></code></pre>
-              </p>
-              <p class="text">
-              Add a <code>div</code> where which will contain Guide and Terminal
+          </p>
+          <p class="text">
+          Add a <code>div</code> where which will contain Guide and Terminal
 <pre><code class="language-markup">&lt;div id="stepsdiv">&lt;/div></code></pre>
-              </p>
-              <p class="text">
-              Usage (the plugin needs json file as template)
-              <pre><code class="language-markup">
+          </p>
+          <p class="text">
+          Usage (the plugin needs json file as template)
+          <pre><code class="language-markup">
 $('#stepsdiv').cliguide({
-  nameOfTheProject: 'Apache Aurora'
+nameOfTheProject: 'Apache Aurora'
 }).cli({
-  stepsFile: 'templates/apache_aurora.json',
-  commandStepsFile: 'templates/apache_aurora_commands.json',
-  skipsteps: '1,2',
-  preloadfile: 'templates/apache_aurora_files.json'
+stepsFile: 'templates/apache_aurora.json',
+commandStepsFile: 'templates/apache_aurora_commands.json',
+skipsteps: '1,2',
+preloadfile: 'templates/apache_aurora_files.json'
 });</code></pre>
-              </p>
-            </div>
-            <div class="col-xs-12">
-              <br/><br/>
-              <h1 class="category">How to it works the templates?</h1>
-              <br/>
-              <p class="text">
-                These json files are use Local Storage for validation of each Step and
-                update preload files.
-              </p>
-              <br/>
-              <img  class="imgbw" src="./img/localstorage.png"/>
-              <br/><br/>
-              <hr/>
-              <p class="text">
-                <code>stepsFile</code> is a template json where you can add
-                <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora.json"
-                  target="_blank">
-                  steps and commands
-                </a>
-                that user can run
-              </p>
-              <br/>
-              <pre><code class="language-markup">
+          </p>
+        </div>
+        <div class="col-xs-12">
+          <br/><br/>
+          <h1 class="category">How to it works the templates?</h1>
+          <br/>
+          <p class="text">
+            These json files are use Local Storage for validation of each Step and
+            update preload files.
+          </p>
+          <br/>
+          <img class="imgbw" src="./img/localstorage.png"/>
+          <br/><br/>
+          <hr/>
+          <p class="text">
+            <code>stepsFile</code> is a template json where you can add
+            <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora.json"
+              target="_blank">
+              steps and commands
+            </a>
+            that user can run
+          </p>
+          <br/>
+          <pre><code class="language-markup">
 [
-  {
-    "step": "1",
-    "content": {
-      "title": "Setup: Install Aurora",
-      "content": [
-        " You use the Aurora client and web UI to interact with Aurora jobs. ",
-        " To install it locally, see ",
-        " &lt;a class=\"link-b\" href=\"http://aurora.apache.org/documentation/latest/vagrant/\" target=\"_blank\">vagrant.md&lt;/a> ",
-        " The remainder of this Tutorial assumes you are running ",
-        " Aurora using Vagrant. Unless otherwise stated, ",
-        " all commands are to be run from the root ",
-        " of the aurora repository clone. "
-      ],
-      "tips": "let's try with following commands",
-      "commands": [
-        {"command":"git clone git://git.apache.org/aurora.git"},
-        {"command":"cd aurora"},
-        {"command":"vagrant up"}
-      ]
-    },
-    "laststep": false
-  }
+{
+"step": "1",
+"content": {
+  "title": "Setup: Install Aurora",
+  "content": [
+    " You use the Aurora client and web UI to interact with Aurora jobs. ",
+    " To install it locally, see ",
+    " &lt;a class=\"link-b\" href=\"http://aurora.apache.org/documentation/latest/vagrant/\" target=\"_blank\">vagrant.md&lt;/a> ",
+    " The remainder of this Tutorial assumes you are running ",
+    " Aurora using Vagrant. Unless otherwise stated, ",
+    " all commands are to be run from the root ",
+    " of the aurora repository clone. "
+  ],
+  "tips": "let's try with following commands",
+  "commands": [
+    {"command":"git clone git://git.apache.org/aurora.git"},
+    {"command":"cd aurora"},
+    {"command":"vagrant up"}
+  ]
+},
+"laststep": false
+}
 ]</code></pre><br/>
-              <p class="text">
-                In this template can support other features like Modals with content or with image
-              </p>
-              <br/>
-              <pre><code class="language-markup">
+          <p class="text">
+            In this template can support other features like Modals with content or with image
+          </p>
+          <br/>
+          <pre><code class="language-markup">
 "content": [
-  " &lt;a href=\"#modal\" class=\"link-b\">More Info</a>"
+" &lt;a href=\"#modal\" class=\"link-b\">More Info</a>"
 ],
 "moreinfo": [
-  " &lt;h3>Aurora Configuration&lt;/h3> ",
-  " &lt;p>To run a job on Aurora, you must specify a configuration file that tells Aurora what it needs ",
-  " to know to schedule the job, what Mesos needs to run the tasks the job is made up of, ",
-  " and what Thermos needs to run the processes that make up the tasks. This file must have a.aurora suffix. &lt;/p> ",
-  " &lt;p>configuration file defines a collection of objects, along with parameter values for their attributes. ",
-  " An Aurora configuration file contains the following three types of objects: &lt;/p>",
-  " &lt;ul> ",
-  " &lt;li>Job&lt;/li> ",
-  " &lt;li>Task&lt;/li> ",
-  " &lt;li>Process&lt;/li> ",
-  " &lt;/ul> "
+" &lt;h3>Aurora Configuration&lt;/h3> ",
+" &lt;p>To run a job on Aurora, you must specify a configuration file that tells Aurora what it needs ",
+" to know to schedule the job, what Mesos needs to run the tasks the job is made up of, ",
+" and what Thermos needs to run the processes that make up the tasks. This file must have a.aurora suffix. &lt;/p> ",
+" &lt;p>configuration file defines a collection of objects, along with parameter values for their attributes. ",
+" An Aurora configuration file contains the following three types of objects: &lt;/p>",
+" &lt;ul> ",
+" &lt;li>Job&lt;/li> ",
+" &lt;li>Task&lt;/li> ",
+" &lt;li>Process&lt;/li> ",
+" &lt;/ul> "
 ]</code></pre>
 <pre><code class="language-markup">
 "content": [
-  " &lt;a href=\"#modal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/wwwdata.png\">www-data&lt;/a> ",
+" &lt;a href=\"#modal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/wwwdata.png\">www-data&lt;/a> ",
 ]
 </code></pre>
-              <hr/>
-              <br/>
-              <p class="text">
-                <code>commandStepsFile</code> A json template of commands
-                <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora_commands.json"
-                  target="_blank">
-                  apache_aurora_commands.json
-                </a>
-              </p>
-              <br/>
-              <pre><code class="language-markup">
+          <hr/>
+          <br/>
+          <p class="text">
+            <code>commandStepsFile</code> A json template of commands
+            <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora_commands.json"
+              target="_blank">
+              apache_aurora_commands.json
+            </a>
+          </p>
+          <br/>
+          <pre><code class="language-markup">
 [
-  {
-    "step": "4",
-    "count": "1",
-    "commands": [
-       {
-         "order" : 2,
-         "command":"nano hello_world.py",
-         "type": "nonewline",
-         "result": [""],
-         "depend": ""
-       },
-       {
-        "order" : 2,
-        "command":"aurora update start devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
-        "type": "animation",
-        "animation": true,
-        "result": [
-          " &nbsp;&nbsp; INFO] Starting update for: hello_world <br/> ",
-          " Job update has started. <br/> ",
-          " View your update progress at http://aurora.local:8081/scheduler/www-data/devel/hello_world/5d99e663-8d90-4f7a-9faf-d31f07ee931c "
-        ],
-        "depend": "nano hello_world.py",
-        "lastCommand": true
-      }
-    ]
+{
+"step": "4",
+"count": "1",
+"commands": [
+   {
+     "order" : 2,
+     "command":"nano hello_world.py",
+     "type": "nonewline",
+     "result": [""],
+     "depend": ""
+   },
+   {
+    "order" : 2,
+    "command":"aurora update start devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora",
+    "type": "animation",
+    "animation": true,
+    "result": [
+      " &nbsp;&nbsp; INFO] Starting update for: hello_world <br/> ",
+      " Job update has started. <br/> ",
+      " View your update progress at http://aurora.local:8081/scheduler/www-data/devel/hello_world/5d99e663-8d90-4f7a-9faf-d31f07ee931c "
+    ],
+    "depend": "nano hello_world.py",
+    "lastCommand": true
   }
+]
+}
 ]</code></pre>
-              <br/>
-              <p class="text">
-                For example if multiple commands return the same result. You can do this
-              </p>
-              <br/>
-              <pre><code class="language-markup">
+          <br/>
+          <p class="text">
+            For example if multiple commands return the same result. You can do this
+          </p>
+          <br/>
+          <pre><code class="language-markup">
 "command":["vagrant", "vagrant list-commands"]</code></pre>
-              <br/>
-              <p class="text">
-                Type of command is important because it help to show the result. There are these types
-                <code>animation</code> (like checklist), <code>static</code> (defualt commands) and
-                <code>nonewline</code> (it using in git clone after finis show the prompt).
-              </p>
-              <br/>
-              <pre><code class="language-markup">"type": "nonewline",</code></pre>
-              <br/>
-              <p class="text">
-                Depend of a Command
-              </p>
-              <br/>
+          <br/>
+          <p class="text">
+            Type of command is important because it help to show the result. There are these types
+            <code>animation</code> (like checklist), <code>static</code> (defualt commands) and
+            <code>nonewline</code> (it using in git clone after finis show the prompt).
+          </p>
+          <br/>
+          <pre><code class="language-markup">"type": "nonewline",</code></pre>
+          <br/>
+          <p class="text">
+            Depend of a Command
+          </p>
+          <br/>
 <pre><code class="language-markup">"depend": "git clone git://git.apache.org/aurora.git"</code></pre>
-              <br/>
-              <img class="imgb" src="./img/dependcommand.png"/>
-              <hr/>
-              <p class="text">
-                <code>preloadfile</code> It simulates the
-                <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora_files.json"
-                  target="_blank">
-                preloaded of files</a>. It using Local Storage
-                <br/><br/>
-                <img  class="imgbw" src="./img/preloadfile.png"/>
-              </p>
-              <br/>
-                <pre>
+          <br/>
+          <img class="imgb" src="./img/dependcommand.png"/>
+          <hr/>
+          <p class="text">
+            <code>preloadfile</code> It simulates the
+            <a href="https://github.com/twitter/cli-guide.js/blob/develop/templates/apache_aurora_files.json"
+              target="_blank">
+            preloaded of files</a>. It using Local Storage
+            <br/><br/>
+            <img  class="imgbw" src="./img/preloadfile.png"/>
+          </p>
+          <br/>
+            <pre>
 <code class="language-markup">
 [
-  {
-    "name":"hello_world.py",
-    "language": "python",
-    "content": [
-      "import sys \n",
-      "import time \n",
-      "\n",
-      "def main(argv): \n",
-      "   SLEEP_DELAY = 10 \n",
-      "   # Python ninjas - ignore this blatant bug. \n",
-      "   for i in xrang(100): \n",
-      "       print(\"Hello world! The time is now: %s. Sleeping for %d secs\" % ( \n",
-      "         time.asctime(), SLEEP_DELAY)) \n",
-      "       sys.stdout.flush() \n",
-      "       time.sleep(SLEEP_DELAY) \n",
-      "\n",
-      "if __name__ == \"__main__\": \n",
-      "    main(sys.argv)"
-    ]
-  }
+{
+"name":"hello_world.py",
+"language": "python",
+"content": [
+  "import sys \n",
+  "import time \n",
+  "\n",
+  "def main(argv): \n",
+  "   SLEEP_DELAY = 10 \n",
+  "   # Python ninjas - ignore this blatant bug. \n",
+  "   for i in xrang(100): \n",
+  "       print(\"Hello world! The time is now: %s. Sleeping for %d secs\" % ( \n",
+  "         time.asctime(), SLEEP_DELAY)) \n",
+  "       sys.stdout.flush() \n",
+  "       time.sleep(SLEEP_DELAY) \n",
+  "\n",
+  "if __name__ == \"__main__\": \n",
+  "    main(sys.argv)"
+]
+}
 ]</code></pre>
 
-              <br/>
-              <p class="text">
-                You can see the result in the terminal
-              </p>
-              <br/>
-              <img  class="imgb" src="./img/preload.png"/>
-              <br/><br/><br/>
-              <p class="text">
-                Finally you can see the file in nano editor <code>$ nano hello_world.py</code>
-              </p>
-              <br/>
-              <img class="imgb" src="./img/nano.png"/>
+          <br/>
+          <p class="text">
+            You can see the result in the terminal
+          </p>
+          <br/>
+          <img  class="imgb" src="./img/preload.png"/>
+          <br/><br/><br/>
+          <p class="text">
+            Finally you can see the file in nano editor <code>$ nano hello_world.py</code>
+          </p>
+          <br/>
+          <img class="imgb" src="./img/nano.png"/>
 
-            </div>
+        </div>
 
-          </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="container">
+  <br/><br/>
+  <div class="row">
+    <div class="col-xs-8 col-md-offset-2">
+      <hr/>
+      <div class="row">
+        <div class="col-xs-12">
+          <br/>
+          <h1 class="titlefeature">Components</h1>
+          <br/>
+          <img class="imgbpng" src="./img/components.png"/>
+          <br/><br/>
+          <h1 class="category">
+            <span class="badge bcategory"><i class="fa fa-list"></i></span> Steps
+          </h1>
+          <br/>
+          <ul class="text">
+              <li>Modal content and image (3 differents size)</li>
+              <li>[Button] jump to Next Step</li>
+              <li>[Button] Skip Step</li>
+          </ul>
+          <br/>
+          <h1 class="category">
+            <span class="badge bcategory"><i class="fa fa-terminal"></i></span> Terminal
+          </h1>
+          <br/>
+          <ul class="text">
+              <li>Show history of your recent terminal commands</li>
+              <li><code>$ git clone</code> animation</li>
+              <li>Show commands from json template</li>
+              <li>Autocomplete commands are using in the tutorial</li>
+              <li>You can see preload files with <code>$ ls</code></li>
+          </ul>
+          <br/>
+          <img class="imgb" src="./img/terminal.gif"/>
+          <br/><br/>
+          <h1 class="category">
+            <span class="badge bcategory"><i class="fa fa-pencil"></i></span> Nano Editor
+          </h1>
+          <br/>
+          <ul class="text">
+           <li>Simulate nano editor</li>
+           <li>CTRL + X for exist</li>
+           <li>Rwrite a file or rename</li>
+           <li>Create new file using LocalStorage</li>
+           <li>You can preload files from json template</li>
+         </ul>
+         <br/>
+         <img class="imgb" src="./img/nano.gif"/>
+         <br/><br/>
+        </div>
+    </div>
+    </div>
+    </div>
+  <br/>
+</div>
+
+<div class="container">
+  <br/><br/>
+  <div class="row">
+    <div class="col-xs-8 col-md-offset-2">
+      <hr/>
+      <div class="row">
+        <div class="col-xs-12">
+          <br/>
+          <h1 class="titlefeature">Contribute</h1>
+          <br/>
+          <ul class="text">
+              <li>If you would add an extra feature, feel free to open a
+                <a href="https://github.com/twitter/cli-guide.js" target="_blank">new issue</a>.
+              </li>
+              <li>If you want to create an interactive tutorial, we can work together for add extra features
+                if it is necessary.
+              </li>
+              <li>
+                <a href="https://github.com/twitter/cli-guide.js" target="_blank">
+                  Reporting bugs
+                </a>
+              </li>
+          </ul>
         </div>
       </div>
-
-
-      <br/><br/>
-
     </div>
-    <footer class="footer">
-      <div class="container"><br/>
-        <p class="text-muted">CLI-Guide.JS</p>
-        <p>
-          <iframe src="https://ghbtns.com/github-btn.html?user=twitter&repo=cli-guide.js&type=star&count=true"
-          frameborder="0" scrolling="0" width="90px" height="20px"></iframe>
-          <iframe src="https://ghbtns.com/github-btn.html?user=twitter&repo=cli-guide.js&type=fork&count=true"
-          frameborder="0" scrolling="0" width="80px" height="20px"></iframe>
-        </p>
-        <p class="text-muted">Code licensed under
-          <a href="https://github.com/twitter/cli-guide.js/blob/master/LICENSE" target="_blank" class="link">MIT</a>
-        </p>
-        <br/>
-      </div>
-    </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="./js/bootstrap.min.js"></script>
-    <script src="./js/prism.js"></script>
-
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-66625530-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-
-  </body>
-</html>
+  </div>
+</div>
+<br/><br/><br/><br/>
