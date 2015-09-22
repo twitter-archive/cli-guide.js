@@ -15,14 +15,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">CLI-Guide.JS</a>
+          <a class="navbar-brand" href="{{ site.url }}">CLI-Guide.JS</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li {% if page.url == '/index.html' %} class="active"{% endif %}>
+            <li {% if page.url == '{{ site.url }}index.html' %} class="active"{% endif %}>
                 <a href="/">Home</a>
             </li>
-            <li {% if page.url == '/blog.html' %} class="active"{% endif %}>
+            <li {% if page.url == '{{ site.url }}blog.html' %} class="active"{% endif %}>
                 <a href="/blog.html">Blog</a>
             </li>
           </ul>
