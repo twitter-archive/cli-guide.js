@@ -1,4 +1,6 @@
+### CLI-Guide.JS
 
-URL: [http://twitter.github.io/cli-guide.js/](http://twitter.github.io/cli-guide.js/)
-
-Aurora Demo: [http://twitter.github.io/cli-guide.js/demo/aurora.html](http://twitter.github.io/cli-guide.js/demo/aurora.html)
+* [Home](http://twitter.github.io/cli-guide.js/)
+* Tutorials
+  * [Default](http://twitter.github.io/cli-guide.js/tutorials/cliguide.html)
+  * [Apache Aurora](http://twitter.github.io/cli-guide.js/tutorials/aurora.html)
