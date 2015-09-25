@@ -29,29 +29,50 @@ describe("Validating JSON Schema", function() {
                 { "type": "string" },
                 { "type": "string" },
                 { "type": "string" },
+                { "type": "string" },
+                { "type": "string" },
+                { "type": "string" },
                 { "type": "string"}
               ]
             },
-            "tips": { "type": "string" }
+            "tips": { "type": "string" },
+            "commands": {
+              "type": "array",
+              "items": [
+                { "command": { "type": "string" } },
+                { "command": { "type": "string" } },
+                { "command": { "type": "string" } }
+              ]
+            }
           }
-        }
+        },
+        "laststep": { "type": "boolean" }
       },
       "required": [ "step", "content" ]
     });
 
     var step = {
-      "step": "0",
+      "step": "1",
       "content": {
-        "title": "Setup: Install Aurora 0",
+        "title": "Setup: Install Aurora",
         "content": [
           " You use the Aurora client and web UI to interact with Aurora jobs. ",
-          " To install it locally, see vagrant.md. The remainder of this Tutorial ",
-          " assumes you are running Aurora using Vagrant. Unless otherwise stated, ",
-          " all commands are to be run from the root of the aurora repository clone."
+          " To install it locally, see ",
+          " <a class=\"link-b\" href='http://aurora.apache.org/documentation/latest/vagrant/' target=\"_blank\">vagrant.md</a> ",
+          " The remainder of this Tutorial assumes you are running ",
+          " Aurora using Vagrant. Unless otherwise stated, ",
+          " all commands are to be run from the root ",
+          " of the aurora repository clone. "
         ],
-        "tips": "You can run $ <i>aurora</i> for see all commands"
-      }
-    }
+        "tips": "let's try with following commands",
+        "commands": [
+          {"command":"git clone git://git.apache.org/aurora.git"},
+          {"command":"cd aurora"},
+          {"command":"vagrant up"}
+        ]
+      },
+      "laststep": false
+    };
 
     // validation
     var errors = env.validate('step', step);
@@ -68,16 +89,38 @@ describe("Validating JSON Schema", function() {
     env.addSchema('command', {
       "type": "object",
       "properties": {
-        "command": { "type": "string" },
-        "result": { "type": "string" },
+        "step": { "type": "string" },
+        "count": { "type": "string" },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "order": { "type": "number" },
+              "command": { "type": "string" },
+              "type": { "type": "string" },
+              "depend": { "type": "string" },
+              "lastCommand": { "type": "boolean" },
+            }
+          }
+        }
       },
-      "required": [ "command", "result" ]
+      "required": [ "step", "commands" ]
     });
 
     var command = {
-      "command":"cordova platform add android",
-      "result": "Creating Cordova project for the Android platform"
-    }
+      "step": "2",
+      "count": "1",
+      "commands": [
+        {
+          "order" : 0,
+          "command":"ls",
+          "type": "native",
+          "depend": "",
+          "lastCommand": true
+        }
+      ]
+    };
 
     // validation
     var errors = env.validate('command', command);
