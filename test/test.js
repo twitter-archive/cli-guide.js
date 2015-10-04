@@ -129,4 +129,39 @@ describe("Validating JSON Schema", function() {
     expect(errors).toBe(null);
 
   });
+  it("Validating Preload-Files", function() {
+
+    // create new JJV environment
+    var env = jjv();
+
+    env.addSchema('file', {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "language": { "type": "string" },
+        "content": {
+          "type": "array",
+          "items": [
+            { "command": { "type": "string" } }
+          ]
+        }
+      },
+      "required": [ "name", "content" ]
+    });
+
+    var file = {
+      "name":"hello_world.py",
+      "language": "python",
+      "content": [
+        "print \"Hello, World!\""
+      ]
+    };
+
+    // validation
+    var errors = env.validate('file', file);
+
+    // null = It has not errors
+    expect(errors).toBe(null);
+
+  });
 });
