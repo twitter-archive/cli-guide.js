@@ -164,4 +164,122 @@ describe("Validating JSON Schema", function() {
     expect(errors).toBe(null);
 
   });
+  it("Validating List of Commands", function() {
+
+    // create new JJV environment
+    var env = jjv();
+
+    env.addSchema('command', {
+      "type": "object",
+      "properties": {
+        "step": { "type": "string" },
+        "count": { "type": "string" },
+        "commands": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "order": { "type": "number" },
+              "command": { "type": "string" },
+              "type": { "type": "string" },
+              "depend": { "type": "string" },
+              "lastCommand": { "type": "boolean" },
+            }
+          }
+        }
+      },
+      "required": [ "step", "commands" ]
+    });
+
+    var command = {
+      "step": "2",
+      "count": "1",
+      "commands": [
+        {
+          "order" : 0,
+          "command":"ls",
+          "type": "native",
+          "depend": "",
+          "lastCommand": true
+        }
+      ]
+    };
+
+    // validation
+    var errors = env.validate('command', command);
+
+    // null = It has not errors
+    expect(errors).toBe(null);
+
+  });
+  it("Validating Preload-Files", function() {
+
+    // create new JJV environment
+    var env = jjv();
+
+    env.addSchema('file', {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "language": { "type": "string" },
+        "content": {
+          "type": "array",
+          "items": [
+            { "command": { "type": "string" } }
+          ]
+        }
+      },
+      "required": [ "name", "content" ]
+    });
+
+    var file = {
+      "name":"hello_world.py",
+      "language": "python",
+      "content": [
+        "print \"Hello, World!\""
+      ]
+    };
+
+    // validation
+    var errors = env.validate('file', file);
+
+    // null = It has not errors
+    expect(errors).toBe(null);
+
+  });
+  it("Validating Commands(Validations)", function() {
+
+    // create new JJV environment
+    var env = jjv();
+
+    env.addSchema('command_validation', {
+      "type": "object",
+      "properties": {
+        "command": { "type": "string" },
+        "regexp": { "type": "string" },
+        "regexp_message": {
+          "type": "array",
+          "items": [
+            { "command": { "type": "string" } }
+          ]
+        }
+      },
+      "required": [ "command", "regexp", "regexp_message" ]
+    });
+
+    var command_validation = {
+      "command":"aurora job create",
+      "regexp": "aurora\\sjob\\screate\\s[a-z-.-_--]+\/[a-z-.-_--]+\/[a-z-.-_--]+\/[a-z-.-_--]+\\s[a-zA-Z-.-_--]{0,}(\\.aurora)",
+      "regexp_message": [
+        "aurora job create: error: too few arguments"
+      ]
+    };
+
+    // validation
+    var errors = env.validate('command_validation', command_validation);
+
+    // null = It has not errors
+    expect(errors).toBe(null);
+
+  });
 });
