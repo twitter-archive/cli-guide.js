@@ -1,8 +1,6 @@
-# CLI-GuideJS Server
+# Skarmory
 
-> Backend of [CLI-GuideJS](https://github.com/twitter/cli-guide.js)
-
-> Rust Version: rustc 1.2.0 (082e47636 2015-08-03)
+> Rust Version: rustc 1.3.0 (9a92aaf19 2015-09-15)
 
 #### Instructions
 ------------------
