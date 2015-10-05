@@ -23,7 +23,7 @@ describe("Validating JSON Schema", function() {
           "type": "object",
           "properties": {
             "title": { "type": "string" },
-            "content": {
+            "body": {
               "type": "array",
               "items": [
                 { "type": "string" },
@@ -55,7 +55,7 @@ describe("Validating JSON Schema", function() {
       "step": "1",
       "content": {
         "title": "Setup: Install Aurora",
-        "content": [
+        "body": [
           " You use the Aurora client and web UI to interact with Aurora jobs. ",
           " To install it locally, see ",
           " <a class=\"link-b\" href='http://aurora.apache.org/documentation/latest/vagrant/' target=\"_blank\">vagrant.md</a> ",
