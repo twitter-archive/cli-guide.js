@@ -107,7 +107,7 @@
             $.getJSON(stepsFile,function(data){
               $.each(data,function(k,v){
                 if(v.step == step){
-                  Step.showInfoTemplate(step,v.step,skipStepArray,v.content.title,v.content.content,
+                  Step.showInfoTemplate(step,v.step,skipStepArray,v.content.title,v.content.body,
                                         v.content.tips,v.content.commands,v.content.moreinfo);
                 }
               });
