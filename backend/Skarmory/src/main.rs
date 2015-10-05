@@ -1,4 +1,5 @@
 #[macro_use] extern crate nickel;
+extern crate urlencoding;
 
 use std::io;
 use std::io::prelude::*;
@@ -32,6 +33,9 @@ fn create_file(filename: &'static str, string: &[u8]) -> io::Result<()> {
 }
 
 fn main() {
+
+    println!("Testing: {:?}", urlencoding::encode::value("%22".to_string()));
+
     let mut server = Nickel::new();
 
     server.get("/", middleware! { |request|
