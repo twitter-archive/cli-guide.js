@@ -1,6 +1,6 @@
 {
   "name": "cli-guide.js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A Javascript library for creating interactive command line tutorials that run in your web browser.",
   "directories": {
     "test": "test"
