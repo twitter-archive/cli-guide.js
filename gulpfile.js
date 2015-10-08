@@ -1,24 +1,32 @@
-var gulp = require('gulp');
-var jsmin = require('gulp-jsmin');
-var rename = require('gulp-rename');
-var minifyCss = require('gulp-minify-css');
+var gulp       = require('gulp'),
+    jsmin      = require('gulp-jsmin'),
+    rename     = require('gulp-rename'),
+    minifyCss  = require('gulp-minify-css'),
+    jshint     = require('gulp-jshint'),
+    uglify     = require('gulp-uglify');
 
-gulp.task('copy-fonts', function() {
-    return gulp.src('src/*.{ttf,otf}')
-        .pipe(gulp.dest('dist'));
+gulp.task('copy-original-files', function() {
+  return gulp.src('src/*.{css,js,ttf,otf}')
+         .pipe(gulp.dest('dist'));
 });
 
 gulp.task('minify-css', function() {
   return gulp.src('src/*.css')
-      .pipe(minifyCss())
-    .pipe(gulp.dest('dist'));
+         .pipe(minifyCss())
+         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('js', function () {
-    gulp.src('src/*.js')
-        .pipe(jsmin())
-        .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('dist'));
+gulp.task('lint', function() {
+  return gulp.src(['src/*.js'])
+         .pipe(jshint())
+         .pipe(jshint.reporter('default'));
 });
 
-gulp.task('default', ['minify-css', 'js', 'copy-fonts']);
+gulp.task('compress-js', function() {
+  return gulp.src('src/*.js')
+         .pipe(uglify())
+         .pipe(rename({suffix: '.min'}))
+         .pipe(gulp.dest('dist'))
+});
+
+gulp.task('default', ['minify-css', 'lint', 'compress-js', 'copy-original-files']);

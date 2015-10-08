@@ -1,4 +1,4 @@
-/*!
+/*
  * cli-guide plugin
  * Original author: @willrre
  * Further changes, comments: @willrre
@@ -71,7 +71,7 @@
 
     if (!effect) effect = $.fn.text;
 
-    var loghistory = []
+    var loghistory = [];
 
     // return focus
     $("#terminal").click(function(){
@@ -86,7 +86,7 @@
 
       var Step = {
         list: function(stepsFile){
-          if(stepsFile != ""){
+          if(stepsFile !== ""){
             $.getJSON(stepsFile,function(data){
               $.each(data,function(k,v){
                 Step.listTemplate(v.step);
@@ -98,7 +98,7 @@
         },
         showInfo: function(stepsFile, skipsteps, step){
           // select current step
-          if(stepsFile != ""){
+          if(stepsFile !== ""){
             localStorage.setItem('actualstep',step);
             var skipStepArray = JSON.parse("[" + skipsteps + "]");
 
@@ -129,7 +129,7 @@
             }
 
           } else {
-            var command = [{"command":"git clone https://github.com/twitter/cli-guide.js.git"}]
+            var command = [{"command":"git clone https://github.com/twitter/cli-guide.js.git"}];
             Step.showInfoTemplate(1,1,"","CLI-Guide.js","A javascript library for creating interactive "+
             "command line tutorials that run in your web browser. ",
                                   "tips here!",command,"");
@@ -214,12 +214,12 @@
             '</h3>' +
             '<p>'+content+'</p>'
           );
-          if(moreinfo != undefined){
+          if(moreinfo !== undefined){
             moreinfo = Array.isArray(moreinfo) ? moreinfo.join("") : moreinfo;
             Modal.showInfo("moreinfo",moreinfo);
           }
-          if(tips != ""){
-            var tip =  Array.isArray(tips) ? tips.join("") : tips
+          if(tips !== ""){
+            var tip =  Array.isArray(tips) ? tips.join("") : tips;
             $('#stepscontent').append(
               '<hr/ class="style">'
             + '<h3>Tips</h3>'
@@ -249,7 +249,7 @@
 
           var dir = "";
 
-          if(command.substring(0, 3) == "cd " && command.substring(3, command.length) != ""){
+          if(command.substring(0, 3) == "cd " && command.substring(3, command.length) !== ""){
             $("#"+id+".response").html(''); // remove pre and code
             localStorage.setItem('actualdir', "/"+command.substring(3, command.length));
           }
@@ -286,7 +286,7 @@
           Cli.newline("");
         },
         rm: function(filename){
-          if(localStorage.getItem(filename) != null){
+          if(localStorage.getItem(filename) !== null){
             var arrayFiles = localStorage.getItem("files").split(',');
             arrayFiles = arrayFiles.filter(Boolean);
             Util.removeItemFromArray(arrayFiles, filename);
@@ -543,7 +543,7 @@
 
         if(input == "") {
           Cli.newline("");
-        } else if(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')) != null) {
+        } else if(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')) !== null) {
 
           var object  = JSON.parse(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')));
 
@@ -553,7 +553,7 @@
               $finish.html("Finish ✓");
               localStorage.setItem(actualStep,true);
             } else {
-              if(actualStep == object.step){
+              if(actualStep === object.step){
                 $finish.addClass("ok-b");
                 $finish.html("Next ✓");
                 localStorage.setItem(actualStep,true);
@@ -564,7 +564,7 @@
           }
 
           // verify the command if it is for the correct step
-          if(object.step == "general"){
+          if(object.step === "general"){
             if(text.indexOf("cd ") > -1){
               Cli.newline(input.replace(/\s\s+/g,' '),id);
             } else if(!object.animation){
@@ -605,7 +605,7 @@
                 }
                 return result = restCommand(opts,input.replace(/\s\s+/g,' '),id);
               }
-            } else if(object.depend != ""){
+            } else if(object.depend !== ""){
               // check which command or commands depends
               var dependCommand  = JSON.parse(localStorage.getItem(object.depend));
               if(!dependCommand.done){
@@ -648,7 +648,7 @@
           }
         } else {
           $("#"+id+".response").html(''); // remove pre and code
-          if(opts.commandStepsFile == "") {
+          if(opts.commandStepsFile === "") {
             Cli.newline(input,id);
           }
         }
@@ -667,12 +667,12 @@
           $.each(data,function(key,steps){
             $.each(steps,function(k,commands){
               for(var i = 0; i < commands.length; i++) {
-                if(commands[i].command != undefined){
+                if(commands[i].command !== undefined){
                   // when more than one command have the same result
                   if(Array.isArray(commands[i].command)){
                     for(var c = 0; c < commands[i].command.length; c++){
                       if(text.trim() == commands[i].command[c]) {
-                        if(commands[i].type != undefined){
+                        if(commands[i].type !== undefined){
                           if(commands[i].type === "animation"){
                             var arrayMultiResult = [];
                             for (var l = 0; l < commands[i].result.length; l++) {
@@ -687,8 +687,8 @@
                     }
                   }
                   if(commands[i].command === text.trim()) {
-                    if(commands[i].result != undefined){
-                      if(commands[i].type != undefined){
+                    if(commands[i].result !== undefined){
+                      if(commands[i].type !== undefined){
                         if(commands[i].type === "animation"){
                           var arrayResult = [];
                           for(var l = 0; l < commands[i].result.length; l++) {
@@ -728,8 +728,8 @@
                          type:commands[i].type,
                          depend: commands[i].depend,
                          done:false,
-                         animation: (commands[i].animation == undefined) ? false : commands[i].animation,
-                         lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
+                         animation: (commands[i].animation === undefined) ? false : commands[i].animation,
+                         lastCommand: (commands[i].lastCommand === undefined) ? false : commands[i].lastCommand
                         }));
                   }
                 } else {
@@ -741,8 +741,8 @@
                        type:commands[i].type,
                        depend: commands[i].depend,
                        done:false,
-                       animation: (commands[i].animation == undefined) ? false : commands[i].animation,
-                       lastCommand: (commands[i].lastCommand == undefined) ? false : commands[i].lastCommand
+                       animation: (commands[i].animation === undefined) ? false : commands[i].animation,
+                       lastCommand: (commands[i].lastCommand === undefined) ? false : commands[i].lastCommand
                       }));
                 }
               }
@@ -764,11 +764,11 @@
             // add a python file for show, how to works nano editor
             localStorage.setItem("files","hello_world.py");
           } else {
-            var files = []
+            var files = [];
             $.ajaxSetup({
               async: false
             });
-            if(opts != "") {
+            if(opts !== "") {
               $.getJSON(opts,function(data){
                 $.each(data,function(k,v){
                   // using .join method to convert array to string without commas
@@ -777,7 +777,7 @@
                   localStorage.setItem(v.name,
                     JSON.stringify({
                       content: v.content.join(""),
-                      language: (v.language == undefined) ? "markup" : v.language
+                      language: (v.language === undefined) ? "markup" : v.language
                   }));
                 });
               });
@@ -806,7 +806,7 @@
           // add a new line after open nano editor
           Cli.newline(filename);
 
-          if(localStorage.getItem(filename) != null) {
+          if(localStorage.getItem(filename) !== null) {
             var file = JSON.parse(localStorage.getItem(filename));
             $('#editor-content-parent').html(
               '<pre><code id="editor-content" contenteditable="false" style="outline-color:black" spellcheck="false" class="language-'+file.language+'">'
@@ -830,7 +830,7 @@
 
       //  autocomplete (tab) commands, issue #42
       function autocompleteCommands(commands){
-        var listCommands = []
+        var listCommands = [];
         $.ajaxSetup({
           async: false
         });
@@ -840,12 +840,12 @@
               for (var i = 0; i < commands.length; i++) {
                 if(Array.isArray(commands[i].command)){
                   for(var c = 0; c < commands[i].command.length; c++){
-                    if(commands[i].command != undefined){
+                    if(commands[i].command !== undefined){
                       listCommands.push(commands[i].command[c]);
                     }
                   }
                 } else {
-                  if(commands[i].command != undefined){
+                  if(commands[i].command !== undefined){
                     listCommands.push(commands[i].command);
                   }
                 }
@@ -916,19 +916,19 @@
           Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
 
           // print the result of commands
-          if(opts.commandStepsFile != "" && opts.commandValidation != "") {
-            if(CommandValidation.command(opts.commandValidation,input) != "" ) {
+          if(opts.commandStepsFile !== "" && opts.commandValidation !== "") {
+            if(CommandValidation.command(opts.commandValidation,input) !== "" ) {
               $('#'+id+'_lang_terminal').html(CommandValidation.command(opts.commandValidation,input));
               Cli.newline(input,id);
             } else {
               $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
             }
-          } else if(opts.commandStepsFile != "") {
+          } else if(opts.commandStepsFile !== "") {
             $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
           } else {
             // git clone return a new line after finish
             // only run commands different from git clone
-            if(input.replace(/\s\s+/g,' ') != "git clone " + input.split(" ").pop()) {
+            if(input.replace(/\s\s+/g,' ') !== "git clone " + input.split(" ").pop()) {
               $("#"+id+".response").html(''); //remove space
               Cli.newline(input,id);
             }
@@ -954,7 +954,7 @@
           }
 
           // list of commands we can't use....
-          Cli.unSupportedCommand(input,id)
+          Cli.unSupportedCommand(input,id);
 
           // delete file remove a key from LocalStorage issue #81
           if(input.replace(/\s\s+/g,' ') == "rm -r " + input.split(" ").pop()) {
@@ -1026,7 +1026,7 @@
       $(document).on('keydown','#editor-content',function(e){
         if($("#editor-content").is(':visible')){
           if (e.keyCode == 88 && e.ctrlKey) {
-            if($("#editor-content").text() != "") {
+            if($("#editor-content").text() !== "") {
               if(!$("#command-x").is(':visible')){
                 $("#commands").hide();
                 $("#command-save-x").show();
@@ -1061,7 +1061,7 @@
           $("#terminal").show();
           $('.textinline').focus();
         }
-        if(event.which != 89 || event.which != 78 ){
+        if(event.which !== 89 || event.which !== 78 ){
           event.preventDefault();
         }
       });
@@ -1078,7 +1078,7 @@
 
       $(document).on('keydown','#namefile-x',function(event){
         if (event.keyCode == 13){
-          if(localStorage.getItem($(this).text()) != null){
+          if(localStorage.getItem($(this).text()) !== null){
             // update file
             var file = JSON.parse(localStorage.getItem($(this).text()));
             localStorage.setItem($(this).text(),
@@ -1103,7 +1103,7 @@
           // prevent duplicate files
           var existDuplicate = true;
           for(var f = 0; f < arrayFiles.length; f++){
-            if(arrayFiles[f] != $(this).text()){
+            if(arrayFiles[f] !== $(this).text()){
               checkDuplicate = false;
             } else {
               return false;
