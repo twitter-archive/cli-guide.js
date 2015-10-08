@@ -543,7 +543,7 @@
 
         if(input == "") {
           Cli.newline("");
-        } else if(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')) != null){
+        } else if(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')) != null) {
 
           var object  = JSON.parse(localStorage.getItem("step-"+input.replace(/\s\s+/g,' ')));
 
@@ -799,7 +799,7 @@
         },
         openFile: function(filename){
           $("#terminal").hide();
-          $('#editor-content').html('');
+          $('#editor-content-parent').html('');
           $('#editor-header-filename').html("File: ");
           $('#namefile-x').html('');
           $("#editor").show();
@@ -808,12 +808,12 @@
 
           if(localStorage.getItem(filename) != null) {
             var file = JSON.parse(localStorage.getItem(filename));
-            $('#editor-content').html(
-              '<pre><code id="lang" class="language-'+file.language+'">'
+            $('#editor-content-parent').html(
+              '<pre><code id="editor-content" contenteditable="false" style="outline-color:black" spellcheck="false" class="language-'+file.language+'">'
               +'</code></pre>'
             );
-            $('#lang').html(file.content.split("<br>").join("\n"));
-            Prism.highlightElement($('#lang')[0]);
+            $('#editor-content').html(file.content.split("<br>").join("\n"));
+            Prism.highlightElement($('#editor-content')[0]);
             // show the name of the file in header
             $('#editor-header-filename').html("File: " + filename);
             // show the name of the file again
@@ -890,6 +890,11 @@
 
       $(document).on('click','.modalimage',function(){
         Modal.showImg($(this).data('image'),$(this).data('size'));
+      });
+
+      // active editable in nano editor for open a file
+      $(document).on('click','#editor-content',function(){
+        $(this).attr('contenteditable',true);
       });
 
       var id = 0;
@@ -1175,7 +1180,7 @@
 
     +           '<div class="row">'
     +             '<div id="editor-content-parent">'
-    +               '<div id="editor-content" class="col-xs-12" contenteditable="true" spellcheck="false"></div>'
+    +               '<pre><code id="editor-content" class="col-xs-12" style="outline-color:black" contenteditable="true" spellcheck="false" id="lang" class="language-markup"></code></pre>'
     +             '</div>'
     +           '</div>'
 
