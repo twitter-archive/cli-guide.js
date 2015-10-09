@@ -5,6 +5,11 @@ var gulp       = require('gulp'),
     jshint     = require('gulp-jshint'),
     uglify     = require('gulp-uglify');
 
+gulp.task('publish', function() {
+  return gulp.src(['package.json','README.md','LICENSE','nano.gif','terminal.gif'])
+         .pipe(gulp.dest('dist'));
+});
+
 gulp.task('copy-original-files', function() {
   return gulp.src('src/*.{css,js,ttf,otf}')
          .pipe(gulp.dest('dist'));
@@ -29,4 +34,4 @@ gulp.task('compress-js', function() {
          .pipe(gulp.dest('dist'))
 });
 
-gulp.task('default', ['minify-css', 'lint', 'compress-js', 'copy-original-files']);
+gulp.task('default', ['minify-css', 'lint', 'compress-js', 'copy-original-files', 'publish']);
