@@ -83,6 +83,11 @@ li.step a {
   margin-bottom: 5px;
 }
 
+.not-active {
+   pointer-events: none;
+   cursor: default;
+}
+
 a.btn-step:hover {
   background-color: #ABABAB;
 }

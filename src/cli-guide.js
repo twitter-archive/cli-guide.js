@@ -118,10 +118,12 @@
             var $finish = $("#finish[data-step="+actualStep+"]");
             var finishedStep = JSON.parse(localStorage.getItem(step));
 
-            if(step == Step.getLast() && finishedStep){
+            if(step == Step.getLast() && finishedStep) {
+              $("#"+step).removeClass("not-active");
               $finish.addClass("ok-b");
               $finish.html("Finish ✓");
             } else if(finishedStep){
+              $("#"+step).removeClass("not-active");
               $finish.addClass("ok-b");
               $finish.html("Next ✓");
             } else {
@@ -181,16 +183,20 @@
             });
           });
           localStorage.setItem(step,true);
+          var nextstep = step+1;
           var $finish = $("#finish[data-step="+step+"]");
           $finish.addClass("ok-b");
           $finish.html("Next ✓");
+          // enable the next step
+          $("#"+nextstep).removeClass("not-active");
           // switch to next step
-          Step.showInfo(opts.stepsFile, opts.skipsteps, step+1);
+          Step.showInfo(opts.stepsFile, opts.skipsteps, nextstep);
         },
         listTemplate: function(step){
+          var not_active = ( step == 1 ) ? "": "not-active";
           $("#listofsteps").append(
             '<li class="step">'
-          +   '<a id="'+step+'" class="btn-step" href="#" data-step="'+step+'">'
+          +   '<a id="'+step+'" class="btn-step '+not_active+'" href="#" data-step="'+step+'">'
           +     step
           +   '</a>'
           + '</li>'
@@ -885,7 +891,9 @@
       });
 
       $(document).on('click','#finish',function(){
-        Step.showInfo(opts.stepsFile, opts.skipsteps,$(this).data('nextstep'));
+        var nextstep = $(this).data('nextstep');
+        Step.showInfo(opts.stepsFile, opts.skipsteps, nextstep);
+        $("#"+nextstep).removeClass("not-active");
       });
 
       $(document).on('click','.modalimage',function(){
