@@ -3,7 +3,7 @@
     "step": "1",
     "content": {
       "title": "Setup: Install Aurora",
-      "content": [
+      "body": [
         " You use the Aurora client and web UI to interact with Aurora jobs. ",
         " To install it locally, see ",
         " <a class=\"link-b\" href='http://aurora.apache.org/documentation/latest/vagrant/' target=\"_blank\">vagrant.md</a> ",
@@ -25,7 +25,7 @@
     "step": "2",
     "content": {
       "title": "Initial Configuration",
-      "content": [
+      "body": [
         " <h3>The Script</h3> ",
         " Our 'hello world' application is a simple Python script that loops ",
         " forever, displaying the time every few seconds. <br/><br/> ",
@@ -59,7 +59,7 @@
     "step": "3",
     "content": {
       "title": "Creating the Job",
-      "content": [
+      "body": [
         " We’re ready to launch our job! To do so, we use the Aurora Client to issue a  ",
         " Job creation request to the Aurora scheduler. <br/><br/> ",
         " Many Aurora Client commands take a job key argument, which uniquely identifies a Job. ",
@@ -84,7 +84,7 @@
     "step": "4",
     "content": {
       "title": "Watching the Job Run",
-      "content": [
+      "body": [
         " Now that our job is running, let’s see what it’s doing. Access the scheduler web interface at  ",
         " http://$scheduler_hostname:$scheduler_port/scheduler Or when using vagrant, ",
         " http://192.168.33.7:8081/scheduler First we see what Jobs are scheduled: <br/> ",
@@ -124,7 +124,7 @@
     "step": "5",
     "content": {
       "title": "Cleanup",
-      "content": [
+      "body": [
         " Now that we’re done, we kill the job using the Aurora client. <br/> ",
         " The job page now shows the hello_world tasks as completed. ",
         " <a href=\"#modal\" class=\"modalimage img-b\" data-size=\"b\" data-image=\"./templates/aurora_images/killjob.png\">aurora job killall</a> "
