@@ -1,5 +1,5 @@
 #[macro_use] extern crate nickel;
-extern crate urlencoding;
+extern crate Skarmory;
 
 use std::io;
 use std::io::prelude::*;
@@ -34,7 +34,7 @@ fn create_file(filename: &'static str, string: &[u8]) -> io::Result<()> {
 
 fn main() {
 
-    println!("Testing: {:?}", urlencoding::encode::value("%22".to_string()));
+    println!("Testing: {:?}", Skarmory::encode::value("%22".to_string()));
 
     let mut server = Nickel::new();
 
@@ -47,7 +47,9 @@ fn main() {
     });
 
     server.get("/python_interpreter/:code", middleware! { |request, response|
-        result_python(request.param("code").unwrap().to_string())
+        let code = Skarmory::encode::value( request.param("code").unwrap().to_string() );
+        println!("{:?}", code);
+        result_python(code)
     });
 
     server.listen("127.0.0.1:6767");

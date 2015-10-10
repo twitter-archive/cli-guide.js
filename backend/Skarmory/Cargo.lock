@@ -3,6 +3,7 @@ name = "Skarmory"
 version = "0.1.0"
 dependencies = [
  "nickel 0.7.0 (registry+https://github.com/rust-lang/crates.io-index)",
+ "regex 0.1.41 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

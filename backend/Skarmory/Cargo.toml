@@ -5,3 +5,4 @@ authors = ["Willy Aguirre <marti1125@gmail.com>"]
 
 [dependencies]
 nickel = "*"
+regex = "0.1.41"
