@@ -1158,8 +1158,15 @@
 
     $(this.element).append(
       '<div class="container-fluid">'
-    +   '<div class="row">'
 
+    +   '<div class="row steps-numbers-section">'
+    +     '<div class="col-xs-12">'
+    +       '<ul id="listofsteps">'
+    +       '</ul>'
+    +     '</div>'
+    +   '</div>'
+
+    +   '<div class="row">'
     +     '<div id="steps_section" class="col-xs-4">'
     +       '<div id="steptitle"></div>'
     +       '<hr/ class="style">'
@@ -1170,7 +1177,9 @@
     +       '<div id="moreinfo"></div>'
     +       '<br/><br/>'
     +     '</div>'
+    +   '</div>'
 
+    +   '<div class="row">'
     +     '<div id="terminal_section" class="col-xs-8">'
 
     +       '<div class="row">'

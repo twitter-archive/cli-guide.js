@@ -29,6 +29,32 @@ hr.style {
 
 .element { overflow: -moz-scrollbars-none; }
 
+/* Steps */
+.steps-numbers-section {
+  background-color: #F4F4F4;
+  border-bottom: 1px solid #A6A6A6;
+}
+
+ul#listofsteps {
+  padding: 0;
+  text-align: center;
+}
+
+li.step {
+  display: inline-block;
+}
+
+li.step a {
+  text-decoration: none;
+  background: #dddddd;
+	margin-left: 15px;
+  border-radius: 50%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 /* steps */
 #steps_section {
   font-family: 'SegoeUISymbol', Helvetica, sans-serif;
@@ -37,9 +63,7 @@ hr.style {
   height: 500px;
 }
 
-#listofsteps {
-  padding: 0;
-}
+
 
 #stepscontent {
   text-align: left;
@@ -68,20 +92,7 @@ div.stepcontent {
 	background-color: white;
 }
 
-li.step {
-  display: inline-block;
-}
 
-li.step a {
-  text-decoration: none;
-  background: #dddddd;
-	margin-left: 15px;
-  border-radius: 50%;
-  padding-left: 6px;
-  padding-right: 6px;
-  padding-top: 1px;
-  margin-bottom: 5px;
-}
 
 .not-active {
    pointer-events: none;
