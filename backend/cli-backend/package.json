@@ -1,0 +1,27 @@
+{
+  "name": "cli-backend",
+  "version": "0.1.0",
+  "description": "backend app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twitter/cli-guide.js.git"
+  },
+  "keywords": [
+    "terminal",
+    "rust",
+    "ffi"
+  ],
+  "author": "Willy Aguirre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/twitter/cli-guide.js/issues"
+  },
+  "homepage": "https://github.com/twitter/cli-guide.js#readme",
+  "dependencies": {
+    "express": "^4.13.3"
+  }
+}
