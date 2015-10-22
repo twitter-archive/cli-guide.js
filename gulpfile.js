@@ -1,5 +1,4 @@
 var gulp       = require('gulp'),
-    jsmin      = require('gulp-jsmin'),
     rename     = require('gulp-rename'),
     minifyCss  = require('gulp-minify-css'),
     jshint     = require('gulp-jshint'),
