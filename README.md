@@ -1,4 +1,4 @@
-# CLI Guide jQuery Plugin v0.1.3
+# CLI Guide jQuery Plugin v0.1.4
 
 [![npm version](http://marti1125.webfactional.com/npm.svg)](https://www.npmjs.com/package/cli-guide.js)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/twitter/cli-guide.js/master/LICENSE)

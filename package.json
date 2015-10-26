@@ -1,6 +1,6 @@
 {
   "name": "cli-guide.js",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A Javascript library for creating interactive command line tutorials that run in your web browser.",
   "directories": {
     "test": "test"
@@ -29,10 +29,15 @@
   "homepage": "https://github.com/twitter/cli-guide.js",
   "devDependencies": {
     "gulp": "*",
+    "gulp-util": "*",
+    "run-sequence": "*",
     "gulp-rename": "*",
     "gulp-minify-css": "*",
     "gulp-jshint": "*",
-    "gulp-uglify": "*"
+    "gulp-uglify": "*",
+    "del": "*",
+    "express": "*",
+    "browser-sync": "*"
   },
   "dependencies": {}
 }
