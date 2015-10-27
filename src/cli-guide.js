@@ -206,7 +206,7 @@
           $("#stepscontent").html('');
           content = Array.isArray(content) ? content.join("") : content;
           $("#"+step+".btn-step").addClass("active");
-          $("#steptitle").html("<h3>Step "+step+"</h3>");
+          $("#steptitle").html("<h3>"+step+" - "+title+"</h3>");
           var nextstep = ( (ustep + 1) > Step.getLast() ) ? Step.getLast() : ustep + 1;
           var skip = '';
           for (var i = 0; i < skipStepArray.length; i++) {
@@ -1167,11 +1167,8 @@
     +   '</div>'
 
     +   '<div class="row">'
-    +     '<div id="steps_section" class="col-xs-4">'
+    +     '<div id="steps_section" class="col-xs-12">'
     +       '<div id="steptitle"></div>'
-    +       '<hr/ class="style">'
-    +       '<ul id="listofsteps">'
-    +       '</ul>'
     +       '<hr/ class="style">'
     +       '<div id="stepscontent"></div>'
     +       '<div id="moreinfo"></div>'
@@ -1180,7 +1177,7 @@
     +   '</div>'
 
     +   '<div class="row">'
-    +     '<div id="terminal_section" class="col-xs-8">'
+    +     '<div id="terminal_section" class="col-xs-12">'
 
     +       '<div class="row">'
     +         '<div id="terminal-parent">'
