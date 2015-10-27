@@ -30,6 +30,7 @@
   "devDependencies": {
     "gulp": "*",
     "gulp-util": "*",
+    "gulp-header": "*",
     "run-sequence": "*",
     "gulp-rename": "*",
     "gulp-minify-css": "*",

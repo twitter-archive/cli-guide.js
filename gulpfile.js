@@ -1,5 +1,6 @@
 var gulp          = require('gulp'),
     gutil         = require('gulp-util'),
+    header        = require('gulp-header');
     runSequence   = require('run-sequence'),
     rename        = require('gulp-rename'),
     minifyCss     = require('gulp-minify-css'),
@@ -8,6 +9,13 @@ var gulp          = require('gulp'),
     del           = require('del'),
     express       = require('express'),
     browserSync   = require('browser-sync');
+
+var about = "/*  \n"   +
+              "cli-guide plugin \n"  +
+              "Original author: @willrre \n"  +
+              "Further changes, comments: @willrre \n"  +
+              "Licensed under the MIT license \n"  +
+              "*/\n\n";
 
 var server;
 
@@ -49,6 +57,7 @@ gulp.task('minify-js', function() {
   return gulp.src('src/*.js')
          .pipe(uglify())
          .pipe(rename({suffix: '.min'}))
+         .pipe(header(about))
          .pipe(gulp.dest('dist'))
          .pipe(reload());
 });
