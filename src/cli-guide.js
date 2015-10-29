@@ -215,7 +215,7 @@
             }
           }
           $("#stepscontent").append(
-            '<h3>'+title+' <a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+ustep+'"></a>' +
+            '<h3><a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+ustep+'"></a>' +
             skip +
             '</h3>' +
             '<p>'+content+'</p>'
@@ -225,12 +225,14 @@
             Modal.showInfo("moreinfo",moreinfo);
           }
           if(tips !== ""){
-            var tip =  Array.isArray(tips) ? tips.join("") : tips;
-            $('#stepscontent').append(
-              '<hr/ class="style">'
+            /*
             + '<h3>Tips</h3>'
             + '<p>'+tip+'</p>'
-            + '<ul id="listofcommands"></ul>'
+            '<hr/ class="style">'
+            */
+            var tip =  Array.isArray(tips) ? tips.join("") : tips;
+            $('#stepscontent').append(
+              '<ul id="listofcommands"></ul>'
             );
           }
           if(commands.length > 0 && Array.isArray(commands)){
@@ -1169,7 +1171,6 @@
     +   '<div class="row">'
     +     '<div id="steps_section" class="col-xs-12">'
     +       '<div id="steptitle"></div>'
-    +       '<hr/ class="style">'
     +       '<div id="stepscontent"></div>'
     +       '<div id="moreinfo"></div>'
     +       '<br/><br/>'
@@ -1180,7 +1181,7 @@
     +     '<div id="terminal_section" class="col-xs-12">'
 
     +       '<div class="row">'
-    +         '<div id="terminal-parent">'
+    +         '<div id="terminal-parent" class="col-xs-12">'
     +           '<div id="terminal" class="col-xs-12 heightTerminal"></div>'
     +         '</div>'
     +       '</div>'
@@ -1270,7 +1271,7 @@
 
     var heightContent = heightContentParent;
 
-    $("#steps_section").css("height",opts.heightTerminal + "px");
+    //$("#steps_section").css("height",opts.heightTerminal + "px");
     $("#editor-content-parent").css("height",heightContentParent + "px");
     $("#editor-content").css("height",heightContent + "px");
 
