@@ -12,8 +12,7 @@
   },
   "keywords": [
     "terminal",
-    "rust",
-    "ffi"
+    "python"
   ],
   "author": "Willy Aguirre",
   "license": "MIT",
@@ -22,6 +21,6 @@
   },
   "homepage": "https://github.com/twitter/cli-guide.js#readme",
   "dependencies": {
-    "express": "^4.13.3"
+    "restify": "*"
   }
 }
