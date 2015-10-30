@@ -1,7 +1,15 @@
-var restify = require('restify');
-var child_process = require('child_process');
+var restify       = require('restify'),
+    child_process = require('child_process'),
+    fs            = require('fs');
 
 function respond(req, res, next) {
+  // create a new file
+  fs.writeFile("message.txt", "Hello Node.js", function(err) {
+      if(err) {
+          return console.log(err);
+      }
+      console.log("The file was saved!");
+  });
   //req.params.code
   child_process.exec('python hw.py', function (err, stdout, stderr){
       if (err) {
