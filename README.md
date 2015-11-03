@@ -3,8 +3,6 @@
 [![npm version](http://marti1125.webfactional.com/npm.svg)](https://www.npmjs.com/package/cli-guide.js)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/twitter/cli-guide.js/master/LICENSE)
 
-> [GSoC 2015 Project](http://www.google-melange.com/gsoc/project/details/google/gsoc2015/marti1125/5757334940811264)
-
 > A Javascript library for creating interactive command line tutorials that run in your web browser.
 
 Necessary Files
@@ -14,12 +12,6 @@ Necessary Files
 
 * [jQuery](https://jquery.com/download/)
 * [Prism](http://prismjs.com/download.html)
-
-### Fonts
-
-* [Segoe UI Symbol Regular](http://openfontlibrary.org/en/font/segoe-ui-symbol)
-* [Code New Roman Regular](http://openfontlibrary.org/en/font/code-new-roman)
-
 
 Demos
 -----
@@ -95,17 +87,6 @@ Documentation
        "content": "print(\"Hello World!\")"
      }
     ]
-
-Components
--------------
-
-#### Terminal
-
-![terminal](https://raw.github.com/twitter/cli-guide.js/master/terminal.gif)
-
-#### Nano Editor
-
-![nano editor](https://raw.github.com/twitter/cli-guide.js/master/nano.gif)
 
 Build
 -------------
