@@ -31,7 +31,7 @@ hr.style {
 
 /* Steps Numbers Section */
 .steps-numbers-section {
-  background-color: #F4F4F4;
+  //background-color: #F4F4F4;
   border-bottom: 1px solid #A6A6A6;
 }
 
@@ -49,8 +49,8 @@ li.step a {
   background: #dddddd;
 	margin-left: 20px;
   border-radius: 50%;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
   padding-top: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid #7F7F7F;
@@ -59,12 +59,14 @@ li.step a {
 
 /* steps */
 #steps_section {
+  padding-left: 3%;
   font-family: 'SegoeUISymbol', Helvetica, sans-serif;
-  //right: -10px;
-  overflow: auto;
 }
 
-
+#steps_section_content {
+  right: -10px;
+  overflow: auto;
+}
 
 #stepscontent {
   text-align: left;
@@ -211,7 +213,7 @@ a.skip-b:hover, a.skip-b:visited, a.skip-b:active {
   resize: none;
   width: 100%;
   overflow-y: scroll;
-  //right: -30px;
+  right: -30px;
 }
 
 #editor-parent {

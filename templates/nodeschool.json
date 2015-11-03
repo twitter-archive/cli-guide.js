@@ -1,0 +1,24 @@
+[
+  {
+    "step": "1",
+    "content": {
+      "title": "HELLO WORLD (Exercise 1 of 13)",
+      "body": [
+        "Write a program that prints the text \"HELLO WORLD\" to the console (stdout)."
+      ],
+      "hits": [
+        {"body":[
+          "To make a Node.js program, create a new file with a .js extension and start writing JavaScript!",
+          "Execute your program by running it with the node command. e.g.:"
+        ]},
+        {"command": "nano"},
+        {"body":[
+          "with the following content: console.log(\"text\")",
+          "and save file with name: program.js"
+        ]},
+        {"body": "When you are done, you must run:"},
+        {"command": "learnyounode verify program.js"}
+      ]
+    }
+  }
+]
