@@ -8,7 +8,13 @@ var gulp          = require('gulp'),
     uglify        = require('gulp-uglify'),
     del           = require('del'),
     express       = require('express'),
-    browserSync   = require('browser-sync');
+    browserSync   = require('browser-sync'),
+    paths = {
+        scripts: 'src/*.js',
+        styles: 'src/*.css',
+        fonts: '*.{ttf, otf}',
+        res: ['package.json','README.md','LICENSE','nano.gif','terminal.gif']
+    };
 
 var about = "/*  \n"   +
               "cli-guide plugin \n"  +
@@ -31,30 +37,30 @@ gulp.task('clean', function() {
 });
 
 gulp.task('publish', function() {
-  return gulp.src(['package.json','README.md','LICENSE','nano.gif','terminal.gif'])
+  return gulp.src(paths.res)
          .pipe(gulp.dest('dist'));
 });
 
 gulp.task('copy-original-files', function() {
-  return gulp.src('src/*.{css,js,ttf,otf}')
+  return gulp.src([paths.scripts, paths.styles, paths.fonts])
          .pipe(gulp.dest('dist'));
 });
 
 gulp.task('minify-css', function() {
-  return gulp.src('src/*.css')
+  return gulp.src(paths.styles)
          .pipe(minifyCss())
          .pipe(gulp.dest('dist'))
          .pipe(reload());
 });
 
 gulp.task('lint', function() {
-  return gulp.src(['src/*.js'])
+  return gulp.src([paths.scripts])
          .pipe(jshint())
          .pipe(jshint.reporter('default'));
 });
 
 gulp.task('minify-js', function() {
-  return gulp.src('src/*.js')
+  return gulp.src(paths.scripts)
          .pipe(uglify())
          .pipe(rename({suffix: '.min'}))
          .pipe(header(about))
