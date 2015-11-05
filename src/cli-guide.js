@@ -1182,6 +1182,9 @@
 
     +       '<div class="row">'
     +         '<div id="terminal-parent" class="col-xs-12">'
+    +           '<div id="terminal-header" class="col-xs-12">'
+    +             '<ul id="terminal-header-buttons"><li id="hbtn-close"></li><li id="hbtn-min"></li><li id="hbtn-max"></li></ul>'
+    +           '</div>'
     +           '<div id="terminal" class="col-xs-12 heightTerminal"></div>'
     +         '</div>'
     +       '</div>'

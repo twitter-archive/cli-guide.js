@@ -95,8 +95,6 @@ div.stepcontent {
 	background-color: white;
 }
 
-
-
 .not-active {
    pointer-events: none;
    cursor: default;
@@ -197,12 +195,51 @@ a.skip-b:hover, a.skip-b:visited, a.skip-b:active {
   color: white;
 }
 
-#terminal_section {
-}
-
 #terminal-parent {
   overflow: hidden;
 }
+
+#terminal-header {
+  background-color: #F4F4F4;
+  border-bottom: 1px solid #A6A6A6;
+  border-left: 1px solid #A6A6A6;
+  height: 3rem;
+  right: -30px;
+  width: 100%;
+  padding-top: 6px;
+}
+
+#terminal-header-buttons {
+  padding: 0;
+  margin: 0;
+}
+
+#terminal-header-buttons li{
+  display: inline-block;
+  text-decoration: none;
+	margin-right: 10px;
+  border-radius: 50%;
+  padding: 6px 6px 6px 6px;
+}
+
+#hbtn-close {
+  background: #FF4040;
+  color: #FF4040;
+  border: 1px solid #CD2626;
+}
+
+#hbtn-min {
+  background: #FFD700;
+  color: #FFD700;
+  border: 1px solid #EEC900;
+}
+
+#hbtn-max {
+  background: #00C957;
+  color: #00C957;
+  border: 1px solid #3D9140;
+}
+
 
 #terminal {
   background-color: black;
