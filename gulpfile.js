@@ -16,12 +16,12 @@ var gulp          = require('gulp'),
         res: ['package.json','README.md','LICENSE','nano.gif','terminal.gif']
     };
 
-var about = "/*  \n"   +
-              "cli-guide plugin \n"  +
-              "Original author: @willrre \n"  +
-              "Further changes, comments: @willrre \n"  +
-              "Licensed under the MIT license \n"  +
-              "*/\n\n";
+var about =  "/*  \n"   +
+              " * cli-guide plugin \n"  +
+              " * Original author: @willrre \n"  +
+              " * Further changes, comments: @willrre \n"  +
+              " * Licensed under the MIT license \n"  +
+              " */\n\n";
 
 var server;
 
@@ -83,4 +83,6 @@ gulp.task('watch', function() {
   gulp.watch(['./src/*'], ['minify-js','minify-css']);
 });
 
-gulp.task('default', ['build', 'watch', 'server']);
+gulp.task('default', ['build']);
+
+gulp.task('develop', ['build', 'watch', 'server']);
