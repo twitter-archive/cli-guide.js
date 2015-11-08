@@ -5,16 +5,18 @@
 	<title>CLI Guide JS</title>
 	<link rel="stylesheet" type="text/css" href="./libs/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="./libs/prism.css" />
-	<link rel="stylesheet" type="text/css" href="./src/cli-guide.css" />
+	<link rel="stylesheet" type="text/css" href="./dist/cli_guide.css" />
 </head>
 <body>
 	<div id="stepsdiv"></div>
 	<script type="text/javascript" src="./libs/jquery-1.11.3.min.js"></script>
 	<script type="text/javascript" src="./libs/prism.js"></script>
-	<script type="text/javascript" src="./src/cli-guide.js" ></script>
+	<script type="text/javascript" src="./dist/cli_guide.min.js" ></script>
 	<script type="text/javascript">
 
-		$('#stepsdiv').cliguide(
+		$('#stepsdiv').cli_guide();
+
+		/*$('#stepsdiv').cliguide(
 		{
 			nameOfTheProject: 'Apache Aurora'
 		}
@@ -27,7 +29,7 @@
 			preloadfile: 'templates/apache_aurora_files.json'
 		},
 		function(){
-		});
+		});*/
 
 	</script>
 

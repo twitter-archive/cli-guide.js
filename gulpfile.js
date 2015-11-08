@@ -1,6 +1,7 @@
 var gulp          = require('gulp'),
     gutil         = require('gulp-util'),
-    header        = require('gulp-header');
+    header        = require('gulp-header'),
+    concat        = require('gulp-concat'),
     runSequence   = require('run-sequence'),
     rename        = require('gulp-rename'),
     minifyCss     = require('gulp-minify-css'),
@@ -10,14 +11,18 @@ var gulp          = require('gulp'),
     express       = require('express'),
     browserSync   = require('browser-sync'),
     paths = {
-        scripts: 'src/*.js',
-        styles: 'src/*.css',
-        fonts: '*.{ttf, otf}',
-        res: ['package.json','README.md','LICENSE','nano.gif','terminal.gif']
+        dist: './dist/',
+        styles: './src/*.css',
+        fonts: './src/*.{ttf,otf}',
+        res: ['LICENSE'],
+        template: './templates/**',
+        scripts: ['./src/head.js','./src/init_var.js','./src/util.js','./src/cli.js',
+                        './src/events.js','./src/defaults.js','./src/init.js',
+                        './src/foot.js']
     };
 
 var about =  "/*  \n"   +
-              " * cli-guide plugin \n"  +
+              " * cli_guide plugin \n"  +
               " * Original author: @willrre \n"  +
               " * Further changes, comments: @willrre \n"  +
               " * Licensed under the MIT license \n"  +
@@ -33,38 +38,40 @@ function reload() {
 }
 
 gulp.task('clean', function() {
-  return del(['dist']);
+  return del([paths.dist]);
 });
 
 gulp.task('publish', function() {
   return gulp.src(paths.res)
-         .pipe(gulp.dest('dist'));
+         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('copy-original-files', function() {
-  return gulp.src([paths.scripts, paths.styles, paths.fonts])
-         .pipe(gulp.dest('dist'));
+gulp.task('copy-fonts', function() {
+  return gulp.src([paths.fonts])
+         .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('minify-css', function() {
+gulp.task('styles', function() {
   return gulp.src(paths.styles)
          .pipe(minifyCss())
-         .pipe(gulp.dest('dist'))
+         .pipe(gulp.dest(paths.dist))
          .pipe(reload());
 });
 
-gulp.task('lint', function() {
-  return gulp.src([paths.scripts])
+/*gulp.task('lint', function() {
+  return gulp.src(['./src/head.js','./src/init_var.js'])
          .pipe(jshint())
          .pipe(jshint.reporter('default'));
-});
+});*/
 
-gulp.task('minify-js', function() {
+gulp.task('scripts', function() {
   return gulp.src(paths.scripts)
+         .pipe(concat('cli_guide.js'))
+         .pipe(gulp.dest(paths.dist))
          .pipe(uglify())
          .pipe(rename({suffix: '.min'}))
          .pipe(header(about))
-         .pipe(gulp.dest('dist'))
+         .pipe(gulp.dest(paths.dist))
          .pipe(reload());
 });
 
@@ -76,11 +83,12 @@ gulp.task('server', function() {
 });
 
 gulp.task('build', function(){
-  runSequence('clean',['minify-css', 'lint', 'minify-js', 'copy-original-files', 'publish']);
+  runSequence('clean',['styles', 'scripts', 'copy-fonts', 'publish']);
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['./src/*'], ['minify-js','minify-css']);
+  gulp.watch(['./src/*.js'], ['scripts']);
+  gulp.watch(['./src/*.css'], ['styles']);
 });
 
 gulp.task('default', ['build']);
