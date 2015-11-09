@@ -8,7 +8,11 @@ var pluginName = "cli_guide",
       commandValidation: "",
       preloadfile: "",
       stepsFile : "",
-      skipsteps: ""
+      skipsteps: "",
+      labels : {
+        next: "Next",
+        skip: "Skip"
+      }
     };
 
 // The actual plugin constructor

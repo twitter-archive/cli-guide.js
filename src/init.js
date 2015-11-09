@@ -126,6 +126,22 @@ Plugin.prototype.init = function () {
 
     //start cli
     Cli.newline("",0);
+
+    // clean each steps
+    Step.clean(options.commandStepsFile);
+
+    //autocompleteCommands(options.commandStepsFile);
+
+    // load commands steps from json
+    //loadStepToLocalStorage(options.commandStepsFile);
+
+    // preload all files from json
+    //File.preLoad(options.preloadfile);
+
+    //listOfSteps(options);
+    Step.list(options.stepsFile);
+    Step.showInfo(options.stepsFile, options.skipsteps, 1);
+
 };
 
 // A really lightweight plugin wrapper around the constructor,
