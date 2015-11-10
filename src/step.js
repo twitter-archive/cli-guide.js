@@ -52,12 +52,12 @@ var Step = {
     }
 
   },
-  getLast: function() { // return an int
+  getLast: function(stepsFile) { // return an int
     var step;
     $.ajaxSetup({
       async: false
     });
-    $.getJSON(opts.stepsFile,function(data){
+    $.getJSON(stepsFile,function(data){
       $.each(data,function(k,v){
         if(v.laststep){
           step = v.step;
@@ -74,7 +74,7 @@ var Step = {
       });
     });
   },
-  skip: function(opts,step){
+  /*skip: function(opts,step){
     $.getJSON(opts.stepsFile,function(data){
       $.each(data,function(k,v){
         if(v.step == step){
@@ -105,7 +105,7 @@ var Step = {
     $("#"+nextstep).removeClass("not-active");
     // switch to next step
     Step.showInfo(opts.stepsFile, opts.skipsteps, nextstep);
-  },
+  },*/
   listTemplate: function(step){
     var not_active = ( step == 1 ) ? "": "not-active";
     $("#listofsteps").append(

@@ -14,10 +14,10 @@ var gulp          = require('gulp'),
         dist: './dist/',
         styles: './src/*.css',
         fonts: './src/*.{ttf,otf}',
-        res: ['LICENSE'],
+        res: ['LICENSE','package.json'],
         template: './templates/**',
         scripts: ['./src/head.js','./src/init_var.js','./src/util.js','./src/step.js','./src/cli.js',
-                        './src/events.js','./src/defaults.js','./src/init.js',
+                  './src/file.js','./src/events.js','./src/defaults.js','./src/init.js',
                         './src/foot.js']
     };
 

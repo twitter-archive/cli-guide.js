@@ -136,11 +136,12 @@ Plugin.prototype.init = function () {
     //loadStepToLocalStorage(options.commandStepsFile);
 
     // preload all files from json
-    //File.preLoad(options.preloadfile);
+    File.preLoad(options.preloadfile);
 
     //listOfSteps(options);
     Step.list(options.stepsFile);
     Step.showInfo(options.stepsFile, options.skipsteps, 1);
+    Step.getLast(options.stepsFile);
 
 };
 
