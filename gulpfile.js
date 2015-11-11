@@ -17,8 +17,9 @@ var gulp          = require('gulp'),
         res: ['LICENSE','package.json'],
         template: './templates/**',
         scripts: ['./src/head.js','./src/init_var.js','./src/util.js','./src/step.js','./src/cli.js',
-                  './src/file.js','./src/events.js','./src/defaults.js','./src/init.js',
-                        './src/foot.js']
+                  './src/utilregexp.js','./src/modal.js','./src/commandvalidation.js','./src/functions.js',
+                  './src/nano.js','./src/nano_events.js','./src/file.js','./src/events.js','./src/defaults.js',
+                  './src/init.js','./src/foot.js']
     };
 
 var about =  "/*  \n"   +

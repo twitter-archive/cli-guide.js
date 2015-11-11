@@ -12,3 +12,4 @@
 // regularly referenced in our plugin).
 var terminal = $("#terminal");
 var id = 0;
+var loghistory = [];
