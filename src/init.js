@@ -124,6 +124,10 @@ Plugin.prototype.init = function () {
     $("#command-x").hide();
     $("#command-save-x").hide();
 
+    // init cli
+    localStorage.setItem("idinput",0);
+    localStorage.setItem("actualdir","");
+
     //start cli
     Cli.newline("",0);
 
@@ -141,7 +145,7 @@ Plugin.prototype.init = function () {
     //listOfSteps(options);
     Step.list(options.stepsFile);
     Step.showInfo(options.stepsFile, options.skipsteps, 1);
-    Step.getLast(options.stepsFile);    
+    Step.getLast(options.stepsFile);
 
 };
 

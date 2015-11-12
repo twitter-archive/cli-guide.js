@@ -152,7 +152,7 @@ var Step = {
     if(commands.length > 0 && Array.isArray(commands)){
       $.each(commands,function(key,val){
         $("#listofcommands").append(
-          '<li> <span class="promptlabel">$ </span>'+val.command+'</li>'
+          '<li> <span class="promptlabel">$ </span><span class="command">'+val.command+'</span></li>'
         );
       });
     }
@@ -160,3 +160,10 @@ var Step = {
     $('#stepscontent').append('<div id="contentimgmodal"><div>');
   }
 };
+
+$(document).on("click",".command",function(){
+  // get actual id of terminal
+  var actualID = parseInt(localStorage.getItem("idinput"))-1;
+  $("#"+actualID+".textinline").text($(this).text());
+  Util.placeCaretAtEnd($("#"+actualID+".textinline").get(0));
+});

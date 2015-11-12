@@ -44,7 +44,7 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
 
     Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
 
-    id++;
+
 
     // print the result of commands
     if(opts.commandStepsFile !== "" && opts.commandValidation !== "") {
@@ -77,6 +77,7 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
     }
 
     if(input.toLowerCase() == "ls") {
+      console.log(id);
       Cli.ls(id);
     }
 
@@ -106,6 +107,8 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
         Cli.newline(input,id);
       });
     }
+
+    id++;
 
   }
 
