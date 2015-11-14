@@ -1,5 +1,5 @@
 $(document).on('click','.btn-step',function(){
-  Step.showInfo(defaults.stepsFile, defaults.skipsteps,$(this).data('step'));
+  Step.showInfo($(this).data('step'));
 }).on('mouseup','.btn-step',function(){
   $("#"+defaults.initStep+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
   $(this).css({"background-color": "#8F8F8F", "color": "white"});
@@ -11,8 +11,8 @@ $(document).on('click','#skip',function(){
 
 $(document).on('click','#finish',function(){
   var nextstep = $(this).data('nextstep');
-  Step.showInfo(defaults.stepsFile, defaults.skipsteps, nextstep);
-  $("#"+nextstep).removeClass("not-active");
+  Step.showInfo(nextstep);
+  //$("#"+nextstep).removeClass("not-active");
 });
 
 $(document).on('click','.modalimage',function(){

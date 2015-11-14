@@ -2,6 +2,7 @@
   {
     "step": "1",
     "content": {
+      "step": "1",
       "title": "Setup: Install Aurora",
       "body": [
         " You use the Aurora client and web UI to interact with Aurora jobs. ",
@@ -24,6 +25,7 @@
   {
     "step": "2",
     "content": {
+      "step": "2",
       "title": "Initial Configuration",
       "body": [
         " <h3>The Script</h3> ",
@@ -58,6 +60,7 @@
   {
     "step": "3",
     "content": {
+      "step": "3",
       "title": "Creating the Job",
       "body": [
         " We’re ready to launch our job! To do so, we use the Aurora Client to issue a  ",
@@ -83,6 +86,7 @@
   {
     "step": "4",
     "content": {
+      "step": "4",
       "title": "Watching the Job Run",
       "body": [
         " Now that our job is running, let’s see what it’s doing. Access the scheduler web interface at  ",
@@ -123,6 +127,7 @@
   {
     "step": "5",
     "content": {
+      "step": "5",
       "title": "Cleanup",
       "body": [
         " Now that we’re done, we kill the job using the Aurora client. <br/> ",

@@ -1,4 +1,23 @@
 var ParseJson = {
+  loadSteps: function(file){
+    localStorage.setItem("stepsFile",false);
+    if(file !== ""){
+      localStorage.setItem("stepsFile",true);
+    }
+    $.getJSON(file,function(data){
+      $.each(data,function(key,val){
+        localStorage.setItem(val.content.step,
+          JSON.stringify(
+          {
+             step: val.content.step,
+             title: val.content.title,
+             body: val.content.body,
+             commands: val.content.commands
+          })
+        );
+      });
+    });
+  },
   loadCommands: function(file){
     localStorage.setItem("commandStepsFile",false);
     if(file !== ""){

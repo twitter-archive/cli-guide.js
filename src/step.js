@@ -10,9 +10,13 @@ var Step = {
       Step.listTemplate(1);
     }
   },
-  showInfo: function(stepsFile, skipsteps, step){
+  showInfo: function(step){ //stepsFile, skipsteps,
+    if(localStorage.getItem(step) !== null){
+      var object  = JSON.parse(localStorage.getItem(step));
+      Step.showInfoTemplate(object.title,object.body,object.commands);
+    }
     // select current step
-    if(stepsFile !== ""){
+    /*if(stepsFile !== ""){
       localStorage.setItem('actualstep',step);
       var skipStepArray = JSON.parse("[" + skipsteps + "]");
 
@@ -49,7 +53,7 @@ var Step = {
       Step.showInfoTemplate(1,1,"","CLI-Guide.js","A javascript library for creating interactive "+
       "command line tutorials that run in your web browser. ",
                             "tips here!",command,"");
-    }
+    }*/
 
   },
   getLast: function(stepsFile) { // return an int
@@ -107,7 +111,7 @@ var Step = {
     Step.showInfo(opts.stepsFile, opts.skipsteps, nextstep);
   },
   listTemplate: function(step){
-    var not_active = ( step == 1 ) ? "": "not-active";
+    var not_active = ( step == 1 ) ? "": ""; //not-active
     $("#listofsteps").append(
       '<li class="step">'
     +   '<a id="'+step+'" class="btn-step '+not_active+'" href="#" data-step="'+step+'">'
@@ -116,19 +120,36 @@ var Step = {
     + '</li>'
     );
   },
-  showInfoTemplate: function(ustep,step,skipStepArray,title,content,tips,commands,moreinfo) {
+  showInfoTemplate: function(title,body,commands) { //ustep,step,skipStepArray,title,content,tips,commands,moreinfo
     $("#stepscontent").html('');
-    content = Array.isArray(content) ? content.join("") : content;
+
+    $("#steptitle").html("<h3>"+title+"</h3>");
+
+    var content = Array.isArray(body) ? body.join("") : body;
+    $("#stepscontent").append('<p>'+content+'</p>');
+
+    if(commands.length > 0 && Array.isArray(commands)){
+      $('#stepscontent').append(
+        '<ul id="listofcommands"></ul>'
+      );
+      $.each(commands,function(key,val){
+        $("#listofcommands").append(
+          '<li> <span class="promptlabel">$ </span><span class="command">'+val.command+'</span></li>'
+        );
+      });
+    }
+
+    /*content = Array.isArray(content) ? content.join("") : content;
     $("#"+step+".btn-step").addClass("active");
     $("#steptitle").html("<h3>"+step+" - "+title+"</h3>");
     var nextstep = ( (ustep + 1) > Step.getLast() ) ? Step.getLast() : ustep + 1;
     var skip = '';
-    for (var i = 0; i < skipStepArray.length; i++) {
+    /*for (var i = 0; i < skipStepArray.length; i++) {
       if(ustep == skipStepArray[i]){
         skip = '<a href="#" id="skip" class="skip-b" data-step="'+ustep+'">skip</a>';
       }
-    }
-    $("#stepscontent").append(
+    }*/
+    /*$("#stepscontent").append(
       '<h3><a href="#" id="finish" data-nextstep="'+nextstep+'" data-step="'+ustep+'"></a>' +
       skip +
       '</h3>' +
@@ -144,7 +165,7 @@ var Step = {
       + '<p>'+tip+'</p>'
       '<hr/ class="style">'
       */
-      var tip =  Array.isArray(tips) ? tips.join("") : tips;
+      /*var tip =  Array.isArray(tips) ? tips.join("") : tips;
       $('#stepscontent').append(
         '<ul id="listofcommands"></ul>'
       );
@@ -157,7 +178,7 @@ var Step = {
       });
     }
     // for image modal
-    $('#stepscontent').append('<div id="contentimgmodal"><div>');
+    $('#stepscontent').append('<div id="contentimgmodal"><div>');*/
   }
 };
 

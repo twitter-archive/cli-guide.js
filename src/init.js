@@ -144,11 +144,16 @@ Plugin.prototype.init = function () {
 
     //listOfSteps(options);
     Step.list(options.stepsFile);
-    Step.showInfo(options.stepsFile, options.skipsteps, 1);
+     //options.stepsFile, options.skipsteps,
     Step.getLast(options.stepsFile);
 
     // load command into localstorage
+    ParseJson.loadSteps(options.stepsFile);
+
     ParseJson.loadCommands(options.commandStepsFile);
+
+    // after load
+    Step.showInfo(1);
 
 };
 
