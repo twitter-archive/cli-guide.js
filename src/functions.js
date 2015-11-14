@@ -1,4 +1,5 @@
 function commands(opts,text,id){
+  console.log(text);
   var input = text.trim();
   var result = "";
   var actualStep = localStorage.getItem('actualstep');

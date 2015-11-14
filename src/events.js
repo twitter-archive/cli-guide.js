@@ -42,19 +42,28 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
         +'</code></pre>'
     );
 
-    Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
-
-
-
+    if(localStorage.getItem("commandStepsFile")) {
+      if(localStorage.getItem(input) !== null){
+        Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
+        $('#'+id+'_lang_terminal').html(Cli.result(input,id));
+      } else {
+        Cli.newline(input,id);
+      }
+    } else {
+      if(input.replace(/\s\s+/g,' ') !== "git clone " + input.split(" ").pop()) {
+        $("#"+id+".response").html(''); //remove space
+        Cli.newline(input,id);
+      }
+    }
     // print the result of commands
-    if(opts.commandStepsFile !== "" && opts.commandValidation !== "") {
+    /*if(opts.commandStepsFile !== "" && opts.commandValidation !== "") {
       if(CommandValidation.command(opts.commandValidation,input) !== "" ) {
         $('#'+id+'_lang_terminal').html(CommandValidation.command(opts.commandValidation,input));
         Cli.newline(input,id);
       } else {
         $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
       }
-    } else if(opts.commandStepsFile !== "") {
+    } else if(defaults.commandStepsFile !== "") {
       $('#'+id+'_lang_terminal').html(commands(opts.commandStepsFile,input,id));
     } else {
       // git clone return a new line after finish
@@ -63,7 +72,7 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
         $("#"+id+".response").html(''); //remove space
         Cli.newline(input,id);
       }
-    }
+    }*/
 
     if(input == "nano"){
       $("#"+id+".response").html('');
@@ -77,12 +86,11 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
     }
 
     if(input.toLowerCase() == "ls") {
-      console.log(id);
       Cli.ls(id);
     }
 
     if(input.toLowerCase() == 'clear'){
-      Cli.clear();
+      //Cli.clear();
     }
 
     // list of commands we can't use....

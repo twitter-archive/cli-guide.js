@@ -38,6 +38,24 @@ var Cli = {
     $('[contenteditable]', terminal)[0].focus();
 
   },
+  result: function(input,id){
+    var result_cli = "";
+    if(localStorage.getItem(input) !== null){
+      var object  = JSON.parse(localStorage.getItem(input));
+      var arrayResult = [];
+      if(object.animation){
+        for(var i = 0; i < object.result.length; i++){
+          arrayResult.push('<div id='+id+' class="cline">'+object.result[i]+'</div>');
+        }
+        result_cli = arrayResult;
+      } else {
+        result_cli = object.result;
+      }
+      return result_cli;
+    } else {
+      return result_cli;
+    }
+  },
   ls: function(id){
     $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
   },

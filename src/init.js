@@ -147,6 +147,9 @@ Plugin.prototype.init = function () {
     Step.showInfo(options.stepsFile, options.skipsteps, 1);
     Step.getLast(options.stepsFile);
 
+    // load command into localstorage
+    ParseJson.loadCommands(options.commandStepsFile);
+
 };
 
 // A really lightweight plugin wrapper around the constructor,
