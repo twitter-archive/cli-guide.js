@@ -18,7 +18,8 @@
         {"command":"git clone git://git.apache.org/aurora.git"},
         {"command":"cd aurora"},
         {"command":"vagrant up"}
-      ]
+      ],
+      "laststep": false
     },
     "laststep": false
   },
@@ -53,7 +54,8 @@
       "tips": " Write the following command for see these files and open with <span class=\"editor-b\">nano editor</span> ",
       "commands": [
         {"command":"ls"}
-      ]
+      ],
+      "laststep": false
     },
     "laststep": false
   },
@@ -79,7 +81,8 @@
         {"command":"vagrant ssh"},
         {"command":"cat /etc/aurora/clusters.json"},
         {"command":"aurora job create devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
-      ]
+      ],
+      "laststep": false
     },
     "laststep": false
   },
@@ -120,7 +123,8 @@
       "commands": [
         {"command":"nano hello_world.py"},
         {"command":"aurora update start devcluster/www-data/devel/hello_world /vagrant/hello_world.aurora"}
-      ]
+      ],
+      "laststep": false
     },
     "laststep": false
   },
@@ -137,7 +141,8 @@
       "tips": "Run this command",
       "commands": [
         {"command":"aurora job killall devcluster/www-data/devel/hello_world"}
-      ]
+      ],
+      "laststep": true
     },
     "laststep": true
   }

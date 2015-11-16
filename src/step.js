@@ -13,7 +13,7 @@ var Step = {
   showInfo: function(step){ //stepsFile, skipsteps,
     if(localStorage.getItem(step) !== null){
       var object  = JSON.parse(localStorage.getItem(step));
-      Step.showInfoTemplate(object.title,object.body,object.commands);
+      Step.showInfoTemplate(object.step,object.title,object.body,object.commands);
     }
     // select current step
     /*if(stepsFile !== ""){
@@ -56,19 +56,8 @@ var Step = {
     }*/
 
   },
-  getLast: function(stepsFile) { // return an int
-    var step;
-    $.ajaxSetup({
-      async: false
-    });
-    $.getJSON(stepsFile,function(data){
-      $.each(data,function(k,v){
-        if(v.laststep){
-          step = v.step;
-        }
-      });
-    });
-    return step;
+  getLast: function() { // return an int
+    return localStorage.getItem("laststep");
   },
   clean: function(opts){
     $.getJSON(opts,function(data){
@@ -120,10 +109,17 @@ var Step = {
     + '</li>'
     );
   },
-  showInfoTemplate: function(title,body,commands) { //ustep,step,skipStepArray,title,content,tips,commands,moreinfo
+  showInfoTemplate: function(step,title,body,commands) { //ustep,step,skipStepArray,title,content,tips,commands,moreinfo
+
+    var nextstep = ( (parseInt(step) + 1) > Step.getLast() ) ? Step.getLast() : parseInt(step) + 1;
+
     $("#stepscontent").html('');
 
-    $("#steptitle").html("<h3>"+title+"</h3>");
+    var val_next_finish = (step === Step.getLast()) ? "Finish" : "Next";
+
+    $("#steptitle").html(
+      '<h3>'+title+'<a href="#" id="next_finish" class="next_finish" data-nextstep="'+nextstep+'" data-step="'+step+'">'+val_next_finish+'</a></h3>'
+    );
 
     var content = Array.isArray(body) ? body.join("") : body;
     $("#stepscontent").append('<p>'+content+'</p>');

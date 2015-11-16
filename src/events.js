@@ -9,7 +9,7 @@ $(document).on('click','#skip',function(){
   Step.skip(defaults,$(this).data('step'));
 });
 
-$(document).on('click','#finish',function(){
+$(document).on('click','#next_finish',function(){
   var nextstep = $(this).data('nextstep');
   Step.showInfo(nextstep);
   //$("#"+nextstep).removeClass("not-active");

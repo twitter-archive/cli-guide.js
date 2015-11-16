@@ -6,6 +6,10 @@ var ParseJson = {
     }
     $.getJSON(file,function(data){
       $.each(data,function(key,val){
+        if(val.laststep){
+          // get last step
+          localStorage.setItem("laststep",val.step);
+        }
         localStorage.setItem(val.content.step,
           JSON.stringify(
           {

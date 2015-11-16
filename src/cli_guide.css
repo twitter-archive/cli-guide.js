@@ -124,6 +124,21 @@ span.promptlabel {
   color: white !important;
 }
 
+.next_finish {
+  border: 1px solid #008B00;
+  border-radius: 3px;
+  background: #00CD00;
+  padding: 3px;
+  color: white;
+  float: right;
+}
+
+a.next_finish:hover, a.next_finish:visited, a.next_finish:active {
+  color: white;
+  text-decoration: none;
+}
+
+
 .skip-b {
   border: 1px solid #696969;
   border-radius: 3px;
