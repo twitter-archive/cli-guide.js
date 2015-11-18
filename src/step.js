@@ -113,12 +113,22 @@ var Step = {
 
     var nextstep = ( (parseInt(step) + 1) > Step.getLast() ) ? Step.getLast() : parseInt(step) + 1;
 
+    // get skip steps
+    var arraySkipSteps = []
+    var skip_section = "";
+    if(localStorage.getItem("skipsteps") != ""){
+      arraySkipSteps = localStorage.getItem("skipsteps").split(',');
+      if(arraySkipSteps[step-1]!== undefined){
+        skip_section = '<a href="#" id="skip" class="skip-b" data-step="'+step+'">Skip</a>';
+      }
+    }
+
     $("#stepscontent").html('');
 
     var val_next_finish = (step === Step.getLast()) ? "Finish" : "Next";
 
     $("#steptitle").html(
-      '<h3>'+title+'<a href="#" id="next_finish" class="next_finish" data-nextstep="'+nextstep+'" data-step="'+step+'">'+val_next_finish+'</a></h3>'
+      '<h3>'+title+''+skip_section+'<a href="#" id="next_finish" class="next_finish" data-nextstep="'+nextstep+'" data-step="'+step+'">'+val_next_finish+'</a></h3>'
     );
 
     var content = Array.isArray(body) ? body.join("") : body;

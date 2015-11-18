@@ -1,7 +1,7 @@
-/*!
- * jQuery lightweight plugin boilerplate
- * Original author: @ajpiano
- * Further changes, comments: @addyosmani
+/*
+ * cli-guide plugin
+ * Original author: @willrre
+ * Further changes, comments: @willrre
  * Licensed under the MIT license
  */
 

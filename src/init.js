@@ -124,9 +124,10 @@ Plugin.prototype.init = function () {
     $("#command-x").hide();
     $("#command-save-x").hide();
 
-    // init cli
+    // init cli, localStorage values
     localStorage.setItem("idinput",0);
     localStorage.setItem("actualdir","");
+    localStorage.setItem("skipsteps","");
 
     //start cli
     Cli.newline("",0);
@@ -151,6 +152,11 @@ Plugin.prototype.init = function () {
     ParseJson.loadSteps(options.stepsFile);
 
     ParseJson.loadCommands(options.commandStepsFile);
+
+    // show skip step
+    if(options.skipsteps !== ""){
+      localStorage.setItem("skipsteps",options.skipsteps);
+    }
 
     // after load
     Step.showInfo(1);
