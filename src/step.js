@@ -13,7 +13,7 @@ var Step = {
   showInfo: function(step){ //stepsFile, skipsteps,
     if(localStorage.getItem(step) !== null){
       var object  = JSON.parse(localStorage.getItem(step));
-      Step.showInfoTemplate(object.step,object.title,object.body,object.commands);
+      Step.showInfoTemplate(object.step,object.title,object.body,object.commands,object.moreinfo);
     }
     // select current step
     /*if(stepsFile !== ""){
@@ -109,7 +109,7 @@ var Step = {
     + '</li>'
     );
   },
-  showInfoTemplate: function(step,title,body,commands) { //ustep,step,skipStepArray,title,content,tips,commands,moreinfo
+  showInfoTemplate: function(step,title,body,commands,moreinfo) {
 
     var nextstep = ( (parseInt(step) + 1) > Step.getLast() ) ? Step.getLast() : parseInt(step) + 1;
 
@@ -144,6 +144,14 @@ var Step = {
         );
       });
     }
+
+    if(moreinfo !== ""){
+      moreinfo = Array.isArray(moreinfo) ? moreinfo.join("") : moreinfo;
+      Modal.showInfo("moreinfo",moreinfo);
+    }
+
+    // Modal Container
+    $('#stepscontent').append('<div id="contentimgmodal"><div>');
 
     /*content = Array.isArray(content) ? content.join("") : content;
     $("#"+step+".btn-step").addClass("active");
