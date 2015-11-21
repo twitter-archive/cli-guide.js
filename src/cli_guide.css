@@ -84,6 +84,7 @@ li.step a {
 
 #skip {
   float: right;
+  margin-left: 10px;
 }
 
 code[class*="language-"], pre[class*="language-"] {

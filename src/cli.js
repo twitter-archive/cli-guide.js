@@ -59,10 +59,12 @@ var Cli = {
   ls: function(id){
     $("#"+id+".response").html(localStorage.getItem("files").split(",").join(" "));
   },
-  clear: function(){
+  clear: function(input,id){
     $(".parent-textinline").remove();
     $(".response").remove();
-    Cli.newline("");
+    // init
+    localStorage.setItem("idinput",0);
+    Cli.newline(input,0);
   },
   rm: function(filename){
     if(localStorage.getItem(filename) !== null){

@@ -1,7 +1,8 @@
 $(document).on('click','.btn-step',function(){
-  Step.showInfo($(this).data('step'));
+  var step = $(this).data('step');
+  Step.showInfo(step);
 }).on('mouseup','.btn-step',function(){
-  $("#"+defaults.initStep+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
+  $("#"+step+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
   $(this).css({"background-color": "#8F8F8F", "color": "white"});
 });
 
@@ -24,18 +25,22 @@ $(document).on('click','#editor-content',function(){
   $(this).attr('contenteditable',true);
 });
 
+var id = 0;
+
 $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
 
   if(event.keyCode == 13){
 
     var opts = defaults;
 
+    console.log(localStorage.getItem("idinput"));
     var input = $(this).text().trim();
 
     $(this).removeAttr('contenteditable');
 
-    $(this).removeAttr('contenteditable');
-    $('<p id="'+id+'" class="response">test</p>').appendTo("#"+id+".parent-textinline");
+    //var id = localStorage.getItem("idinput")
+
+    $('<p id="'+id+'" class="response"></p>').appendTo("#"+id+".parent-textinline");
 
     $("#"+id+".response").html(
         '<pre><code id="'+id+'_lang_terminal" class="language-bash">'
@@ -87,10 +92,14 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
 
     if(input.toLowerCase() == "ls") {
       Cli.ls(id);
+      Cli.newline(input,id);
     }
 
     if(input.toLowerCase() == 'clear'){
-      //Cli.clear();
+      Cli.clear(input,id);
+      id = 0;
+    } else {
+      id++;
     }
 
     // list of commands we can't use....
@@ -115,8 +124,6 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
         Cli.newline(input,id);
       });
     }
-
-    id++;
 
   }
 
