@@ -5,7 +5,6 @@ var gulp          = require('gulp'),
     runSequence   = require('run-sequence'),
     rename        = require('gulp-rename'),
     minifyCss     = require('gulp-minify-css'),
-    jshint        = require('gulp-jshint'),
     uglify        = require('gulp-uglify'),
     del           = require('del'),
     express       = require('express'),
@@ -59,12 +58,6 @@ gulp.task('styles', function() {
          .pipe(reload());
 });
 
-/*gulp.task('lint', function() {
-  return gulp.src(['./src/head.js','./src/init_var.js'])
-         .pipe(jshint())
-         .pipe(jshint.reporter('default'));
-});*/
-
 gulp.task('scripts', function() {
   return gulp.src(paths.scripts)
          .pipe(concat('cli_guide.js'))
@@ -92,6 +85,6 @@ gulp.task('watch', function() {
   gulp.watch(['./src/*.css'], ['styles']);
 });
 
-gulp.task('default', ['build']);
+gulp.task('default', ['build']); // is for publish
 
 gulp.task('develop', ['build', 'watch', 'server']);

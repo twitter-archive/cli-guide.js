@@ -6,7 +6,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node_modules/gulp/bin/gulp default"
   },
   "repository": {
     "type": "git",
@@ -35,7 +36,6 @@
     "run-sequence": "*",
     "gulp-rename": "*",
     "gulp-minify-css": "*",
-    "gulp-jshint": "*",
     "gulp-uglify": "*",
     "del": "*",
     "express": "*",
