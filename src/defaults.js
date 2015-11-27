@@ -3,7 +3,7 @@ var pluginName = "cli_guide",
     defaults = {
       welcomeMessage: 'Welcome to the interactive tutorial',
       nameOfTheProject: 'CLI-Guide.JS',
-      heightTerminal: window.innerHeight,
+      heightTerminal: window.innerHeight-30,
       commandStepsFile: "",
       commandValidation: "",
       preloadfile: "",
