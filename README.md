@@ -24,14 +24,14 @@ Necessary Files
 Demos
 -----
 
-* [Apache Aurora](http://twitter.github.io/cli-guide.js/demo/aurora.html)
+* [Apache Aurora](http://twitter.github.io/cli-guide.js/tutorials/aurora.html)
 
 
 Documentation
 -------------
 
 #### Example
-
+```javascript
     $('#stepsdiv').cliguide({
         nameOfTheProject: 'Apache Aurora'
     }).cli({
@@ -43,7 +43,7 @@ Documentation
     }, function(){
         //Codes in here will be runned after CLI functions run
     });
-
+```
 #### Options
 
 | Property | Description | Required |
@@ -57,7 +57,7 @@ Documentation
 #### The structure of .json files
 
 #### stepsFile
-
+```json
     [
       {
         "step": "0",
@@ -73,18 +73,18 @@ Documentation
         }
       }
     ]
-
+```
 #### commandStepsFile
-
+```json
     [
       {
     	  "command":"hello world!",
     	  "result": "test...."
       }
     ]
-
+```
 #### preloadfile
-
+```json
     [
      {
        "name":"test.txt",
@@ -95,7 +95,7 @@ Documentation
        "content": "print(\"Hello World!\")"
      }
     ]
-
+```
 Components
 -------------
 
