@@ -2,8 +2,9 @@ $(document).on('click','.btn-step',function(){
   var step = $(this).data('step');
   Step.showInfo(step);
 }).on('mouseup','.btn-step',function(){
-  $("#"+step+".btn-step").css({"background-color": "#8F8F8F", "color": "white"});
-  $(this).css({"background-color": "#8F8F8F", "color": "white"});
+  var step = $(this).data('step');
+  $("#"+step+".btn-step").css({"background-color": "#8F8F8F", "color": "white", "border": "1px solid #525252"});
+  $(this).css({"background-color": "#8F8F8F", "color": "white", "border": "1px solid #525252"});
 });
 
 $(document).on('click','#skip',function(){
