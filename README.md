@@ -116,6 +116,6 @@ Build
 License
 -------
 
-Copyright 2015 Twitter, Inc.
+Copyright 2015 Willy Aguirre
 
 Licensed under the MIT License
