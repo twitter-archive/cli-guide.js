@@ -8,13 +8,13 @@ $(document).on('click','.btn-step',function(){
 });
 
 $(document).on('click','#skip',function(){
-  Step.skip(defaults,$(this).data('step'));
+  Step.skip($(this).data('step'));
 });
 
-$(document).on('click','#next_finish',function(){
+$(document).on('click','#btn_next_finish',function(){
   var nextstep = $(this).data('nextstep');
   Step.showInfo(nextstep);
-  //$("#"+nextstep).removeClass("not-active");
+  $("#"+nextstep).removeClass("not-active");
 });
 
 $(document).on('click','.modalimage',function(){

@@ -67,40 +67,29 @@ var Step = {
       });
     });
   },
-  skip: function(opts,step){
-    $.getJSON(opts.stepsFile,function(data){
-      $.each(data,function(k,v){
-        if(v.step == step){
-          if(v.content.commands.length > 0){
-            $.each(v.content.commands,function(key,val){
-              var object  = JSON.parse(localStorage.getItem("step-"+val.command));
-              localStorage.setItem("step-"+val.command,
-              JSON.stringify(
-                {step:object.step,
-                 command:object.command,
-                 type:object.type,
-                 depend: object.depend,
-                 done:true,
-                 animation: object.animation,
-                 lastCommand: object.lastCommand
-                }));
-            });
-          }
-        }
-      });
-    });
-    localStorage.setItem(step,true);
+  skip: function(step){
+    // skip a step
+    var current_step = JSON.parse(localStorage.getItem(step));
+    localStorage.setItem(step,
+      JSON.stringify(
+      {
+         step: current_step.step,
+         title: current_step.title,
+         body: current_step.body,
+         moreinfo: (current_step.moreinfo === undefined) ? "" : current_step.moreinfo,
+         commands: current_step.commands,
+         done: true
+      })
+    );
+    // switch to the next step
     var nextstep = step+1;
-    var $finish = $("#finish[data-step="+step+"]");
-    $finish.addClass("ok-b");
-    $finish.html("Next ✓");
-    // enable the next step
+    Step.showInfo(nextstep);
+    // remove not-active class
     $("#"+nextstep).removeClass("not-active");
-    // switch to next step
-    Step.showInfo(opts.stepsFile, opts.skipsteps, nextstep);
+    $("#"+step+".btn-step").css({"background-color": "#8F8F8F", "color": "white", "border": "1px solid #525252"});
   },
   listTemplate: function(step){
-    var not_active = ( step == 1 ) ? "": ""; //not-active
+    var not_active = ( step == 1 ) ? "": "not-active"; //
     $("#listofsteps").append(
       '<li class="step">'
     +   '<a id="'+step+'" class="btn-step '+not_active+'" href="#" data-step="'+step+'">'
@@ -125,10 +114,10 @@ var Step = {
 
     $("#stepscontent").html('');
 
-    var val_next_finish = (step === Step.getLast()) ? "Finish" : "Next";
+    var val_next_finish = (step === Step.getLast()) ? "Finish ✓" : "Next ✓";
 
     $("#steptitle").html(
-      '<h3>'+title+''+skip_section+'<a href="#" id="next_finish" class="next_finish" data-nextstep="'+nextstep+'" data-step="'+step+'">'+val_next_finish+'</a></h3>'
+      '<h3>'+title+''+skip_section+'<a href="#" id="btn_next_finish" class="next_finish" data-nextstep="'+nextstep+'" data-step="'+step+'">'+val_next_finish+'</a></h3>'
     );
 
     var content = Array.isArray(body) ? body.join("") : body;
@@ -152,6 +141,8 @@ var Step = {
 
     // Modal Container
     $('#stepscontent').append('<div id="contentimgmodal"><div>');
+
+    $(".next_finish").hide();
 
     /*content = Array.isArray(content) ? content.join("") : content;
     $("#"+step+".btn-step").addClass("active");

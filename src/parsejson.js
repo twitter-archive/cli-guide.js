@@ -17,7 +17,8 @@ var ParseJson = {
              title: val.content.title,
              body: val.content.body,
              moreinfo: (val.content.moreinfo === undefined) ? "" : val.content.moreinfo,
-             commands: val.content.commands
+             commands: val.content.commands,
+             done: false
           })
         );
       });
