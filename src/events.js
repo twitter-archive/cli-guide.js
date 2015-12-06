@@ -32,14 +32,9 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
 
   if(event.keyCode == 13){
 
-    var opts = defaults;
-
-    console.log(localStorage.getItem("idinput"));
     var input = $(this).text().trim();
 
     $(this).removeAttr('contenteditable');
-
-    //var id = localStorage.getItem("idinput")
 
     $('<p id="'+id+'" class="response"></p>').appendTo("#"+id+".parent-textinline");
 
@@ -49,6 +44,65 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
     );
 
     if(localStorage.getItem("commandStepsFile")) {
+      if(localStorage.getItem(input) !== null){
+        Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
+        $('#'+id+'_lang_terminal').html(Cli.result(input,id+1));
+      } else {
+        console.log("ff");
+        Cli.newline(input,id+1);
+      }
+    } else {
+      if(input.replace(/\s\s+/g,' ') !== "git clone " + input.split(" ").pop()) {
+        $("#"+id+".response").html(''); //remove space
+        Cli.newline(input,id+1);
+      }
+    }
+
+    // show the animation
+    if($("#"+id+".cline").length > 0){
+      $("#"+id+".cline").css({'display':'none'});
+      $.each($("#"+id+".cline"), function(i, el){
+        $(el).delay(400*i).fadeIn("slow");
+      }).promise().done(function(){
+        Cli.newline(input,id+1);
+      });
+    }
+
+    id++;
+
+    if(input.replace(/\s\s+/g,' ') == "git clone " + input.split(" ").pop()) {
+      // git clone
+      Cli.gitClone(input,id-1);
+      console.log("here...");
+    } else if(input.toLowerCase() == "ls") {
+      Cli.ls(id-1); // for get the previous response div
+      Cli.newline(input,id);
+    } else if(input.toLowerCase() == 'clear'){
+      Cli.clear(input,id);
+      id = 0;
+    } else {
+      Cli.newline(input,id);
+    }
+
+    // delete file remove a key from LocalStorage issue #81
+    if(input.replace(/\s\s+/g,' ') == "rm -r " + input.split(" ").pop()) {
+      Cli.rm(input.split(" ").pop());
+    }
+
+    // NANO EDITOR
+    // return a new line
+    if(input == "nano"){
+      $("#"+id+".response").html('');
+      Nano.open();
+    }
+    if(input.replace(/\s\s+/g,' ') == "nano " + input.split(" ").pop()){
+      $("#"+id+".response").html('');
+      var filename = input.split(" ").pop();
+      Nano.openFile(filename);
+    }
+
+
+    /*if(localStorage.getItem("commandStepsFile")) {
       if(localStorage.getItem(input) !== null){
         Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
         $('#'+id+'_lang_terminal').html(Cli.result(input,id));
@@ -80,7 +134,7 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
       }
     }*/
 
-    if(input == "nano"){
+    /*if(input == "nano"){
       $("#"+id+".response").html('');
       Nano.open();
     }
@@ -124,7 +178,9 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
       }).promise().done(function(){
         Cli.newline(input,id);
       });
-    }
+    }*/
+
+
 
   }
 

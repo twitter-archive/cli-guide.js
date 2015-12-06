@@ -6,9 +6,12 @@ var Cli = {
 
     localStorage.setItem("loghistory",loghistory);
 
-    var idinput = parseInt(localStorage.getItem("idinput"));
+    //var idinput = parseInt(localStorage.getItem("idinput"));
+
+    //console.log(""+idinput);
 
     var dir = "";
+    var idinput = id;
 
     if(command.substring(0, 3) == "cd " && command.substring(3, command.length) !== ""){
       $("#"+id+".response").html(''); // remove pre and code
@@ -31,19 +34,47 @@ var Cli = {
     +  '</div>'
     );
 
-    var count = parseInt(localStorage.getItem("idinput"));
-    var total = count + 1;
-    localStorage.setItem("idinput",total)
+    //var count = parseInt(localStorage.getItem("idinput"));
+    //var total = count + 1;
+    //localStorage.setItem("idinput",total)
 
     $('[contenteditable]', terminal)[0].focus();
 
   },
   result: function(input,id){
+
     var result_cli = "";
+
     if(localStorage.getItem(input) !== null){
+
       var object  = JSON.parse(localStorage.getItem(input));
+
+      var current_step  = JSON.parse(localStorage.getItem(object.step));
+
+      var commands = current_step.commands;
+
+      for(var i in commands) {
+        if(commands[i].command === input){
+          commands[i].done = true;
+          break;
+        }
+      }
+
+      // update step
+      localStorage.setItem(object.step,
+        JSON.stringify(
+        {
+           step: current_step.step,
+           title: current_step.title,
+           body: current_step.body,
+           moreinfo: current_step.moreinfo,
+           commands: current_step.commands,
+           done: false
+        })
+      );
+
       var arrayResult = [];
-      if(object.animation){
+      if(object.type === "animation"){
         for(var i = 0; i < object.result.length; i++){
           arrayResult.push('<div id='+id+' class="cline">'+object.result[i]+'</div>');
         }

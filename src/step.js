@@ -188,8 +188,7 @@ var Step = {
 };
 
 $(document).on("click",".command",function(){
-  // get actual id of terminal
-  var actualID = parseInt(localStorage.getItem("idinput"))-1;
-  $("#"+actualID+".textinline").text($(this).text());
-  Util.placeCaretAtEnd($("#"+actualID+".textinline").get(0));
+  console.log(id);
+  $("#"+id+".textinline").text($(this).text());
+  Util.placeCaretAtEnd($("#"+id+".textinline").get(0));
 });
