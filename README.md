@@ -14,13 +14,14 @@ Dependencies
 Demos
 -----
 
-* [Apache Aurora](http://twitter.github.io/cli-guide.js/demo/aurora.html)
+* [Apache Aurora](http://twitter.github.io/cli-guide.js/tutorials/aurora.html)
 
 
 Documentation (progress...)
 -------------
 
 #### Example
+
 
       $('#stepsdiv').cli_guide({
         nameOfTheProject: 'Apache Aurora',
@@ -32,7 +33,7 @@ Documentation (progress...)
       });
 
 Build
--------------
+------
 
 - Install node modules
 
@@ -49,6 +50,6 @@ Build
 License
 -------
 
-Copyright 2015 Twitter, Inc.
+Copyright 2015 Willy Aguirre
 
 Licensed under the MIT License
