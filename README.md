@@ -1,6 +1,6 @@
 ### CLI-Guide.JS
 
-* [Home](http://twitter.github.io/cli-guide.js/)
+* [Home](http://marti1125.github.io/cli-guide.js/)
 * Tutorials
-  * [Default](http://twitter.github.io/cli-guide.js/tutorials/cliguide.html)
-  * [Apache Aurora](http://twitter.github.io/cli-guide.js/tutorials/aurora.html)
+  * [Default](http://marti1125.github.io/cli-guide.js/tutorials/cliguide.html)
+  * [Apache Aurora](http://marti1125.github.io/cli-guide.js/tutorials/aurora.html)
