@@ -29,17 +29,18 @@
   },
   "homepage": "https://github.com/twitter/cli-guide.js",
   "devDependencies": {
-    "gulp": "*",
-    "gulp-util": "*",
-    "gulp-header": "*",
-    "gulp-concat": "*",
-    "run-sequence": "*",
-    "gulp-rename": "*",
-    "gulp-minify-css": "*",
-    "gulp-uglify": "*",
+    "browser-sync": "*",
     "del": "*",
     "express": "*",
-    "browser-sync": "*"
+    "gulp": "*",
+    "gulp-concat": "*",
+    "gulp-header": "*",
+    "gulp-jshint": "^2.0.0",
+    "gulp-minify-css": "*",
+    "gulp-rename": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "run-sequence": "*"
   },
   "dependencies": {}
 }
