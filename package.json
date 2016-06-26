@@ -35,7 +35,6 @@
     "gulp": "*",
     "gulp-concat": "*",
     "gulp-header": "*",
-    "gulp-jshint": "^2.0.0",
     "gulp-minify-css": "*",
     "gulp-rename": "*",
     "gulp-uglify": "*",

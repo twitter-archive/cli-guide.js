@@ -6,7 +6,6 @@ var gulp          = require('gulp'),
     rename        = require('gulp-rename'),
     minifyCss     = require('gulp-minify-css'),
     uglify        = require('gulp-uglify'),
-    jshint        = require('gulp-jshint'),
     del           = require('del'),
     express       = require('express'),
     browserSync   = require('browser-sync'),
@@ -59,12 +58,6 @@ gulp.task('styles', function() {
          .pipe(reload());
 });
 
-gulp.task('lint', function () {
-    gulp.src(paths.scripts)
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
-
 gulp.task('scripts', function() {
   return gulp.src(paths.scripts)
          .pipe(concat('cli_guide.js'))
@@ -84,7 +77,7 @@ gulp.task('server', function() {
 });
 
 gulp.task('build', function(){
-  runSequence('clean',['styles', 'lint', 'scripts', 'copy-fonts', 'publish']);
+  runSequence('clean',['styles', 'scripts', 'copy-fonts', 'publish']);
 });
 
 gulp.task('watch', function() {
