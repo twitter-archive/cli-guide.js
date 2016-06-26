@@ -47,9 +47,6 @@ $(document).on('keydown', ".textinline", '[contenteditable]', function(event){
       if(localStorage.getItem(input) !== null){
         Prism.highlightElement($('#'+id+'_lang_terminal')[0]);
         $('#'+id+'_lang_terminal').html(Cli.result(input,id+1));
-      } else {
-        console.log("ff");
-        Cli.newline(input,id+1);
       }
     } else {
       if(input.replace(/\s\s+/g,' ') !== "git clone " + input.split(" ").pop()) {

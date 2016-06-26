@@ -89,7 +89,8 @@ var Step = {
     $("#"+step+".btn-step").css({"background-color": "#8F8F8F", "color": "white", "border": "1px solid #525252"});
   },
   listTemplate: function(step){
-    var not_active = ( step == 1 ) ? "": "not-active"; //
+    var not_active = ( step == 1 ) ? "": "not-active";
+    console.log(step)
     $("#listofsteps").append(
       '<li class="step">'
     +   '<a id="'+step+'" class="btn-step '+not_active+'" href="#" data-step="'+step+'">'
@@ -188,7 +189,6 @@ var Step = {
 };
 
 $(document).on("click",".command",function(){
-  console.log(id);
   $("#"+id+".textinline").text($(this).text());
   Util.placeCaretAtEnd($("#"+id+".textinline").get(0));
 });
