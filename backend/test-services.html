@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+    <link rel="stylesheet" href="yeticss.css" media="screen" title="no title" charset="utf-8">
+  </head>
+  <body>
+    <div class='container'>
+      <br/>
+      <br/>
+      <fieldset>
+        <legend>Create a File</legend>
+        <div class='form-element'>
+          <label for='username'>Filename</label>
+          <input type='text' id="filename" placeholder='helloworld.py' class='form-input'>
+        </div>
+        <div class='form-element'>
+          <label for='comment'>Content</label>
+          <textarea id="content" class='form-input' rows='7' placeholder='print "Hello World"'></textarea>
+        </div>
+        <a id="send" href="#" class='button button-outlined'>Send</a>
+      </fieldset>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript">
+      $("#send").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:8080/create_file", // docker:  http://192.168.99.100:49160/
+            data: JSON.stringify({filename: $("#filename").val(), content: $("#content").val()}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (data1) {
+                console.log(data1.d);
+            },
+            error: function (request, status, errorThrown) {
+                console.log(status);
+            }
+        });
+
+      });
+    </script>
+  </body>
+</html>
