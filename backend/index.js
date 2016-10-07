@@ -3,11 +3,9 @@ var restify       = require('restify'),
     fs            = require('fs');
 
 function respond(req, res, next) {
-  //req.params.code
   child_process.exec('python hw.py', function (err, stdout, stderr){
       if (err) {
-          console.log("child processes failed with error code: " +
-              err.code);
+          console.log("child processes failed with error code: " + err.code);
       }
       console.log(stdout);
   });
@@ -19,9 +17,9 @@ function createFile(req, res, next){
   // create a new file
   fs.writeFile(req.body.filename, req.body.content, function(err) {
       if(err) {
-        return res.send('ERROR: ' + err);
+        return res.send(500, {message: "Error creating a file"});
       } else {
-        return res.send("OK");
+        return res.send(200, {message: "A file was created successfully"});
       }
   });
   next();

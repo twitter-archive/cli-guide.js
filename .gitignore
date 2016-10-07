@@ -31,3 +31,5 @@ node_modules
 
 # result of build
 dist
+
+*.py
