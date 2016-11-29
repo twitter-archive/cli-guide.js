@@ -9,15 +9,15 @@
   <title>{% if page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="{{ "./css/bootstrap.min.css" | prepend: site.baseurl }}" rel="stylesheet" />
+  <link href="{{ "/css/bootstrap.min.css" | prepend: site.baseurl }}" rel="stylesheet" />
 
-  <link href="{{ "./css/prism.css" | prepend: site.baseurl }}" rel="stylesheet" />
+  <link href="{{ "/css/prism.css" | prepend: site.baseurl }}" rel="stylesheet" />
 
   <!-- Font Awesome -->
-  <link href="{{ "./css/font-awesome.min.css" | prepend: site.baseurl }}" rel="stylesheet">
+  <link href="{{ "/css/font-awesome.min.css" | prepend: site.baseurl }}" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="{{ "./css/app.css" | prepend: site.baseurl }}" rel="stylesheet">
+  <link href="{{ "/css/app.css" | prepend: site.baseurl }}" rel="stylesheet">
 
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
