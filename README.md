@@ -1,6 +1,5 @@
 # CLI Guide jQuery Plugin v0.1.4
 
-[![npm version](http://marti1125.webfactional.com/npm.svg)](https://www.npmjs.com/package/cli-guide.js)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/twitter/cli-guide.js/master/LICENSE)
 
 > A Javascript library for creating interactive command line tutorials that run in your web browser.
@@ -17,7 +16,7 @@ Demos
 * [Apache Aurora](http://twitter.github.io/cli-guide.js/tutorials/aurora.html)
 
 
-Documentation (progress...)
+Documentation
 -------------
 
 #### Example
@@ -47,9 +46,14 @@ Build
 
       $ gulp develop
 
+Author
+-------
+-   Willy Aguirre https://twitter.com/willrre
+
+
 License
 -------
 
-Copyright 2015 Willy Aguirre
+Copyright 2016 Twitter, Inc.
 
 Licensed under the MIT License
