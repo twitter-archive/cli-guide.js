@@ -3,15 +3,16 @@
 <head>
 	<meta charset="utf-8" />
 	<title>CLI Guide JS</title>
-	<link rel="stylesheet" type="text/css" href="{{ site.url }}tutorials/libs/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="{{ site.url }}tutorials/libs/prism.css" />
-	<link rel="stylesheet" type="text/css" href="{{ site.url }}tutorials/src/cli-guide.css" />
+	<link href="{{ "../../css/bootstrap.min.css" | prepend: site.baseurl }}" rel="stylesheet" />
+	<link href="{{ "../../css/prism.css" | prepend: site.baseurl }}" rel="stylesheet" />
+	<link href="{{ "/tutorials/src/cli-guide.css" | prepend: site.baseurl }}" rel="stylesheet" />
 </head>
 <body>
 	<div id="stepsdiv"></div>
-	<script type="text/javascript" src="{{ site.url }}tutorials/libs/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="{{ site.url }}tutorials/libs/prism.js"></script>
-	<script type="text/javascript" src="{{ site.url }}tutorials/src/cli-guide.js" ></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="{{ "../../js/bootstrap.min.js" | prepend: site.baseurl }}"></script>
+	<script src="{{ "../../js/prism.js" | prepend: site.baseurl }}"></script>
+	<script src="{{ "/tutorials/src/cli-guide.js" | prepend: site.baseurl }}"></script>
 	<script type="text/javascript">
 
     {{ content }}
