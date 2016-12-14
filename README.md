@@ -14,6 +14,7 @@ Demos
 -----
 
 * [Apache Aurora](http://twitter.github.io/cli-guide.js/tutorials/aurora.html)
+* [CLI Guide](http://twitter.github.io/cli-guide.js/tutorials/cliguide.html)
 
 
 Documentation
@@ -44,7 +45,7 @@ Build
 
 - For development
 
-      $ gulp develop
+      $ npm run dev
 
 Author
 -------
