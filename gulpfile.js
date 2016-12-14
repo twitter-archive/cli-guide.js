@@ -4,7 +4,7 @@ var gulp          = require('gulp'),
     concat        = require('gulp-concat'),
     runSequence   = require('run-sequence'),
     rename        = require('gulp-rename'),
-    minifyCss     = require('gulp-minify-css'),
+    cleanCSS     = require('gulp-clean-css'),
     uglify        = require('gulp-uglify'),
     del           = require('del'),
     express       = require('express'),
@@ -53,7 +53,9 @@ gulp.task('copy-fonts', function() {
 
 gulp.task('styles', function() {
   return gulp.src(paths.styles)
-         .pipe(minifyCss())
+         .pipe(concat('cli_guide.css'))
+         .pipe(cleanCSS())
+         .pipe(rename({suffix: '.min'}))
          .pipe(gulp.dest(paths.dist))
          .pipe(reload());
 });
