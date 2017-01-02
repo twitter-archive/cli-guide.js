@@ -1,0 +1,40 @@
+[
+  {
+    "step": "1",
+    "content": {
+      "step": "1",
+      "title": "Setup: Install Aurora",
+      "body": [
+        " You use the Aurora client and web UI to interact with Aurora jobs. ",
+        " To install it locally, see ",
+        " <a class=\"link-b\" href='http://aurora.apache.org/documentation/latest/vagrant/' target=\"_blank\">vagrant.md</a> ",
+        " The remainder of this Tutorial assumes you are running ",
+        " Aurora using Vagrant. Unless otherwise stated, ",
+        " all commands are to be run from the root ",
+        " of the aurora repository clone. "
+      ],
+      "tips": "let's try with following commands",
+      "commands": [
+        {
+          "command":"git clone git://git.apache.org/aurora.git",
+          "done": false,
+          "depend": "",
+          "lastCommand": false
+        },
+        {
+          "command":"cd aurora",
+          "done": false,
+          "depend": "git clone git://git.apache.org/aurora.git",
+          "lastCommand": false
+        },
+        {
+          "command":"vagrant up",
+          "done": false,
+          "depend": "cd aurora",
+          "lastCommand": true
+        }
+      ]
+    },
+    "laststep": true
+  }
+]

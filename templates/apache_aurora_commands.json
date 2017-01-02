@@ -1,0 +1,54 @@
+[
+  {
+    "command":"git clone git://git.apache.org/aurora.git",
+    "step" : 1,
+    "type": "nonewline",
+    "result": ""
+  },
+  {
+    "command":"cd aurora",
+    "step" : 1,
+    "type": "static",
+    "result": ""
+  },
+  {
+    "command":"vagrant up",
+    "step" : 1,
+    "type": "animation",
+    "result": [
+      "Bringing machine 'devcluster' up with 'virtualbox' provider... \n",
+      "==> devcluster: Checking if box 'ubuntu/trusty64' is up to date... \n",
+      "==> devcluster: Clearing any previously set forwarded ports... \n",
+      "==> devcluster: Clearing any previously set network interfaces... \n",
+      "==> devcluster: Preparing network interfaces based on configuration... \n",
+      "    devcluster: Adapter 1: nat \n",
+      "    devcluster: Adapter 2: hostonly \n",
+      "==> devcluster: Forwarding ports... \n",
+      "    devcluster: 22 => 2222 (adapter 1) \n",
+      "==> devcluster: Running 'pre-boot' VM customizations... \n",
+      "==> devcluster: Booting VM... \n",
+      "==> devcluster: Waiting for machine to boot. This may take a few minutes... \n",
+      "    devcluster: SSH address: 127.0.0.1:2222 \n",
+      "    devcluster: SSH username: vagrant \n",
+      "    devcluster: SSH auth method: private key \n",
+      "    devcluster: Warning: Connection timeout. Retrying... \n",
+      "==> devcluster: Machine booted and ready! \n",
+      "==> devcluster: Checking for guest additions in VM... \n",
+      "    devcluster: The guest additions on this VM do not match the installed version of \n",
+      "    devcluster: VirtualBox! In most cases this is fine, but in rare cases it can \n",
+      "    devcluster: prevent things such as shared folders from working properly. If you see \n",
+      "    devcluster: shared folder errors, please make sure the guest additions within the \n",
+      "    devcluster: virtual machine match the version of VirtualBox you have installed on \n",
+      "    devcluster: your host and reload your VM. \n",
+      "    devcluster: \n",
+      "    devcluster: Guest Additions Version: 4.3.10 \n",
+      "    devcluster: VirtualBox Version: 5.0 \n",
+      "==> devcluster: Setting hostname... \n",
+      "==> devcluster: Configuring and enabling network interfaces... \n",
+      "==> devcluster: Mounting shared folders... \n",
+      "    devcluster: /vagrant => /Users/Tutorial/Application/aurora \n",
+      "==> devcluster: Machine already provisioned. Run `vagrant provision` or use the `--provision` \n",
+      "==> devcluster: flag to force provisioning. Provisioners marked to run always will still run. "
+    ]
+  }
+]
