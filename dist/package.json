@@ -1,0 +1,46 @@
+{
+  "name": "cli-guide.js",
+  "version": "0.1.4",
+  "description": "A Javascript library for creating interactive command line tutorials that run in your web browser.",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "gulp default",
+    "dev": "gulp develop"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/twitter/cli-guide.js"
+  },
+  "keywords": [
+    "jquery",
+    "jquery-plugin",
+    "plugin",
+    "terminal",
+    "steps",
+    "guide",
+    "apache aurora"
+  ],
+  "author": "Willy Aguirre",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/twitter/cli-guide.js/issues"
+  },
+  "homepage": "https://github.com/twitter/cli-guide.js",
+  "devDependencies": {
+    "browser-sync": "*",
+    "del": "*",
+    "express": "*",
+    "gulp": "*",
+    "gulp-concat": "*",
+    "gulp-header": "*",
+    "gulp-clean-css": "*",
+    "gulp-rename": "*",
+    "gulp-uglify": "*",
+    "gulp-util": "*",
+    "run-sequence": "*"
+  },
+  "dependencies": {}
+}
