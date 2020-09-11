@@ -14,6 +14,8 @@ function respond(req, res, next) {
 }
 
 function createFile(req, res, next){
+   //Set header content as JSON
+  res.header('content-type', 'json');
   // create a new file
   fs.writeFile(req.body.filename, req.body.content, function(err) {
       if(err) {
